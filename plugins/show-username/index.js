@@ -22,9 +22,14 @@ function addUsernames() {
 		// type = 0: Guild, 1: DM
 		const nick = type ? RelationshipStore.getNickname(authorId) : GuildMemberStore.getNick(guildId, authorId);
 
-		if (!nick || !authorUsername) continue;
+		if (!authorUsername) continue;
 
-		e.firstElementChild.textContent += ` (${authorUsername})`
+		const usernameElement = document.createElement("span");
+		usernameElement.textContent = authorUsername;
+		usernameElement.style = `font-weight: 600;border-radius: 5px;padding-left: 3px;padding-right: 3px;background: var(--background-secondary);`
+
+		e.firstElementChild.textContent = nick ? ' ' + e.firstElementChild.textContent : '';
+		e.firstElementChild.prepend(usernameElement);
 	}
 }
 
