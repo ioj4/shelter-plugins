@@ -11,9 +11,9 @@ const {
 	observeDom
 } = shelter;
 
-function addUsernames() {
+export function addUsernames(overwrite) {
 	for (const e of document.querySelectorAll("[id^=message-username-]")) {
-		if (e?.dataset?.YSINK_SU) continue;
+		if (e?.dataset?.YSINK_SU && !overwrite) continue;
 		e.dataset.YSINK_SU = true;
 
 		const msg = reactFiberWalker(getFiber(e), "message", true).pendingProps?.message;
@@ -29,7 +29,7 @@ function addUsernames() {
 		usernameElement.textContent = authorUsername;
 		usernameElement.style = `font-weight: 600;border-radius: 5px;padding-left: 3px;padding-right: 3px;background: var(--background-secondary);`
 
-		e.firstElementChild.textContent = nick && !store.usernameOnly ? ' ' + e.firstElementChild.textContent : '';
+		e.firstElementChild.textContent = nick && !store.usernameOnly ? ' ' + nick : '';
 		e.firstElementChild.prepend(usernameElement);
 	}
 }
