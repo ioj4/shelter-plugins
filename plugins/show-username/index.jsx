@@ -19,15 +19,13 @@ export function forceAddUsernames() {
 
 function addUsername(element) {
 	const msg = reactFiberWalker(getFiber(element), "message", true)?.pendingProps?.message;
-	if (!msg) return;
-	const authorUsername = msg?.author?.username;
-	const authorId = msg?.author?.id;
+	if (!msg || !msg?.author) return;
+	
+	const { username: authorUsername, id: authorId } = msg.author
 	const { type, guild_id: guildId } = ChannelStore.getChannel(msg?.channel_id);
 	// type = 0: Guild, 1: DM
 	const nick = type ? RelationshipStore.getNickname(authorId) : GuildMemberStore.getNick(guildId, authorId);
 	
-	if (!authorUsername) return;
-
 	const style = "font-weight: 600;border-radius: 5px;padding: 0 3px;background: var(--background-secondary);";
 	const usernameElement = <span style={style}>{authorUsername}</span>;
 
