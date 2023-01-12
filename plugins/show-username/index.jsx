@@ -19,7 +19,7 @@ export function forceAddUsernames() {
 
 function addUsername(element) {
 	element.dataset.ysink_su = true;
-	
+
 	const msg = reactFiberWalker(getFiber(element), "message", true)?.pendingProps?.message;
 	if (!msg || !msg?.author) return;
 	const { username: authorUsername, id: authorId } = msg.author
@@ -30,7 +30,7 @@ function addUsername(element) {
 	const style = "font-weight: 600;border-radius: 5px;padding: 0 3px;background: var(--background-secondary);";
 	const usernameElement = <span style={style}>{authorUsername}</span>;
 
-	element.firstElementChild.textContent = (nick && !store.usernameOnly) ? ' ' + nick : '';
+	element.firstElementChild.textContent = (nick && !store.usernamesOnly) ? ' ' + nick : '';
 	element.firstElementChild.prepend(usernameElement);
 }
 
@@ -56,7 +56,7 @@ function onMessage(e) {
 const TRIGGERS = ["CHANNEL_SELECT", "LOAD_MESSAGES_SUCCESS", "UPDATE_CHANNEL_DIMENSIONS", "GUILD_MEMBER_UPDATE"];
 
 export function onLoad() {
-	store.usernameOnly ??= false;
+	store.usernamesOnly ??= false;
 	for (const t of TRIGGERS) dispatcher.subscribe(t, onDispatch);
 	dispatcher.subscribe("MESSAGE_CREATE", onMessage);
 }
