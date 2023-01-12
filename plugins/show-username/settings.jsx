@@ -3,11 +3,11 @@ const {
 	ui: { SwitchItem }
 } = shelter;
 
-import { addUsernames } from "./index"
+import { forceAddUsernames } from "./index"
 
 export default () => (
   	<>
-    	<SwitchItem value={store.usernameOnly} onChange={(v) => { store.usernameOnly = v; addUsernames(true); }}>
+    	<SwitchItem value={store.usernameOnly} onChange={(v) => { store.usernameOnly = v; forceAddUsernames(); }}>
 	    	Display the username only
     	</SwitchItem>
   	</>
