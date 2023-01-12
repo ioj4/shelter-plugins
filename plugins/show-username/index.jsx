@@ -25,7 +25,8 @@ export function addUsernames(overwrite) {
 
 		if (!authorUsername) continue;
 
-		const usernameElement = <span style="font-weight: 600;border-radius: 5px;padding: 0 3px;background: var(--background-secondary);">{authorUsername}</span>;
+		const style = "font-weight: 600;border-radius: 5px;padding: 0 3px;background: var(--background-secondary);";
+		const usernameElement = <span style={style}>{authorUsername}</span>;
 
 		e.firstElementChild.textContent = (nick && !store.usernameOnly) ? ' ' + nick : '';
 		e.firstElementChild.prepend(usernameElement);
