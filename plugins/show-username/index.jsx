@@ -25,11 +25,9 @@ export function addUsernames(overwrite) {
 
 		if (!authorUsername) continue;
 
-		const usernameElement = document.createElement("span");
-		usernameElement.textContent = authorUsername;
-		usernameElement.style = `font-weight: 600;border-radius: 5px;padding-left: 3px;padding-right: 3px;background: var(--background-secondary);`
+		const usernameElement = <span style="font-weight: 600;border-radius: 5px;padding: 0 3px;background: var(--background-secondary);">{authorUsername}</span>;
 
-		e.firstElementChild.textContent = nick && !store.usernameOnly ? ' ' + nick : '';
+		e.firstElementChild.textContent = (nick && !store.usernameOnly) ? ' ' + nick : '';
 		e.firstElementChild.prepend(usernameElement);
 	}
 }
@@ -51,7 +49,7 @@ function onDispatch() {
 }
 
 export function onLoad() {
-	store.usernameOnly = store.usernameOnly ?? false;
+	store.usernameOnly ??= false;
 
 	for (const t of TRIGGERS) dispatcher.subscribe(t, onDispatch);
 }
