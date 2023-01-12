@@ -18,9 +18,10 @@ export function forceAddUsernames() {
 }
 
 function addUsername(element) {
+	element.dataset.ysink_su = true;
+	
 	const msg = reactFiberWalker(getFiber(element), "message", true)?.pendingProps?.message;
 	if (!msg || !msg?.author) return;
-	
 	const { username: authorUsername, id: authorId } = msg.author
 	const { type, guild_id: guildId } = ChannelStore.getChannel(msg?.channel_id);
 	// type = 0: Guild, 1: DM
