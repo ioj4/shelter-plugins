@@ -1,24 +1,45 @@
-# ioj4's Shelter Plugins
+# ioj4's Shelter plugins
 
-This is a cumulative list of all Shelter Plugins that I use.<br>
-To install, copy the url listed into Shelter.
-Don't click them and expect them to work in a browser.<br><br>
+List of all Shelter plugins that I use.<br>
+To install, copy the corresponding URL into Shelter.<br><br>
 
-**Revert Font: https://ioj4.github.io/shelter-plugins/revert-font/**
+## Plugins by me
 
+### [Revert Font](plugins/revert-font/)
+```
+https://ioj4.github.io/shelter-plugins/revert-font/
+```
 
-**Prevent Spotify Pause: https://ioj4.github.io/shelter-plugins/prevent-spotify-pause/**
+### [Prevent Spotify Pause](plugins/prevent-spotify-pause/)
+```
+https://ioj4.github.io/shelter-plugins/prevent-spotify-pause/
+```
 
+### [Play On Spotify](plugins/play-on-spotify/) (WIP)
+```
+https://ioj4.github.io/shelter-plugins/play-on-spotify/
+```
 
-**Play On Spotify (WIP): https://ioj4.github.io/shelter-plugins/play-on-spotify/**
-
-
-**Show Username Reloaded (by [Yellowsink](https://github.com/yellowsink/shelter-plugins), modified): https://ioj4.github.io/shelter-plugins/show-username/**<br>
+### [Show Username Reloaded](plugins/show-username/) (forked from [Yellowsink](https://github.com/yellowsink/shelter-plugins))
+```
+https://ioj4.github.io/shelter-plugins/show-username/
+```
 
 <br>
 
-QuickReply Reloaded: https://yellowsink.github.io/shelter-plugins/quickreply/
+## Plugins by other people
 
-Antitrack: https://yellowsink.github.io/shelter-plugins/antitrack/
+### [QuickReply Reloaded](https://github.com/yellowsink/shelter-plugins/tree/master/plugins/quickreply/)
+```
+https://yellowsink.github.io/shelter-plugins/quickreply/
+```
 
-Discord Devtools: https://lexisother.github.io/shelter-plugins/devtools/
+### [Antitrack](https://github.com/yellowsink/shelter-plugins/tree/master/plugins/antitrack/)
+```
+https://yellowsink.github.io/shelter-plugins/antitrack/
+```
+
+### [Discord Devtools](https://github.com/lexisother/shelter-plugins/tree/master/plugins/devtools)
+```
+https://lexisother.github.io/shelter-plugins/devtools/
+```
