@@ -14,7 +14,7 @@ import { default as ControlButtons } from "./components/control-buttons";
 import { classes, css } from "./styles.jsx.scss"
 
 const LINK_QUERY = `main[class^="chatContent"] a[href*="://open.spotify.com"]`;
-const LINK_REGEX = /(?:https?:\/\/open.spotify.com\/)([a-z]*)(?:\/)([a-z0-9]*)/i;
+const LINK_REGEX = /(?:https?:\/\/open.spotify.com\/)(track|album|playlist)(?:\/)([a-z0-9]*)/i;
 
 function addButtons() {
     const links = document.querySelectorAll(LINK_QUERY);

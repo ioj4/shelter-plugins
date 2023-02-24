@@ -4,7 +4,7 @@ const BASE_URL = "https://api.spotify.com/v1/me/player";
 
 // make this less shit
 const reauth = async () => {
-    shelter.flux.stores.SpotifyStore.__getLocalVars().accounts["robo-51"].handleDeviceStateChange()
+    Object.values(shelter.flux.stores.SpotifyStore.__getLocalVars().accounts)[0].handleDeviceStateChange()
     return new Promise(resolve => setTimeout(resolve, 1_000));
 }
 
