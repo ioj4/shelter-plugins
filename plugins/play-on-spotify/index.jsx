@@ -20,8 +20,9 @@ function addButtons() {
     const links = document.querySelectorAll(LINK_QUERY);
     links.forEach(link => {
         if (link?.dataset?.ioj4_pos) return;
-        const [, type, id ] = link.href.match(LINK_REGEX);
-        if (!type || !id) return;
+        const matches = link.href.match(LINK_REGEX) ?? [];
+        if (matches.length < 3) return;
+        const [, type, id] = matches;
 
         const parent = link.parentNode;
         const wrapper = document.createElement('div');
