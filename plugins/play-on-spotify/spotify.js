@@ -1,36 +1,12 @@
-const {
-	flux: { dispatcher: { dispatch } }
-} = shelter;
-
 export const open = (type, id) => window.open(`spotify:${type}:${id}`);
 
 const BASE_URL = "https://api.spotify.com/v1/me/player";
 
 const getAccount = () => Object.values(shelter.flux.stores.SpotifyStore.__getLocalVars().accounts)[0];
 
-// const reauth = async () => {
-//     getAccount().handleDeviceStateChange()
-//     return new Promise(resolve => setTimeout(resolve, 1_000));
-
-// }
-
-
-
 const reauth = async () => {
     getAccount().handleDeviceStateChange()
     return new Promise(resolve => setTimeout(resolve, 1_000));
-
-    dispatch({
-        type: 'SPOTIFY_ACCOUNT_ACCESS_TOKEN_REVOKE',
-        accountId: currentAccountId,
-      });
-      accounts[currentAccountId].accessToken = newAccessToken.body.access_token;
-      dispatch({
-        type: 'SPOTIFY_ACCOUNT_ACCESS_TOKEN',
-        accountId: currentAccountId,
-        accessToken: newAccessToken.body.access_token,
-      });
-
 }
 
 
