@@ -1,39 +1,40 @@
 const {
-	flux: { dispatcher }
+	flux: { dispatcher },
+    observeDom
 } = shelter;
 
+function addClickEvent(userComponent) {
+    const banner = userComponent.querySelector(`[class*="BannerPremium-"]`);
+    if (banner) {
+        banner.addEventListener("click", e => openImage(e?.target?.style?.backgroundImage?.slice(5, -2)));
+        banner.style.cursor = "pointer";
+    }
 
-function injectAvatar() {
-    document.querySelectorAll(`[class*="userProfileModalInner-"]`).forEach(el => {
-        const avatarWrapper = el.querySelector(`div[class*="wrapper-"][class*="avatar"]`);
-        avatarWrapper.addEventListener("click", (e) => openImage(e.target.querySelector(`img[class*="avatar"]`).src));
-        avatarWrapper.style.cursor = "pointer";
-    });
-}
-
-function injectBanner() {
-    document.querySelectorAll(`[class*="BannerPremium-"]`).forEach(el => {
-        el.addEventListener("click", ({ target: el}) => {
-            openImage(el?.style?.backgroundImage?.slice(5, -2));
-        });
-        el.style.cursor = "pointer";
-    });
+    const avatar = userComponent.querySelector(`div[class*="wrapper-"][class*="avatar"]`);
+    if (avatar) {
+        avatar.addEventListener("click", e => openImage(e?.target?.querySelector(`img[class*="avatar"]`)?.src));
+        avatar.style.cursor = "pointer";
+    }
 }
 
 function openImage(urlString) {
     if (!urlString) return;
     const url = new URL(urlString);
+    // get the highest image resolution
     url.search = "?size=4096";
     open(url);
 }
 
+const USER_COMPONENT_QUERY = `[class*="userProfileModalInner"],[class*="userPopoutInner"]`;
+
 function onTrack(e) {
-    if (e.event === "open_popout") {
-        injectBanner();
-    }
-    else if (e.event === "open_modal") {
-        injectBanner();
-        injectAvatar();
+    if (e.event === "open_popout" || e.event === "open_modal") {
+        // wait for the component to be loaded
+        const unObserve = observeDom(USER_COMPONENT_QUERY, userComponent => {
+            unObserve();
+            queueMicrotask(addClickEvent.bind(null, userComponent));
+        });
+        setTimeout(unObserve, 500);
     }
 }
 
