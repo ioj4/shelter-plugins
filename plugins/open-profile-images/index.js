@@ -4,7 +4,8 @@ const {
 } = shelter;
 
 function addClickEvent(userComponent) {
-    const banner = userComponent.querySelector(`[class*="BannerPremium-"]`);
+    console.log(userComponent)
+    const banner = userComponent.querySelector(`div[class*="banner-"]`);
     if (banner) {
         banner.addEventListener("click", e => openImage(e?.target?.style?.backgroundImage?.slice(5, -2)));
         banner.style.cursor = "pointer";
@@ -37,7 +38,7 @@ function observeComponents() {
             unObserve();
             queueMicrotask(addClickEvent.bind(null, userComponent));
         });
-        setTimeout(unObserve, 1_500);
+        setTimeout(unObserve, 1_000);
 }
 
 function onTrack(e) {
