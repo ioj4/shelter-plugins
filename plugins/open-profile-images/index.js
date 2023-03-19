@@ -37,7 +37,7 @@ function observeComponents() {
             unObserve();
             queueMicrotask(addClickEvent.bind(null, userComponent));
         });
-        setTimeout(unObserve, 500);
+        setTimeout(unObserve, 1_500);
 }
 
 function onTrack(e) {
