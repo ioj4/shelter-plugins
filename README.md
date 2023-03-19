@@ -1,7 +1,7 @@
-# ioj4's Shelter plugins
+# ioj4's [shelter](https://github.com/uwu/shelter) plugins
 
-List of all Shelter plugins that I use.<br>
-To install, copy the corresponding URL into Shelter.<br><br>
+List of all shelter plugins that I use.<br>
+To install, copy the corresponding URL into shelter.<br><br>
 
 ## Plugins by me
 
