@@ -74,7 +74,7 @@ export default function (props) {
             {store.showOpen && (
                 <button
                     class={classes.button}
-                    aria-label="Open in Spotify"
+                    title="Open in Spotify"
                     onClick={() => open(props.type, props.id)}
                 >
                     <IconOpen />
@@ -83,7 +83,7 @@ export default function (props) {
             {store.showQueue && (
                 <button
                     class={classes.button}
-                    aria-label="Queue in Spotify"
+                    title="Queue in Spotify"
                     onClick={() => queue(props.type, props.id)}
                 >
                     <IconQueue />
@@ -92,7 +92,7 @@ export default function (props) {
             {store.showPlay && (
                 <button
                     class={classes.button}
-                    aria-label="Play on Spotify"
+                    title="Play on Spotify"
                     onClick={() => play(props.type, props.id)}
                 >
                     <IconPlay />
