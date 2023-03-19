@@ -83,7 +83,7 @@ export default function (props) {
             {store.showQueue && (
                 <button
                     class={classes.button}
-                    title="Queue in Spotify"
+                    title="Add to queue"
                     onClick={() => queue(props.type, props.id)}
                 >
                     <IconQueue />
@@ -92,7 +92,7 @@ export default function (props) {
             {store.showPlay && (
                 <button
                     class={classes.button}
-                    title="Play on Spotify"
+                    title="Play in Spotify"
                     onClick={() => play(props.type, props.id)}
                 >
                     <IconPlay />
