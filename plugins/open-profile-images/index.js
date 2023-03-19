@@ -10,11 +10,15 @@ function addClickEvent(userComponent) {
         banner.style.cursor = "pointer";
     }
 
-    const avatar = userComponent.querySelector(`div[class*="wrapper-"][class*="avatar"]`);
-    if (avatar) {
-        avatar.addEventListener("click", e => openImage(e?.target?.querySelector(`img[class*="avatar"]`)?.src));
-        avatar.style.cursor = "pointer";
-    }
+    userComponent.querySelectorAll(`div[class*="wrapper-"]`)
+        .forEach(avatar => {
+            // skip clickable element that opens the profile-modal (this is horrible)
+            avatarWrapper = avatar.parentElement.parentElement;
+            if (avatarWrapper.className.includes("clickable-") && avatarWrapper.onclick) return;
+            
+            avatar.addEventListener("click", e => openImage(e?.target?.querySelector(`img[class*="avatar"]`)?.src));
+            avatar.style.cursor = "pointer";
+        });
 }
 
 function openImage(urlString) {
@@ -27,21 +31,29 @@ function openImage(urlString) {
 
 const USER_COMPONENT_QUERY = `[class*="userProfileModalInner"],[class*="userPopoutInner"]`;
 
-function onTrack(e) {
-    if (e.event === "open_popout" || e.event === "open_modal") {
+function observeComponents() {
         // wait for the component to be loaded
         const unObserve = observeDom(USER_COMPONENT_QUERY, userComponent => {
             unObserve();
             queueMicrotask(addClickEvent.bind(null, userComponent));
         });
         setTimeout(unObserve, 500);
+}
+
+function onTrack(e) {
+    if (e.event === "open_popout" || e.event === "open_modal") {
+        observeComponents()
     }
 }
 
 export function onLoad() {
     dispatcher.subscribe("TRACK", onTrack);
+    // for webhook userpopouts (they always fail)
+    dispatcher.subscribe("USER_PROFILE_FETCH_FAILURE", observeComponents);
 }
 
 export function onUnload() {
     dispatcher.unsubscribe("TRACK", onTrack);
+    dispatcher.unsubscribe("USER_PROFILE_FETCH_FAILURE", observeComponents);
+
 }
