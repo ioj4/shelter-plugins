@@ -30,10 +30,11 @@ https://ioj4.github.io/shelter-plugins/revert-font/
 https://ioj4.github.io/shelter-plugins/prevent-spotify-pause/
 ```
 
-### [Anonymous File Names](plugins/anonymous-file-names/)
-##### Anonymizes the names of files you upload
+### [Timestamp File Names](plugins/timestamp-file-names/)
+##### Replaces the name of files you upload to the current Unix timestamp
+`sensitive_file_name.png` → `1679770272381.png` (current timestamp)
 ```
-https://ioj4.github.io/shelter-plugins/anonymous-file-names/
+https://ioj4.github.io/shelter-plugins/timestamp-file-names/
 ```
 
 ### [Play On Spotify](plugins/play-on-spotify/) (WIP)
