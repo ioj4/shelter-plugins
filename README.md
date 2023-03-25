@@ -6,7 +6,7 @@
 ##### Displays how long you've been in a call or voicechat
 <img src="assets/vc-timer.jpg" width="280"></img>
 ```
-https://ioj4.github.io/shelter-plugins/open-profile-images/
+https://ioj4.github.io/shelter-plugins/vc-timer/
 ```
 
 ### [Open Profile Images](plugins/revert-font/)
