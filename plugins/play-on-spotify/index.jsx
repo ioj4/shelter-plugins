@@ -10,7 +10,7 @@ const {
 	observeDom
 } = shelter;
 
-import { default as ControlButtons } from "./components/control-buttons";
+import ControlButtons from "./components/control-buttons";
 import { classes, css } from "./styles.jsx.scss"
 
 const LINK_QUERY = `main[class^="chatContent"] a[href^="https://open.spotify.com"], main[class^="chatContent"] a[href^="https://spotify.link/"]`;
