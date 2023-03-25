@@ -30,6 +30,13 @@ https://ioj4.github.io/shelter-plugins/revert-font/
 https://ioj4.github.io/shelter-plugins/prevent-spotify-pause/
 ```
 
+### [Higher Volume Range](plugins/higher-volume-range/)
+##### Increases the range of all volume-sliders to 400%
+<img src="assets/higher-volume-range.jpg" width="210"></img>
+```
+https://ioj4.github.io/shelter-plugins/higher-volume-range/
+```
+
 ### [Timestamp File Names](plugins/timestamp-file-names/)
 ##### Replaces the name of files you upload to the current Unix timestamp
 `sensitive_file_name.png` → `1679770272381.png` (current timestamp)
@@ -42,7 +49,6 @@ https://ioj4.github.io/shelter-plugins/timestamp-file-names/
 ```
 https://ioj4.github.io/shelter-plugins/play-on-spotify/
 ```
-
 
 ### [Show Username](plugins/show-username/) (forked from [Yellowsink](https://github.com/yellowsink/shelter-plugins))
 ##### When a user is nicked their username will be shown as well
