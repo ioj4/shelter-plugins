@@ -9,7 +9,7 @@
 https://ioj4.github.io/shelter-plugins/vc-timer/
 ```
 
-### [Open Profile Images](plugins/revert-font/)
+### [Open Profile Images](plugins/open-profile-images/)
 ##### Allows you to open avatar or banner images by clicking on them
 <img src="assets/open-profile-images.gif" width="320"></img>
 ```
@@ -28,6 +28,12 @@ https://ioj4.github.io/shelter-plugins/revert-font/
 <img src="assets/prevent-spotify-pause.jpg" height="24"></img>
 ```
 https://ioj4.github.io/shelter-plugins/prevent-spotify-pause/
+```
+
+### [Anonymous File Names](plugins/anonymous-file-names/)
+##### Anonymizes the names of files you upload
+```
+https://ioj4.github.io/shelter-plugins/anonymous-file-names/
 ```
 
 ### [Play On Spotify](plugins/play-on-spotify/) (WIP)
