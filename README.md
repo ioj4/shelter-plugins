@@ -25,6 +25,7 @@ https://ioj4.github.io/shelter-plugins/revert-font/
 
 ### [Prevent Spotify Pause](plugins/prevent-spotify-pause/)
 ##### Prevents Discord from pausing your Spotify playback when you're in a call or voicechat
+<img src="assets/prevent-spotify-pause.jpg" height="24"></img>
 ```
 https://ioj4.github.io/shelter-plugins/prevent-spotify-pause/
 ```
