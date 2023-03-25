@@ -9,8 +9,7 @@ import { css } from "./components/image-modal.jsx.scss";
 import ImageModal from "./components/image-modal";
 
 function addClickEvent(userComponent) {
-    console.log(userComponent)
-    const banner = userComponent.querySelector(`div[class*="banner-"]`);
+    const banner = userComponent.querySelector(`div[class*="bannerPremium-"]`);
     if (banner) {
         banner.addEventListener("click", e => openImage(e?.target?.style?.backgroundImage?.slice(5, -2)));
         banner.style.cursor = "pointer";
