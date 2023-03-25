@@ -1,7 +1,12 @@
 const {
-	flux: { dispatcher },
+    plugin: { store },
+	flux: { dispatcher, intercept },
+    ui: { openModal, injectCss },
     observeDom
 } = shelter;
+
+import { css } from "./components/image-modal.jsx.scss";
+import ImageModal from "./components/image-modal";
 
 function addClickEvent(userComponent) {
     console.log(userComponent)
@@ -24,10 +29,7 @@ function addClickEvent(userComponent) {
 
 function openImage(urlString) {
     if (!urlString) return;
-    const url = new URL(urlString);
-    // get the highest image resolution
-    url.search = "?size=4096";
-    open(url);
+    openModal(() => (<ImageModal url={new URL(urlString)}/>));
 }
 
 const USER_COMPONENT_QUERY = `[class*="userProfileModalInner"],[class*="userPopoutInner"]`;
@@ -47,7 +49,20 @@ function onTrack(e) {
     }
 }
 
+let uninject;
+let unintercept;
+
 export function onLoad() {
+    uninject = injectCss(css);
+    // prevent discord's context-menu from opening for the image
+    // using it is not possible as it's in a layer behind the modal
+    unintercept = intercept((dispatch) => {
+        if (dispatch?.type === "CONTEXT_MENU_OPEN" &&
+            dispatch?.contextMenu?.target?.hasAttribute("ioj4-opi")) {
+            return false;
+        }
+    });
+    store.fullResolution ??= false;
     dispatcher.subscribe("TRACK", onTrack);
     // for webhook userpopouts (they always fail)
     dispatcher.subscribe("USER_PROFILE_FETCH_FAILURE", observeComponents);
@@ -56,5 +71,8 @@ export function onLoad() {
 export function onUnload() {
     dispatcher.unsubscribe("TRACK", onTrack);
     dispatcher.unsubscribe("USER_PROFILE_FETCH_FAILURE", observeComponents);
-
+    uninject();
+    unintercept();
 }
+
+export { default as settings } from "./components/settings"
