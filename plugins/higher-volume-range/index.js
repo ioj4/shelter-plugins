@@ -12,7 +12,6 @@ function injectVolumeSlider(container) {
       true,
       true
     )?.type;
-    console.log(component)
 
     if (!component || typeof component.render !== "function") return;
 
@@ -31,10 +30,15 @@ function injectVolumeSlider(container) {
     dispatcher.unsubscribe("CONTEXT_MENU_OPEN", onContextMenu);
 }
 
-function onContextMenu() {
+function onContextMenu(payload) {
     const unObserve = observeDom(SLIDER_QUERY, container => {
         unObserve();
-        queueMicrotask(injectVolumeSlider.bind(null, container));
+        queueMicrotask(() => { 
+            injectVolumeSlider(container);
+            // reopen context-menu to trigger render with new maxValue
+            dispatcher.dispatch({type: "CONTEXT_MENU_CLOSE"});
+            dispatcher.dispatch(payload);
+        });
     });
 
     setTimeout(unObserve, 500);
