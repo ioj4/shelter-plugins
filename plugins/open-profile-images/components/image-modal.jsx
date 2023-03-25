@@ -8,7 +8,8 @@ export default (props) => {
     const viewURL = props.url.toString();
     // when opening/downloading the image in the browser it should have the highest resolution
     props.url.searchParams.set("size", "4096");
-    const browserURL = props.url.toString();
+    // to .png extension
+    const browserURL = props.url.toString().replace(/\.(webp)($|\?)/, ".png$2");
 
     return (
         <>
