@@ -15,7 +15,7 @@ export default (props) => {
             <div class={classes.container}>
                 <div class={classes.wrapper}>
                     <div class={classes.imageWrapper}>
-                        <img ioj4-opi src={viewURL}/>
+                        <img class={classes.image} ioj4-opi src={viewURL}/>
                     </div>
                     <a href={browserURL} class={classes.downloadLink} rel="noreferrer noopener" target="_blank" tabIndex={0}>Open in Browser</a>
                 </div>

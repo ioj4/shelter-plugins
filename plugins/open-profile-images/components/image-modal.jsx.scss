@@ -20,6 +20,12 @@
     border-radius: 3px;
 }
 
+.image {
+    min-width: 512px;
+    max-width: 82vw;
+    max-height: 82vh;
+}
+
 .downloadLink {
     font-size: 14px;
     font-weight: 500;
