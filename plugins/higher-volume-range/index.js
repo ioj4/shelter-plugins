@@ -5,7 +5,7 @@ const {
 
 const SLIDER_QUERY = `[class*="sliderContainer-"]`;
 
-function injectVolumeSlider(container) {
+function injectVolumeSlider(container, payload) {
     const component = shelter.util.reactFiberWalker(
       shelter.util.getFiber(container),
       "aria-label",
@@ -28,16 +28,16 @@ function injectVolumeSlider(container) {
     );
 
     dispatcher.unsubscribe("CONTEXT_MENU_OPEN", onContextMenu);
+    // reopen context-menu to trigger render with new maxValue
+    dispatcher.dispatch({type: "CONTEXT_MENU_CLOSE"});
+    dispatcher.dispatch(payload);
 }
 
 function onContextMenu(payload) {
     const unObserve = observeDom(SLIDER_QUERY, container => {
         unObserve();
         queueMicrotask(() => { 
-            injectVolumeSlider(container);
-            // reopen context-menu to trigger render with new maxValue
-            dispatcher.dispatch({type: "CONTEXT_MENU_CLOSE"});
-            dispatcher.dispatch(payload);
+            injectVolumeSlider(container, payload);
         });
     });
 
