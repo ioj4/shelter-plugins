@@ -28,7 +28,7 @@ jobs:
         run: |
           cp -r static/* dist || true
           cp README.md dist/README.md
-          cp assets/* dist/assets
+          cp -r assets/* dist/assets
           printf -- "---\npermalink: /404.html\n---\n" > dist/404.md
           printf -- "> **Note:** You accessed a link that returned a 404, probably by clicking one of the plugin links. You're supposed to copy the link address and add it into shelter.\n\n" >> dist/404.md
           cat README.md >> dist/404.md
