@@ -21,7 +21,8 @@
 }
 
 .image {
-    min-height: 512px;
+    object-fit: contain;
+    min-height: 384px;
     max-width: 82vw;
     max-height: 82vh;
 }
