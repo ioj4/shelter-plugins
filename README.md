@@ -1,4 +1,4 @@
-<b><u>To install, copy the corresponding URL into [shelter](https://github.com/uwu/shelter)</u></b><br>
+<b><u> To install, copy the corresponding URL into [shelter](https://github.com/uwu/shelter) </u></b><br>
 
 ### [VC Timer](plugins/vc-timer/)
 ##### Displays how long you've been in a call or voicechat
