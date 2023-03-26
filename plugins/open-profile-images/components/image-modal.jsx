@@ -4,7 +4,7 @@ const {
 import { classes } from "./image-modal.jsx.scss"
 
 export default (props) => {
-    props.url.searchParams.set("size", store.fullResolution ? "4096" : "512");
+    props.url.searchParams.set("size", store.fullResolution ? "4096" : "480");
     const viewURL = props.url.toString();
     // when opening/downloading the image in the browser it should have the highest resolution
     props.url.searchParams.set("size", "4096");
