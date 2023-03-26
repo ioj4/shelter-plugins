@@ -1,38 +1,41 @@
-# ioj4's [shelter](https://github.com/uwu/shelter) plugins
-
-<b><u>To install, copy the corresponding URL into shelter.</u></b><br>
+<b><u>To install, copy the corresponding URL into [shelter](https://github.com/uwu/shelter)</u></b><br>
 
 ### [VC Timer](plugins/vc-timer/)
 ##### Displays how long you've been in a call or voicechat
-<img src="static/vc-timer.jpg" width="280"></img>
+<img src="static/vc-timer.jpg" width="280">
+
 ```
 https://ioj4.github.io/shelter-plugins/vc-timer/
 ```
 
 ### [Open Profile Images](plugins/open-profile-images/)
 ##### Allows you to open avatar or banner images by clicking on them
-<img src="static/open-profile-images.gif" width="320"></img>
+<img src="static/open-profile-images.gif" width="320">
+
 ```
 https://ioj4.github.io/shelter-plugins/open-profile-images/
 ```
 
 ### [Revert Font](plugins/revert-font/)
 ##### Reverts the font back to the old one
-<img src="static/revert-font.jpg" width="320"></img>
+<img src="static/revert-font.jpg" width="320">
+
 ```
 https://ioj4.github.io/shelter-plugins/revert-font/
 ```
 
 ### [Prevent Spotify Pause](plugins/prevent-spotify-pause/)
 ##### Prevents Discord from pausing your Spotify playback when you're in a call or voicechat
-<img src="static/prevent-spotify-pause.jpg" height="24"></img>
+<img src="static/prevent-spotify-pause.jpg" height="24">
+
 ```
 https://ioj4.github.io/shelter-plugins/prevent-spotify-pause/
 ```
 
 ### [Higher Volume Range](plugins/higher-volume-range/)
 ##### Increases the range of all volume-sliders to 400%
-<img src="static/higher-volume-range.jpg" width="210"></img>
+<img src="static/higher-volume-range.jpg" width="210">
+
 ```
 https://ioj4.github.io/shelter-plugins/higher-volume-range/
 ```
