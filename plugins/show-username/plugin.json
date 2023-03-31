@@ -1,6 +1,6 @@
 {
-	"name": "Show Username",
-	"description": "Show usernames for users with nicknames",
-	"author": "ioj4",
-	"hash": "<HASH_PLACEHOLDER>"
+    "name": "Show Username",
+    "description": "Show usernames for users with nicknames",
+    "author": "ioj4",
+    "hash": "<HASH_PLACEHOLDER>"
 }

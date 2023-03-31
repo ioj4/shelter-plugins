@@ -1,26 +1,26 @@
 .button {
-	background-color: transparent;
-	color: var(--interactive-active);
-	transition: opacity 250ms;
-	padding: 0;
-	height: 20px;
+    background-color: transparent;
+    color: var(--interactive-active);
+    transition: opacity 250ms;
+    padding: 0;
+    height: 20px;
 }
 
 .button:hover {
-	color: var(--interactive-hover);
+    color: var(--interactive-hover);
 }
 
 .wrapper {
-	display: inline-block;
-	height: 20px;
-	border-radius: 5px;
-	padding: 0 3px;
-	background: var(--background-secondary);
+    display: inline-block;
+    height: 20px;
+    border-radius: 5px;
+    padding: 0 3px;
+    background: var(--background-secondary);
 }
 
 .container {
-	margin: 0 2px 0 6px;
-	display: inline-flex;
-	gap: 10px;
-	vertical-align: bottom;
+    margin: 0 2px 0 6px;
+    display: inline-flex;
+    gap: 10px;
+    vertical-align: bottom;
 }
