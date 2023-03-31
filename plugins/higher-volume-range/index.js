@@ -1,43 +1,51 @@
 const {
     flux: { dispatcher },
-    observeDom
+    observeDom,
+    util: { awaitDispatch, getFiber, reactFiberWalker },
+    patcher
 } = shelter;
 
+// only sliders in user-popouts and stream-popouts
 const SLIDER_QUERY = `[class*="sliderContainer-"]`;
 
-function injectVolumeSlider(container, payload) {
-    const component = shelter.util.reactFiberWalker(
-      shelter.util.getFiber(container),
-      "aria-label",
-      true,
-      true
-    )?.type;
+let unpatch;
 
+function injectVolumeSlider(container) {
+    const fiber = getFiber(container)
+    const component = reactFiberWalker(fiber, "maxValue", true, true)?.type;
     if (!component || typeof component.render !== "function") return;
 
-    shelter.patcher.before(
+    const props = fiber?.pendingProps?.children?.props;
+    // get volume from slider else 100 (default)
+    const userVolume = props?.initialValue ?? 100;
+    const { onValueChange } = props;
+    
+    // triggers a "AUDIO_SET_LOCAL_VOLUME" dispatch
+    // we need this later else the rerender won't trigger
+    // (the value needs to be updated for rerender)
+    onValueChange(userVolume - 1);
+
+    unpatch = patcher.before(
         "render",
         component,
-        (originalArgs) => {
-            if (originalArgs[0]?.maxValue && originalArgs[0]?.maxValue !== 400) {
-                originalArgs[0].maxValue = 400;
-            }
-            return originalArgs;
+        (args) => {
+            args[0].maxValue *= 2;
+            return args;
         },
         false
     );
 
+    // re-set volume to trigger rerender with the patch
+    // need to wait until previous change was dispatched else react won't notice it
+    awaitDispatch("AUDIO_SET_LOCAL_VOLUME").then(() => onValueChange(userVolume));
     dispatcher.unsubscribe("CONTEXT_MENU_OPEN", onContextMenu);
-    // reopen context-menu to trigger render with new maxValue
-    dispatcher.dispatch({type: "CONTEXT_MENU_CLOSE"});
-    dispatcher.dispatch(payload);
 }
 
-function onContextMenu(payload) {
+function onContextMenu() {
     const unObserve = observeDom(SLIDER_QUERY, container => {
         unObserve();
         queueMicrotask(() => { 
-            injectVolumeSlider(container, payload);
+            injectVolumeSlider(container);
         });
     });
 
@@ -50,4 +58,5 @@ export function onLoad() {
 
 export function onUnload() {
     dispatcher.unsubscribe("CONTEXT_MENU_OPEN", onContextMenu);
+    unpatch && unpatch();
 }
