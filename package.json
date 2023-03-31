@@ -9,7 +9,8 @@
         "lint-staged": "^13.2.0",
         "postcss": "^8.4.21",
         "postcss-modules": "^5.0.0",
-        "prettier": "2.8.7"
+        "prettier": "2.8.7",
+        "prettier-plugin-organize-imports": "^3.2.2"
     },
     "type": "module",
     "scripts": {
