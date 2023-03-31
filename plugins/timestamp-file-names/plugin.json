@@ -1,6 +1,6 @@
 {
-    "name": "Timestamp File Names",
-    "description": "Replaces the name of files you upload to the current Unix timestamp",
-    "author": "ioj4",
-    "hash": "<HASH_PLACEHOLDER>"
+	"name": "Timestamp File Names",
+	"description": "Replaces the name of files you upload to the current Unix timestamp",
+	"author": "ioj4",
+	"hash": "<HASH_PLACEHOLDER>"
 }

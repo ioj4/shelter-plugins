@@ -1,43 +1,43 @@
 name: Build and deploy
 
 on:
-  push:
-    branches: [master]
+    push:
+        branches: [master]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+    deploy:
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
+            - name: Setup Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "18"
 
-      - name: Deps
-        run: |
-          npm install --global pnpm
-          pnpm i
+            - name: Deps
+              run: |
+                  npm install --global pnpm
+                  pnpm i
 
-      - name: Build plugin(s)
-        run: pnpm lune ci
+            - name: Build plugin(s)
+              run: pnpm lune ci
 
-      - name: Copy additional files
-        run: |
-          cp -r static dist
-          cp README.md dist/README.md
-          printf -- "---\npermalink: /404.html\n---\n" > dist/404.md
-          printf -- "> **Note:** You accessed a link that returned a 404, probably by clicking one of the plugin links. You're supposed to copy the link address and add it into shelter.\n\n" >> dist/404.md
-          printf -- "remote_theme: dracula/gh-pages\n" > dist/_config.yml
-          cat README.md >> dist/404.md
+            - name: Copy additional files
+              run: |
+                  cp -r static dist
+                  cp README.md dist/README.md
+                  printf -- "---\npermalink: /404.html\n---\n" > dist/404.md
+                  printf -- "> **Note:** You accessed a link that returned a 404, probably by clicking one of the plugin links. You're supposed to copy the link address and add it into shelter.\n\n" >> dist/404.md
+                  printf -- "remote_theme: dracula/gh-pages\n" > dist/_config.yml
+                  cat README.md >> dist/404.md
 
-        # Documentation: https://github.com/peaceiris/actions-gh-pages
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          # Makes it so the md files in the previous step get processed by GitHub Pages
-          enable_jekyll: true
+              # Documentation: https://github.com/peaceiris/actions-gh-pages
+            - name: Deploy to GitHub Pages
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./dist
+                  # Makes it so the md files in the previous step get processed by GitHub Pages
+                  enable_jekyll: true

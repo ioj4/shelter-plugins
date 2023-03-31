@@ -4,42 +4,43 @@ const {
 		dispatcher,
 		stores: { SelectedChannelStore }
 	},
-    ui: {
-        injectCss
-    },
+	ui: { injectCss },
 	observeDom
 } = shelter;
 
 import ControlButtons from "./components/control-buttons";
-import { classes, css } from "./styles.jsx.scss"
+import { classes, css } from "./styles.jsx.scss";
 
 const LINK_QUERY = `main[class^="chatContent"] a[href^="https://open.spotify.com"], main[class^="chatContent"] a[href^="https://spotify.link/"]`;
-const LINK_REGEX = /(?:https?:\/\/open.spotify.com\/)(track|album|playlist)(?:\/)([a-z0-9]*)/i;
+const LINK_REGEX =
+	/(?:https?:\/\/open.spotify.com\/)(track|album|playlist)(?:\/)([a-z0-9]*)/i;
 
 function addButtons() {
-    const links = document.querySelectorAll(LINK_QUERY);
-    links.forEach(link => {
-        if (link?.dataset?.ioj4_pos) return;
-        const matches = link.href.match(LINK_REGEX) ?? [];
-        if (matches.length < 3) return;
-        const [, type, id] = matches;
+	const links = document.querySelectorAll(LINK_QUERY);
+	links.forEach((link) => {
+		if (link?.dataset?.ioj4_pos) return;
+		const matches = link.href.match(LINK_REGEX) ?? [];
+		if (matches.length < 3) return;
+		const [, type, id] = matches;
 
-        const parent = link.parentNode;
-        const wrapper = document.createElement('div');
-        wrapper.classList.add(classes.wrapper);
+		const parent = link.parentNode;
+		const wrapper = document.createElement("div");
+		wrapper.classList.add(classes.wrapper);
 
-        parent.replaceChild(wrapper, link);
-        wrapper.appendChild(link);
+		parent.replaceChild(wrapper, link);
+		wrapper.appendChild(link);
 
-        link.dataset.ioj4_pos = true;
+		link.dataset.ioj4_pos = true;
 
-        shelter.solidWeb.render(() => <ControlButtons type={type} id={id} />, wrapper);
-    })
+		shelter.solidWeb.render(
+			() => <ControlButtons type={type} id={id} />,
+			wrapper
+		);
+	});
 }
 
-
 function observeMessages() {
-    const unObserve = observeDom(LINK_QUERY, () => {
+	const unObserve = observeDom(LINK_QUERY, () => {
 		unObserve();
 		queueMicrotask(addButtons);
 	});
@@ -48,8 +49,12 @@ function observeMessages() {
 }
 
 function onMessage(e) {
-    if (e.message.channel_id !== SelectedChannelStore.getCurrentlySelectedChannelId()) return;
-    observeMessages();
+	if (
+		e.message.channel_id !==
+		SelectedChannelStore.getCurrentlySelectedChannelId()
+	)
+		return;
+	observeMessages();
 }
 
 // MESSAGE_CREATE: a new message is sent (any channel)
@@ -62,17 +67,17 @@ const TRIGGERS = ["CHANNEL_SELECT", "UPDATE_CHANNEL_DIMENSIONS"];
 let uninjectCss;
 
 export function onLoad() {
-    store.showOpen ??= true;
-    store.showQueue ??= true;
-    store.showPlay ??= true;
-    
-    uninjectCss = injectCss(css);
-    TRIGGERS.forEach(t => dispatcher.subscribe(t, observeMessages));
-    MESSAGE_TRIGGERS.forEach(t => dispatcher.subscribe(t, onMessage));
+	store.showOpen ??= true;
+	store.showQueue ??= true;
+	store.showPlay ??= true;
+
+	uninjectCss = injectCss(css);
+	TRIGGERS.forEach((t) => dispatcher.subscribe(t, observeMessages));
+	MESSAGE_TRIGGERS.forEach((t) => dispatcher.subscribe(t, onMessage));
 }
 
 export function onUnload() {
-    uninjectCss();
-    TRIGGERS.forEach(t => dispatcher.unsubscribe(t, observeMessages));
-    MESSAGE_TRIGGERS.forEach(t => dispatcher.unsubscribe(t, onMessage));
+	uninjectCss();
+	TRIGGERS.forEach((t) => dispatcher.unsubscribe(t, observeMessages));
+	MESSAGE_TRIGGERS.forEach((t) => dispatcher.unsubscribe(t, onMessage));
 }
