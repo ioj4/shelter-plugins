@@ -4,5 +4,6 @@
     "tabWidth": 4,
     "semi": true,
     "singleQuote": false,
-    "quoteProps": "as-needed"
+    "quoteProps": "as-needed",
+    "endOfLine": "lf"
 }
