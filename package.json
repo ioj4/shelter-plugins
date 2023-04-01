@@ -1,16 +1,10 @@
 {
     "devDependencies": {
-        "@uwu/lune": "^1.1.2",
+        "@uwu/lune": "^1.2.1",
         "@uwu/shelter-defs": "^1.0.2",
         "husky": "^8.0.3",
         "lint-staged": "^13.2.0",
         "prettier": "^2.8.7"
-    },
-    "pnpm": {
-        "overrides": {
-            "solid-js": "1.6.16",
-            "babel-preset-solid": "1.6.16"
-        }
     },
     "type": "module",
     "scripts": {
