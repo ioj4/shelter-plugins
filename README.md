@@ -62,7 +62,7 @@ https://ioj4.github.io/shelter-plugins/higher-volume-range/
 
 ##### Replaces the name of files you upload to the current Unix timestamp
 
-`sensitive_file_name.png` → `1679770272381.png` (current timestamp)
+`sensitive_file_name.png` → `1679770272381.png`
 
 ```
 https://ioj4.github.io/shelter-plugins/timestamp-file-names/
