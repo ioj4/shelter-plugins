@@ -1,0 +1,6 @@
+{
+    "name": "No Call Idle",
+    "description": "Prevents getting kicked from empty calls after 3 minutes",
+    "author": "ioj4",
+    "hash": "<HASH_PLACEHOLDER>"
+}
