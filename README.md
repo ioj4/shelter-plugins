@@ -40,7 +40,7 @@ https://ioj4.github.io/shelter-plugins/revert-font/
 https://ioj4.github.io/shelter-plugins/prevent-spotify-pause/
 ```
 
-### [Higher Volume Range](https://github.com/ioj4/shelter-plugins/tree/master/plugins/higher-volume-range)
+### [Higher Volume Range (currently broken)](https://github.com/ioj4/shelter-plugins/tree/master/plugins/higher-volume-range)
 
 ##### Increases the range of all volume-sliders to 400%
 
