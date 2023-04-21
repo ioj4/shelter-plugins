@@ -41,4 +41,3 @@ jobs:
                   publish_dir: ./dist
                   # Makes it so the md files in the previous step get processed by GitHub Pages
                   enable_jekyll: true
-                  cname: shelter.ioj4.net
