@@ -2,8 +2,8 @@ lockfileVersion: '6.0'
 
 devDependencies:
   '@uwu/lune':
-    specifier: ^1.2.1
-    version: 1.2.1
+    specifier: ^1.3.0
+    version: 1.3.0
   '@uwu/shelter-defs':
     specifier: ^1.2.0
     version: 1.2.0
@@ -226,8 +226,8 @@ packages:
     dev: true
     optional: true
 
-  /@uwu/lune@1.2.1:
-    resolution: {integrity: sha512-lBJbrvqZGUCay0m5u3KiJ10lo77rAiEzCvwrQsVfl3qWloRX9SeiJfdiJOoCZx5wLIeYqYqOcLZ0+jzsXrBzaA==}
+  /@uwu/lune@1.3.0:
+    resolution: {integrity: sha512-1tbakIQ7yHEn46FI6dgEv62OufMDbUvyL51RlHMNK0KHiiZxzm81Qmdx3pPAqUVC4DKMlv9w1xqW6DRS1aHC5w==}
     hasBin: true
     dependencies:
       chokidar: 3.5.3
