@@ -1,0 +1,26 @@
+.indicator {
+    margin-left: 4px;
+    span {
+        height: 6px;
+        width: 6px;
+        float: left;
+        margin: 0 1px;
+        background-color: var(--text-normal);
+        display: block;
+        border-radius: 50%;
+        opacity: 0.3;
+        @for $i from 1 through 3 {
+            &:nth-child(#{$i}) {
+                animation: 1s ease-in #{$i * 0.2}s typingAnimation;
+                animation-iteration-count: infinite;
+            }
+        }
+    }
+}
+
+@keyframes typingAnimation {
+    33.3% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
