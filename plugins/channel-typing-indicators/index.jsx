@@ -31,8 +31,10 @@ function handleTypingDispatch(payload) {
                 iconContainer.prepend(typingIndicatorWrapper);
                 render(() => <TypingIndicator />, typingIndicatorWrapper);
             }
+            return;
         }
-        case "TYPING_STOP": {
+        case "TYPING_STOP":
+        case "MESSAGE_CREATE": {
             const typingIndicator = iconContainer.querySelector(
                 `.${classes.indicator}`
             );
@@ -49,14 +51,16 @@ function handleTypingDispatch(payload) {
 
 let uninject;
 
+// TYPING_STOP is not called when the user sends their message
+// that's why MESSAGE_CREATE is used as well
+const triggers = ["TYPING_START", "TYPING_STOP", "MESSAGE_CREATE"];
+
 export function onLoad() {
-    dispatcher.subscribe("TYPING_START", handleTypingDispatch);
-    dispatcher.subscribe("TYPING_STOP", handleTypingDispatch);
+    triggers.forEach((t) => dispatcher.subscribe(t, handleTypingDispatch));
     uninject = injectCss(css);
 }
 
 export function onUnload() {
-    dispatcher.unsubscribe("TYPING_START", handleTypingDispatch);
-    dispatcher.unsubscribe("TYPING_STOP", handleTypingDispatch);
+    triggers.forEach((t) => dispatcher.unsubscribe(t, handleTypingDispatch));
     uninject && uninject();
 }
