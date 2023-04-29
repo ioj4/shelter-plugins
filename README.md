@@ -27,7 +27,7 @@ https://shelter.ioj4.net/open-profile-images/
 <img src="static/channel-typing-indicators.gif" width="320">
 
 ```
-https://shelter.ioj4.net/open-profile-images/
+https://shelter.ioj4.net/channel-typing-indicators/
 ```
 
 ### [Revert Font](https://github.com/ioj4/shelter-plugins/tree/master/plugins/revert-font/)
