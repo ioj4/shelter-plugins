@@ -4,7 +4,7 @@
 
 ##### Displays how long you've been in a call or voicechat
 
-<img src="static/vc-timer.jpg" width="280">
+<img src="static/vc-timer.gif" width="320">
 
 ```
 https://shelter.ioj4.net/vc-timer/
