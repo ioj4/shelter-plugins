@@ -54,15 +54,17 @@ https://shelter.ioj4.net/revert-font/
 
 ##### Prevents Discord from pausing your Spotify playback when you're in a call or voicechat
 
-<img src="static/prevent-spotify-pause.jpg" height="24">
+<img src="static/prevent-spotify-pause.jpg" height="28">
 
 ```
 https://shelter.ioj4.net/prevent-spotify-pause/
 ```
 
-### [No Call Idle](https://github.com/ioj4/shelter-plugins/tree/master/plugins/no-call-idle/) (temporary alternative to [redstonekasi](https://github.com/redstonekasi/shelter-plugins)'s plugin)
+### [No Call Idle](https://github.com/ioj4/shelter-plugins/tree/master/plugins/no-call-idle/) (alternative to [redstonekasi](https://github.com/redstonekasi/shelter-plugins)'s plugin)
 
 ##### Prevents getting kicked from empty calls after 3 minutes
+
+<img src="static/no-call-idle.jpg" height="70">
 
 ```
 https://shelter.ioj4.net/no-call-idle/
