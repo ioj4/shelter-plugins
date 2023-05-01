@@ -90,6 +90,14 @@ https://shelter.ioj4.net/higher-volume-range/
 https://shelter.ioj4.net/timestamp-file-names/
 ```
 
+### [Open In App](https://github.com/ioj4/shelter-plugins/tree/master/plugins/open-in-app/)
+
+##### Clicking on Spotify or Steam links will open them directly in the app
+
+```
+https://shelter.ioj4.net/open-in-app/
+```
+
 ### [Play On Spotify](https://github.com/ioj4/shelter-plugins/tree/master/plugins/play-on-spotify/) (WIP)
 
 ##### Adds buttons to any Spotify link to open, queue or play a song in spotify
