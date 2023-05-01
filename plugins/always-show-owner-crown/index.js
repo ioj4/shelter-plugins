@@ -30,7 +30,7 @@ function patchMember(memberElement) {
         component.type.prototype,
         function (args, originalFunction) {
             const guild = GuildStore.getGuild(this.props.guildId);
-            if (!this.props.isOwner && guild.isOwner(this.props.user.id)) {
+            if (!this.props.isOwner && guild?.isOwner(this.props.user.id)) {
                 // we only want to change the value temporarily
                 this.props.isOwner = true;
                 const returnValue = originalFunction(args);
