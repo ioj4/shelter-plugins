@@ -8,7 +8,8 @@ const {
 
 let uninject;
 
-function storeInjectHandler() {
+function injectStore() {
+    if (uninject) return;
     uninject = patcher.after(
         "getActiveSocketAndDevice",
         SpotifyStore,
@@ -20,10 +21,10 @@ function storeInjectHandler() {
 }
 
 export function onLoad() {
-    dispatcher.subscribe("SPOTIFY_PLAYER_STATE", storeInjectHandler);
+    dispatcher.subscribe("SPOTIFY_PLAYER_STATE", injectStore);
 }
 
 export function onUnload() {
-    dispatcher.unsubscribe("SPOTIFY_PLAYER_STATE", storeInjectHandler);
+    dispatcher.unsubscribe("SPOTIFY_PLAYER_STATE", injectStore);
     uninject && uninject();
 }
