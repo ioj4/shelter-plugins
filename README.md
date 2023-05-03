@@ -60,7 +60,7 @@ https://shelter.ioj4.net/revert-font/
 https://shelter.ioj4.net/prevent-spotify-pause/
 ```
 
-### [No Call Idle](https://github.com/ioj4/shelter-plugins/tree/master/plugins/no-call-idle/) (alternative to [redstonekasi](https://github.com/redstonekasi/shelter-plugins)'s plugin)
+### [No Call Idle](https://github.com/ioj4/shelter-plugins/tree/master/plugins/no-call-idle/) (alternative to [redstonekasi's plugin](https://github.com/redstonekasi/shelter-plugins))
 
 ##### Prevents getting kicked from empty calls after 3 minutes
 
@@ -96,6 +96,14 @@ https://shelter.ioj4.net/timestamp-file-names/
 
 ```
 https://shelter.ioj4.net/open-in-app/
+```
+
+### [Spotify Listen Along](https://github.com/ioj4/shelter-plugins/tree/master/plugins/spotify-listen-along/) (port of [Evelyn's plugin](https://github.com/Socketlike/SpotifyListenAlong/tree/main))
+
+##### Allows you to use the 'Listen Along' feature without Spotify Premium, because Spotify Premium is not actually required
+
+```
+https://shelter.ioj4.net/spotify-listen-along/
 ```
 
 ### [Play On Spotify](https://github.com/ioj4/shelter-plugins/tree/master/plugins/play-on-spotify/) (WIP)
