@@ -1,8 +1,6 @@
 const {
     util: { getFiber, reactFiberWalker },
-    flux: {
-        stores: { GuildStore }
-    },
+    flux: { awaitStore },
     observeDom,
     patcher
 } = shelter;
@@ -18,7 +16,8 @@ function rerenderAllMembers() {
 }
 
 let unpatch;
-function patchMember(memberElement) {
+async function patchMember(memberElement) {
+    const guildStore = await awaitStore("GuildStore");
     const fiber = getFiber(memberElement);
     const component = reactFiberWalker(
         fiber,
@@ -29,7 +28,7 @@ function patchMember(memberElement) {
         "renderOwner",
         component.type.prototype,
         function (args, originalFunction) {
-            const guild = GuildStore.getGuild(this.props.guildId);
+            const guild = guildStore.getGuild(this.props.guildId);
             if (!this.props.isOwner && guild?.isOwner(this.props.user.id)) {
                 // we only want to change the value temporarily
                 this.props.isOwner = true;

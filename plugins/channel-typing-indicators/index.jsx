@@ -1,18 +1,16 @@
 const {
     ui: { injectCss },
-    flux: {
-        stores: { UserStore, TypingStore },
-        dispatcher
-    },
+    flux: { dispatcher, awaitStore },
     solidWeb: { render }
 } = shelter;
 
 import { css, classes } from "./styles.jsx.scss";
 import TypingIndicator from "./components/typing-indicator";
 
-function handleTypingDispatch(payload) {
+async function handleTypingDispatch(payload) {
     // ignore when the current user is typing
-    if (payload?.userId === UserStore?.getCurrentUser()?.id) return;
+    const userStore = awaitStore("UserStore");
+    if (payload?.userId === userStore?.getCurrentUser()?.id) return;
 
     const channelElement = document.querySelector(
         `[data-list-item-id="channels___${payload?.channelId}"]`
@@ -38,11 +36,10 @@ function handleTypingDispatch(payload) {
             const typingIndicator = iconContainer.querySelector(
                 `.${classes.indicator}`
             );
-            if (
-                typingIndicator &&
-                Object.keys(TypingStore.getTypingUsers(payload?.channelId))
-                    .length === 0
-            ) {
+            if (!typingIndicator) return;
+            const typingStore = await awaitStore("TypingStore");
+            const typingUsers = typingStore?.getTypingUsers(payload?.channelId);
+            if (!typingUsers || Object.keys(typingUsers).length === 0) {
                 typingIndicator.remove();
             }
         }

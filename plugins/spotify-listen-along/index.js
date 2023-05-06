@@ -1,18 +1,16 @@
 const {
-    flux: {
-        dispatcher,
-        stores: { SpotifyStore }
-    },
+    flux: { dispatcher, awaitStore },
     patcher
 } = shelter;
 
 let uninject;
 
-function injectStore() {
+async function injectStore() {
+    const spotifyStore = await awaitStore("SpotifyStore");
     if (uninject) return;
     uninject = patcher.after(
         "getActiveSocketAndDevice",
-        SpotifyStore,
+        spotifyStore,
         (_, response) => {
             if (response?.socket) response.socket.isPremium = true;
             return response;
@@ -26,5 +24,5 @@ export function onLoad() {
 
 export function onUnload() {
     dispatcher.unsubscribe("SPOTIFY_PLAYER_STATE", injectStore);
-    uninject && uninject();
+    uninject?.();
 }

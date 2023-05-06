@@ -1,39 +1,34 @@
 const {
     plugin: { store },
-    flux: {
-        dispatcher,
-        stores: {
-            GuildMemberStore,
-            ChannelStore,
-            RelationshipStore,
-            SelectedChannelStore
-        }
-    },
+    flux: { dispatcher, awaitStore },
     util: { getFiber, reactFiberWalker },
     observeDom
 } = shelter;
 
 export function forceAddUsernames() {
     for (const e of document.querySelectorAll(
-        `[id^=message-username-] > [class^=username-]`
+        "[id^=message-username-] > [class^=username-]"
     )) {
         addUsername(e, true);
     }
 }
 
-function addUsername(element, overwrite = false) {
-    if (element.querySelector(`.ioj4-su`) && !overwrite) return;
+async function addUsername(element, overwrite = false) {
+    if (element.querySelector(".ioj4-su") && !overwrite) return;
     const msg = reactFiberWalker(getFiber(element), "message", true)
         ?.pendingProps?.message;
     if (!msg || !msg?.author) return;
+    const channelStore = await awaitStore("ChannelStore");
     const { username: authorUsername, id: authorId } = msg.author;
-    const { type, guild_id: guildId } = ChannelStore.getChannel(
+    const { type, guild_id: guildId } = channelStore.getChannel(
         msg?.channel_id
     );
+    const guildMemberStore = await awaitStore("GuildMemberStore");
+    const relationshipStore = await awaitStore("RelationshipStore");
     // type = 0: Guild, 1: DM
     const nick = type
-        ? RelationshipStore.getNickname(authorId)
-        : GuildMemberStore.getNick(guildId, authorId);
+        ? relationshipStore.getNickname(authorId)
+        : guildMemberStore.getNick(guildId, authorId);
 
     const style =
         "font-weight: 600;border-radius: 5px;padding: 0 3px;background: var(--background-secondary);";
@@ -43,21 +38,22 @@ function addUsername(element, overwrite = false) {
         </span>
     );
 
-    element.textContent = nick && !store.usernamesOnly ? " " + nick : "";
+    element.textContent = nick && !store.usernamesOnly ? ` ${nick}` : "";
     element.prepend(usernameElement);
 }
 
-function onDispatch(payload) {
+async function onDispatch(payload) {
     // ignore MESSAGE_CREATEs from other channels
+    const selectedChannelStore = await awaitStore("SelectedChannelStore");
     if (
         payload.type === "MESSAGE_CREATE" &&
-        payload.channelId !== SelectedChannelStore.getChannelId()
+        payload.channelId !== selectedChannelStore.getChannelId()
     ) {
         return;
     }
 
     const unObserve = observeDom(
-        `[id^=message-username-] > [class^=username-]`,
+        "[id^=message-username-] > [class^=username-]",
         (e) => {
             unObserve();
             queueMicrotask(() => addUsername(e));
