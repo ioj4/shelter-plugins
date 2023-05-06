@@ -5,8 +5,8 @@ devDependencies:
     specifier: ^1.3.0
     version: 1.3.0
   '@uwu/shelter-defs':
-    specifier: ^1.2.0
-    version: 1.2.0
+    specifier: ^1.2.1
+    version: 1.2.1
   husky:
     specifier: ^8.0.3
     version: 8.0.3
@@ -242,8 +242,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@uwu/shelter-defs@1.2.0:
-    resolution: {integrity: sha512-SackeWE10Pc4+vsSESXCr5bsuCzrLOJuUMPk/9/HvtrKqXqCIbJtaHv5JNuW5gK9//XGnfXVEGm/nj+N4J1kaw==}
+  /@uwu/shelter-defs@1.2.1:
+    resolution: {integrity: sha512-bdjuL350dUGPWMq+1O3D5JF9wBGDWx9Xw7RZMvAIWg6TbUKdDXZ4ACBdTFML/cTdK6S+HjpF8VfSlxgR+EB8vw==}
     dependencies:
       idb: 7.1.1
       solid-js: 1.6.16
