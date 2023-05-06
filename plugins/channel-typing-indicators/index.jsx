@@ -9,7 +9,7 @@ import TypingIndicator from "./components/typing-indicator";
 
 async function handleTypingDispatch(payload) {
     // ignore when the current user is typing
-    const userStore = awaitStore("UserStore");
+    const userStore = await awaitStore("UserStore");
     if (payload?.userId === userStore?.getCurrentUser()?.id) return;
 
     const channelElement = document.querySelector(
