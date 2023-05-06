@@ -25,4 +25,6 @@ export async function onLoad() {
     );
 }
 
-export const onUnload = unpatch;
+export function onUnload() {
+    unpatch?.();
+}
