@@ -18,7 +18,7 @@ export async function onLoad() {
         "send",
         XMLHttpRequest.prototype,
         function (args, orig) {
-            if (!testUrl.test(this.__sentry_xhr__?.url)) {
+            if (!testUrl.test(this.__sentry_xhr_v2__?.url)) {
                 return orig.apply(this, args);
             }
         }
