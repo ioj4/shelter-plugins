@@ -1,63 +1,114 @@
+import { css } from "./styles.jsx.scss";
+import {
+    isSomeoneTypingInChannel,
+    removeAllIndicators,
+    forceUpdateChannels,
+    removeTypingIndicator,
+    addTypingIndicator
+} from "./utils";
+
 const {
     ui: { injectCss },
     flux: { dispatcher, awaitStore },
-    solidWeb: { render }
+    util: { getFiber, reactFiberWalker },
+    patcher,
+    observeDom
 } = shelter;
 
-import { css, classes } from "./styles.jsx.scss";
-import TypingIndicator from "./components/typing-indicator";
+export const channelElementQuery = `[data-list-item-id^="channels___"]:not([class^="mainContent"])`;
+let isPatched = false;
+let unpatch;
 
-async function handleTypingDispatch(payload) {
-    // ignore when the current user is typing
+async function handleTypingDispatch({ type, userId, channelId }) {
     const userStore = await awaitStore("UserStore");
-    if (payload?.userId === userStore?.getCurrentUser()?.id) return;
+    if (userId === userStore.getCurrentUser().id) return;
 
-    const channelElement = document.querySelector(
-        `[data-list-item-id="channels___${payload?.channelId}"]`
-    )?.parentElement;
-    if (!channelElement) return;
-
-    const iconContainer = channelElement.querySelector(
-        `div[class^="children-"]`
-    );
-    if (!iconContainer) return;
-
-    switch (payload?.type) {
-        case "TYPING_START": {
-            if (!iconContainer.querySelector(`.${classes.indicator}`)) {
-                const typingIndicatorWrapper = document.createElement("div");
-                iconContainer.prepend(typingIndicatorWrapper);
-                render(() => <TypingIndicator />, typingIndicatorWrapper);
-            }
-            return;
-        }
+    switch (type) {
+        case "TYPING_START":
+            return addTypingIndicator(channelId);
         case "TYPING_STOP":
-        case "MESSAGE_CREATE": {
-            const typingIndicator = iconContainer.querySelector(
-                `.${classes.indicator}`
-            );
-            if (!typingIndicator) return;
-            const typingStore = await awaitStore("TypingStore");
-            const typingUsers = typingStore?.getTypingUsers(payload?.channelId);
-            if (!typingUsers || Object.keys(typingUsers).length === 0) {
-                typingIndicator.remove();
+        case "MESSAGE_CREATE":
+            if (!(await isSomeoneTypingInChannel(channelId))) {
+                removeTypingIndicator(channelId);
             }
-        }
     }
+}
+
+function patchFiber(channel) {
+    const fiber = getFiber(channel);
+    const component = reactFiberWalker(
+        fiber,
+        (f) => !!f?.type?.render,
+        true,
+        true
+    );
+    if (!component) return;
+
+    unpatch = patcher.after("render", component.type, (args) => {
+        const itemId = args[0]["data-list-item-id"];
+        const channelId = itemId.split("___")[1];
+
+        queueMicrotask(async () => {
+            if (await isSomeoneTypingInChannel(channelId)) {
+                addTypingIndicator(channelId);
+            } else {
+                removeTypingIndicator(channelId);
+            }
+        });
+    });
+
+    isPatched = true;
+    forceUpdateChannels();
+}
+
+async function handleChanneListDispatch() {
+    const unObserve = observeDom(channelElementQuery, (channel) => {
+        // prevent patching multiple times
+        if (!isPatched) {
+            patchFiber(channel);
+            unObserve();
+            dispatcher.unsubscribe(
+                "UPDATE_CHANNEL_LIST_DIMENSIONS",
+                handleChanneListDispatch
+            );
+        }
+    });
+
+    setTimeout(unObserve, 1_000);
+}
+
+function attemptPatch() {
+    const channel = document.querySelector(channelElementQuery);
+    if (!channel) return;
+    patchFiber(channel);
 }
 
 let uninject;
 
-// TYPING_STOP is not called when the user sends their message
-// that's why MESSAGE_CREATE is used as well
+// MESSAGE_CREATE: in case the user sends their message (doesn't trigger TYPING_STOP)
 const triggers = ["TYPING_START", "TYPING_STOP", "MESSAGE_CREATE"];
 
 export function onLoad() {
-    triggers.forEach((t) => dispatcher.subscribe(t, handleTypingDispatch));
     uninject = injectCss(css);
+    // when loading the plugin there might already be a channel element rendered
+    attemptPatch();
+    triggers.forEach((t) => dispatcher.subscribe(t, handleTypingDispatch));
+    // if attemptPatch didn't succeed
+    !isPatched &&
+        dispatcher.subscribe(
+            "UPDATE_CHANNEL_LIST_DIMENSIONS",
+            handleChanneListDispatch
+        );
 }
 
 export function onUnload() {
     triggers.forEach((t) => dispatcher.unsubscribe(t, handleTypingDispatch));
-    uninject && uninject();
+    dispatcher.unsubscribe(
+        "UPDATE_CHANNEL_LIST_DIMENSIONS",
+        handleChanneListDispatch
+    );
+    uninject?.();
+    unpatch?.();
+    isPatched = false;
+    removeAllIndicators();
 }

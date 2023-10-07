@@ -1,7 +1,5 @@
-import { classes } from "../styles.jsx.scss";
-
 export default () => (
-    <div class={classes.indicator}>
+    <div>
         <span />
         <span />
         <span />
