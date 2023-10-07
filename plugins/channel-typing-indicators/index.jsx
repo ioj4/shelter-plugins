@@ -46,6 +46,8 @@ function patchFiber(channel) {
 
     unpatch = patcher.after("render", component.type, (args) => {
         const itemId = args[0]["data-list-item-id"];
+        if (!itemId) return;
+
         const channelId = itemId.split("___")[1];
 
         queueMicrotask(async () => {
