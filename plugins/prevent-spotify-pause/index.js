@@ -4,17 +4,15 @@ const {
 } = shelter;
 
 const testUrl = /https?:\/\/api.spotify.com.+\/me\/player\/pause/;
-let unpatch;
+let unpatchStore, unpatchXHR;
 
 export async function onLoad() {
-    // dismiss notice in advance
-    const noticeStore = await awaitStore("NoticeStore");
-    noticeStore.__getLocalVars().temporaryDismisses[
-        "SPOTIFY_AUTO_PAUSED"
-    ] = true;
+    const spotifyStore = await awaitStore("SpotifyStore");
+    // prevent notice from showing
+    unpatchStore = patcher.instead("wasAutoPaused", spotifyStore, () => false);
 
     // prevent access to the pause endpoint
-    unpatch = patcher.instead(
+    unpatchXHR = patcher.instead(
         "send",
         XMLHttpRequest.prototype,
         function (args, orig) {
@@ -26,5 +24,6 @@ export async function onLoad() {
 }
 
 export function onUnload() {
-    unpatch?.();
+    unpatchStore?.();
+    unpatchXHR?.();
 }
