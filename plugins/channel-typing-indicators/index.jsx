@@ -15,7 +15,7 @@ const {
     observeDom
 } = shelter;
 
-export const channelElementQuery = `[data-list-item-id^="channels___"]:not([class^="mainContent"])`;
+export const channelElementQuery = `a[data-list-item-id^="channels___"]:not([class^="mainContent"])`;
 let isPatched = false;
 let unpatch;
 
@@ -34,14 +34,9 @@ async function handleTypingDispatch({ type, userId, channelId }) {
     }
 }
 
-function patchFiber(channel) {
-    const fiber = getFiber(channel);
-    const component = reactFiberWalker(
-        fiber,
-        (f) => !!f?.type?.render,
-        true,
-        true
-    );
+function patchFiber(channelElement) {
+    const fiber = getFiber(channelElement);
+    const component = reactFiberWalker(fiber, (f) => !!f?.type?.render, true);
     if (!component) return;
 
     unpatch = patcher.after("render", component.type, (args) => {
