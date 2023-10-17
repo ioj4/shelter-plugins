@@ -7,15 +7,15 @@ import { apps } from ".";
 
 export const settings = () => {
     const rows = [];
-    for (const app of apps) {
+    for (const appName of Object.keys(apps)) {
         rows.push(
             <SwitchItem
-                value={store.enabledApps[app.name]}
+                value={store.enabledApps[appName]}
                 onChange={(value) => {
-                    store.enabledApps[app.name] = value;
+                    store.enabledApps[appName] = value;
                 }}
             >
-                {`${app.name} Protocol`}
+                {`${appName} Protocol`}
             </SwitchItem>
         );
     }

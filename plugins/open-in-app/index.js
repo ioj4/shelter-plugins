@@ -1,15 +1,14 @@
 const {
-    plugin: { store }
+    plugin: { store },
+    patcher: { before }
 } = shelter;
 
-export const apps = [
-    {
-        name: "Spotify",
-        hostnames: ["open.spotify.com"],
+export const apps = {
+    Spotify: {
+        hostnames: ["open.spotify.com", "spotify.link"],
         protocol: "spotify:"
     },
-    {
-        name: "Steam",
+    Steam: {
         hostnames: [
             "store.steampowered.com",
             "steamcommunity.com",
@@ -17,35 +16,76 @@ export const apps = [
         ],
         protocol: "steam://openurl/"
     }
-];
+};
 
-function onClickHandler({ target }) {
-    if (target.tagName !== "A") return;
+async function unshortenSpotifyURL(url) {
+    const re = /<meta property="og:url" content="(.+?)"\/>/;
+    const body = await (
+        await fetch(`https://shcors.uwu.network/${url}`)
+    ).text();
+    return re.exec(body)?.[1];
+}
 
-    const originalUrl = new URL(target.getAttribute("href"));
-    for (const app of apps) {
-        if (!store.enabledApps[app.name]) continue;
-        if (!app.hostnames.includes(originalUrl.hostname)) continue;
-        target.setAttribute("href", app.protocol + originalUrl);
+async function replaceURL(url) {
+    try {
+        url = new URL(url);
 
-        // change it back afterwards
-        setTimeout(() => {
-            target.setAttribute("href", originalUrl.toString());
-        });
-        return;
+        if (url.hostname === "spotify.link") {
+            url = new URL(await unshortenSpotifyURL(url));
+        }
+
+        for (const [appName, app] of Object.entries(apps)) {
+            if (
+                app.hostnames.includes(url.hostname) &&
+                store.enabledApps[appName]
+            ) {
+                return app.protocol + url.toString();
+            }
+        }
+    } catch (e) {}
+    return url.toString();
+}
+
+// for non direct links like modal buttons
+let unpatchWindow;
+function patchWindowOpen() {
+    unpatchWindow = before("open", window, async ([urlString]) => {
+        return [await replaceURL(urlString)];
+    });
+}
+
+async function patchOnClick(e) {
+    try {
+        const urlString = e.target.parentElement.href ?? e.target.href;
+        if (!urlString) return;
+
+        const url = new URL(urlString);
+        const isApp = Object.values(apps).find((a) =>
+            a.hostnames.includes(url.hostname)
+        );
+        if (!isApp) return;
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        window.open(await replaceURL(url));
+    } catch (e) {
+        console.error(e);
     }
 }
 
 export function onLoad() {
+    patchWindowOpen();
+    document.addEventListener("click", patchOnClick);
+
     store.enabledApps ??= {};
-    apps.forEach((app) => {
-        store.enabledApps[app.name] ??= true;
+    Object.keys(apps).forEach((app) => {
+        store.enabledApps[app] ??= true;
     });
-    document.addEventListener("click", onClickHandler);
 }
 
 export function onUnload() {
-    document.removeEventListener("click", onClickHandler);
+    unpatchWindow?.();
+    document.removeEventListener("click", patchOnClick);
 }
 
 export { settings } from "./settings";
