@@ -55,8 +55,15 @@ function patchWindowOpen() {
 }
 
 async function patchOnClick(e) {
+    let anchorEl = e.target;
     try {
-        const urlString = e.target.parentElement.href ?? e.target.href;
+        // most click targets are nested span elements so find the closest non-span element and check if it's an anchor
+        if (anchorEl.tagName !== "A") {
+            anchorEl = anchorEl?.closest(`:not(${anchorEl.tagName})`);
+            if (anchorEl.tagName !== "A") return;
+        }
+
+        const urlString = anchorEl?.href;
         if (!urlString) return;
 
         const url = new URL(urlString);
@@ -68,14 +75,14 @@ async function patchOnClick(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         window.open(await replaceURL(url));
-    } catch (e) {
-        console.error(e);
-    }
+    } catch (e) {}
 }
+
+const appMount = document.querySelector("#app-mount");
 
 export function onLoad() {
     patchWindowOpen();
-    document.addEventListener("click", patchOnClick);
+    appMount.addEventListener("click", patchOnClick);
 
     store.enabledApps ??= {};
     Object.keys(apps).forEach((app) => {
@@ -85,7 +92,7 @@ export function onLoad() {
 
 export function onUnload() {
     unpatchWindow?.();
-    document.removeEventListener("click", patchOnClick);
+    appMount.removeEventListener("click", patchOnClick);
 }
 
 export { settings } from "./settings";
