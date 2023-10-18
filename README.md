@@ -7,7 +7,7 @@
 <img src="static/vc-timer.gif" width="320">
 
 ```
-https://shelter.ioj4.net/vc-timer/
+https://ioj4.github.io/shelter-plugins/vc-timer/
 ```
 
 ### [Open Profile Images](https://github.com/ioj4/shelter-plugins/tree/master/plugins/open-profile-images/)
@@ -17,7 +17,7 @@ https://shelter.ioj4.net/vc-timer/
 <img src="static/open-profile-images.gif" width="320">
 
 ```
-https://shelter.ioj4.net/open-profile-images/
+https://ioj4.github.io/shelter-plugins/open-profile-images/
 ```
 
 ### [Channel Typing Indicators](https://github.com/ioj4/shelter-plugins/tree/master/plugins/channel-typing-indicators/)
@@ -27,7 +27,7 @@ https://shelter.ioj4.net/open-profile-images/
 <img src="static/channel-typing-indicators.gif" width="320">
 
 ```
-https://shelter.ioj4.net/channel-typing-indicators/
+https://ioj4.github.io/shelter-plugins/channel-typing-indicators/
 ```
 
 ### [Revert Font](https://github.com/ioj4/shelter-plugins/tree/master/plugins/revert-font/)
@@ -37,7 +37,7 @@ https://shelter.ioj4.net/channel-typing-indicators/
 <img src="static/revert-font.jpg" width="320">
 
 ```
-https://shelter.ioj4.net/revert-font/
+https://ioj4.github.io/shelter-plugins/revert-font/
 ```
 
 ### [Prevent Spotify Pause](https://github.com/ioj4/shelter-plugins/tree/master/plugins/prevent-spotify-pause/)
@@ -47,7 +47,7 @@ https://shelter.ioj4.net/revert-font/
 <img src="static/prevent-spotify-pause.jpg" height="28">
 
 ```
-https://shelter.ioj4.net/prevent-spotify-pause/
+https://ioj4.github.io/shelter-plugins/prevent-spotify-pause/
 ```
 
 ### [No Call Idle](https://github.com/ioj4/shelter-plugins/tree/master/plugins/no-call-idle/) (alternative to [redstonekasi's plugin](https://github.com/redstonekasi/shelter-plugins))
@@ -57,7 +57,7 @@ https://shelter.ioj4.net/prevent-spotify-pause/
 <img src="static/no-call-idle.jpg" height="70">
 
 ```
-https://shelter.ioj4.net/no-call-idle/
+https://ioj4.github.io/shelter-plugins/no-call-idle/
 ```
 
 ### [Higher Volume Range](https://github.com/ioj4/shelter-plugins/tree/master/plugins/higher-volume-range) (currently broken)
@@ -67,7 +67,7 @@ https://shelter.ioj4.net/no-call-idle/
 <img src="static/higher-volume-range.jpg" width="210">
 
 ```
-https://shelter.ioj4.net/higher-volume-range/
+https://ioj4.github.io/shelter-plugins/higher-volume-range/
 ```
 
 ### [Timestamp File Names](https://github.com/ioj4/shelter-plugins/tree/master/plugins/timestamp-file-names/)
@@ -77,7 +77,7 @@ https://shelter.ioj4.net/higher-volume-range/
 `sensitive_file_name.png` → `1679770272381.png`
 
 ```
-https://shelter.ioj4.net/timestamp-file-names/
+https://ioj4.github.io/shelter-plugins/timestamp-file-names/
 ```
 
 ### [Open In App](https://github.com/ioj4/shelter-plugins/tree/master/plugins/open-in-app/)
@@ -85,7 +85,7 @@ https://shelter.ioj4.net/timestamp-file-names/
 ##### Clicking on Spotify or Steam links will open them directly in the app
 
 ```
-https://shelter.ioj4.net/open-in-app/
+https://ioj4.github.io/shelter-plugins/open-in-app/
 ```
 
 ### [Spotify Listen Along](https://github.com/ioj4/shelter-plugins/tree/master/plugins/spotify-listen-along/) (port of [Evelyn's plugin](https://github.com/Socketlike/SpotifyListenAlong/tree/main))
@@ -93,7 +93,7 @@ https://shelter.ioj4.net/open-in-app/
 ##### Allows you to use the 'Listen Along' feature without Spotify Premium, because Spotify Premium is not actually required
 
 ```
-https://shelter.ioj4.net/spotify-listen-along/
+https://ioj4.github.io/shelter-plugins/spotify-listen-along/
 ```
 
 ### [Play On Spotify](https://github.com/ioj4/shelter-plugins/tree/master/plugins/play-on-spotify/) (WIP)
@@ -101,7 +101,7 @@ https://shelter.ioj4.net/spotify-listen-along/
 ##### Adds buttons to any Spotify link to open, queue or play a song in spotify
 
 ```
-https://shelter.ioj4.net/play-on-spotify/
+https://ioj4.github.io/shelter-plugins/play-on-spotify/
 ```
 
 ### [Show Username](https://github.com/ioj4/shelter-plugins/tree/master/plugins/show-username/) (forked from [Yellowsink](https://github.com/yellowsink/shelter-plugins))
@@ -109,5 +109,5 @@ https://shelter.ioj4.net/play-on-spotify/
 ##### When a user is nicked their username will be shown as well
 
 ```
-https://shelter.ioj4.net/show-username/
+https://ioj4.github.io/shelter-plugins/show-username/
 ```
