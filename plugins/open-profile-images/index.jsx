@@ -9,7 +9,7 @@ import { css } from "./components/image-modal.jsx.scss";
 import ImageModal from "./components/image-modal";
 
 function addClickEvent(userComponent) {
-    const banner = userComponent.querySelector(`div[class*="bannerPremium-"]`);
+    const banner = userComponent.querySelector(`div[class*="bannerPremium_"]`);
     if (banner) {
         banner.addEventListener("click", (e) =>
             openImage(e?.target?.style?.backgroundImage?.slice(5, -2))
@@ -18,12 +18,12 @@ function addClickEvent(userComponent) {
     }
 
     userComponent
-        .querySelectorAll(`div[class*="wrapper-"]`)
+        .querySelectorAll(`div[class*="wrapper_"]`)
         .forEach((avatar) => {
             // skip clickable element that opens the profile-modal (this is horrible)
             avatarWrapper = avatar.parentElement.parentElement;
             if (
-                avatarWrapper.className.includes("clickable-") &&
+                avatarWrapper.className.includes("clickable_") &&
                 avatarWrapper.onclick
             )
                 return;

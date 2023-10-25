@@ -9,7 +9,7 @@ import { css } from "./components/timer.jsx.scss";
 function addTimer() {
     document
         .querySelector(
-            `[class*="connection-"] > div[class*="inner-"] > div > a > div[class*="subtext"]`
+            `[class*="connection"] > div[class*="inner"] > div > a > div[class*="subtext"]`
         )
         .prepend(<Timer />);
 }

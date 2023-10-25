@@ -25,7 +25,7 @@ function getChannelIconContainer(channelId) {
         `[data-list-item-id="channels___${channelId}"]`
     )?.parentElement;
 
-    return channelElement?.querySelector(`div[class^="children-"]`);
+    return channelElement?.querySelector(`div[class^="children_"]`);
 }
 
 export async function removeTypingIndicator(channelId) {

@@ -7,7 +7,7 @@ const {
 
 export function forceAddUsernames() {
     for (const e of document.querySelectorAll(
-        "[id^=message-username-] > [class^=username-]"
+        "[id^=message-username-] > [class^=username_]"
     )) {
         addUsername(e, true);
     }
