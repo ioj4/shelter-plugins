@@ -1,17 +1,20 @@
 const {
     flux: { dispatcher },
-    ui: { injectCss }
+    ui: { ReactiveRoot }
 } = shelter;
 
 import Timer from "./components/timer";
-import { css } from "./components/timer.jsx.scss";
 
 function addTimer() {
     document
         .querySelector(
             `[class*="connection"] > div[class*="inner"] > div > a > div[class*="subtext"]`
         )
-        .prepend(<Timer />);
+        .prepend(
+            <ReactiveRoot>
+                <Timer />
+            </ReactiveRoot>
+        );
 }
 
 function onDispatch(e) {
@@ -20,14 +23,10 @@ function onDispatch(e) {
     }
 }
 
-let uninject;
-
 export function onLoad() {
-    uninject = injectCss(css);
     dispatcher.subscribe("TRACK", onDispatch);
 }
 
 export function onUnload() {
     dispatcher.unsubscribe("TRACK", onDispatch);
-    uninject();
 }
