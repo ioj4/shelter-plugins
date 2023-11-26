@@ -19,10 +19,7 @@ export const apps = {
         default: true
     },
     SoundCloud: {
-        hostnames: [
-            "soundcloud.com"
-            // "on.soundcloud.com", TODO: this
-        ],
+        hostnames: ["soundcloud.com", "on.soundcloud.com"],
         protocol: "soundpout://",
         default: false
     }
@@ -36,8 +33,8 @@ function getEnabledApp(url) {
     );
 }
 
-async function unshortenSpotifyURL(url) {
-    const re = /<meta property="og:url" content="(.+?)"\/>/;
+async function unshortenLink(url) {
+    const re = /<meta property="og:url" content="(.+?)"/;
     const body = await (
         await fetch(`https://shcors.uwu.network/${url}`)
     ).text();
@@ -48,8 +45,8 @@ async function openInApp(url) {
     try {
         url = new URL(url);
 
-        if (url.hostname === "spotify.link") {
-            url = new URL(await unshortenSpotifyURL(url));
+        if (["spotify.link", "on.soundcloud.com"].includes(url.hostname)) {
+            url = new URL(await unshortenLink(url));
         }
 
         const [appName, app] = getEnabledApp(url);
