@@ -1,12 +1,13 @@
 const {
     plugin: { store },
-    patcher: { before }
+    patcher: { instead }
 } = shelter;
 
 export const apps = {
     Spotify: {
         hostnames: ["open.spotify.com", "spotify.link"],
-        protocol: "spotify:"
+        protocol: "spotify://",
+        default: true
     },
     Steam: {
         hostnames: [
@@ -14,9 +15,26 @@ export const apps = {
             "steamcommunity.com",
             "help.steampowered.com"
         ],
-        protocol: "steam://openurl/"
+        protocol: "steam://openurl/",
+        default: true
+    },
+    SoundCloud: {
+        hostnames: [
+            "soundcloud.com"
+            // "on.soundcloud.com", TODO: this
+        ],
+        protocol: "soundpout://",
+        default: false
     }
 };
+
+function getEnabledApp(url) {
+    const { hostname } = new URL(url);
+    return Object.entries(apps).find(
+        ([appName, app]) =>
+            app.hostnames.includes(hostname) && store.enabledApps[appName]
+    );
+}
 
 async function unshortenSpotifyURL(url) {
     const re = /<meta property="og:url" content="(.+?)"\/>/;
@@ -26,7 +44,7 @@ async function unshortenSpotifyURL(url) {
     return re.exec(body)?.[1];
 }
 
-async function replaceURL(url) {
+async function openInApp(url) {
     try {
         url = new URL(url);
 
@@ -34,24 +52,37 @@ async function replaceURL(url) {
             url = new URL(await unshortenSpotifyURL(url));
         }
 
-        for (const [appName, app] of Object.entries(apps)) {
-            if (
-                app.hostnames.includes(url.hostname) &&
-                store.enabledApps[appName]
-            ) {
-                return app.protocol + url.toString();
-            }
-        }
-    } catch (e) {}
-    return url.toString();
+        const [appName, app] = getEnabledApp(url);
+        const replacedUrl = app.protocol + url;
+
+        window.open(replacedUrl, "_blank").close();
+    } catch (e) {
+        console.error("[open-in-app] Error opening in App", e);
+    }
 }
 
 // for non direct links like modal buttons
 let unpatchWindow;
 function patchWindowOpen() {
-    unpatchWindow = before("open", window, async ([urlString]) => {
-        return [await replaceURL(urlString)];
+    unpatchWindow = instead("open", window, (args, orig) => {
+        const [url] = args;
+        if (!getEnabledApp(url)) return orig(...args);
+        openInApp(url);
     });
+}
+
+let unpatchVirtualClick;
+async function patchVirtualClick() {
+    unpatchVirtualClick = instead(
+        "click",
+        HTMLAnchorElement.prototype,
+        function (args, orig) {
+            const { href } = this;
+            if (!getEnabledApp(href)) return orig(...args);
+
+            openInApp(url);
+        }
+    );
 }
 
 async function patchOnClick(e) {
@@ -62,36 +93,32 @@ async function patchOnClick(e) {
             anchorEl = anchorEl?.closest(`:not(${anchorEl.tagName})`);
             if (anchorEl.tagName !== "A") return;
         }
-
-        const urlString = anchorEl?.href;
-        if (!urlString) return;
-
-        const url = new URL(urlString);
-        const isApp = Object.values(apps).find((a) =>
-            a.hostnames.includes(url.hostname)
-        );
-        if (!isApp) return;
+        const { href } = anchorEl;
+        if (!getEnabledApp(href)) return;
 
         e.preventDefault();
         e.stopImmediatePropagation();
-        window.open(await replaceURL(url));
+        openInApp(href);
     } catch (e) {}
 }
 
 const appMount = document.querySelector("#app-mount");
 
 export function onLoad() {
-    patchWindowOpen();
-    appMount.addEventListener("click", patchOnClick);
-
     store.enabledApps ??= {};
-    Object.keys(apps).forEach((app) => {
-        store.enabledApps[app] ??= true;
+    Object.entries(apps).forEach(([appName, app]) => {
+        console.log(appName, app);
+        store.enabledApps[appName] ??= app.default;
     });
+
+    patchWindowOpen();
+    patchVirtualClick();
+    appMount.addEventListener("click", patchOnClick);
 }
 
 export function onUnload() {
     unpatchWindow?.();
+    unpatchVirtualClick?.();
     appMount.removeEventListener("click", patchOnClick);
 }
 
