@@ -28,8 +28,7 @@ export const apps = {
 function getEnabledApp(url) {
     const { hostname } = new URL(url);
     return Object.entries(apps).find(
-        ([appName, app]) =>
-            app.hostnames.includes(hostname) && store.enabledApps[appName]
+        ([appName, app]) => app.hostnames.includes(hostname) && store[appName]
     );
 }
 
@@ -102,10 +101,8 @@ async function patchOnClick(e) {
 const appMount = document.querySelector("#app-mount");
 
 export function onLoad() {
-    store.enabledApps ??= {};
     Object.entries(apps).forEach(([appName, app]) => {
-        console.log(appName, app);
-        store.enabledApps[appName] ??= app.default;
+        store[appName] ??= app.default;
     });
 
     patchWindowOpen();

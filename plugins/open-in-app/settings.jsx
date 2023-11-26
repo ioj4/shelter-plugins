@@ -10,9 +10,9 @@ export const settings = () => {
     for (const [appName, app] of Object.entries(apps)) {
         rows.push(
             <SwitchItem
-                value={store.enabledApps[appName]}
+                value={store[appName]}
                 onChange={(value) => {
-                    store.enabledApps[appName] = value;
+                    store[appName] = value;
                 }}
                 note={app.protocol}
             >
