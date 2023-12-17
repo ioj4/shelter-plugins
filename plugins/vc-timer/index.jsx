@@ -1,20 +1,26 @@
 const {
     flux: { dispatcher },
-    ui: { ReactiveRoot }
+    ui: { ReactiveRoot },
+    observeDom
 } = shelter;
 
 import Timer from "./components/timer";
 
 function addTimer() {
-    document
-        .querySelector(
-            `[class*="connection"] > div[class*="inner"] > div > a > div[class*="subtext"]`
-        )
-        .prepend(
-            <ReactiveRoot>
-                <Timer />
-            </ReactiveRoot>
-        );
+    const unobserve = observeDom(
+        `[class^="rtcConnectionStatus"] + a > div[class*="subtext"]`,
+        (subtext) => {
+            if (subtext.dataset.ioj4_vc_timer) return;
+            unobserve();
+            subtext.prepend(
+                <ReactiveRoot>
+                    <Timer />
+                </ReactiveRoot>
+            );
+            subtext.dataset.ioj4_vc_timer = true;
+        }
+    );
+    setTimeout(unobserve, 2_000);
 }
 
 function onDispatch(e) {
