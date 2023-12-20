@@ -5,28 +5,32 @@ const {
     observeDom
 } = shelter;
 
+const USERNAME_QUERY = '[id^="message-username-"] > [class^="username"]';
+
 export function forceAddUsernames() {
-    for (const e of document.querySelectorAll(
-        "[id^=message-username-] > [class^=username_]"
-    )) {
+    for (const e of document.querySelectorAll(USERNAME_QUERY)) {
         addUsername(e, true);
     }
 }
 
-async function addUsername(element, overwrite = false) {
-    if (element.querySelector(".ioj4-su") && !overwrite) return;
-    const msg = reactFiberWalker(getFiber(element), "message", true)
-        ?.pendingProps?.message;
+async function addUsername(e, overwrite = false) {
+    if (e.querySelector(".ioj4-su") && !overwrite) return;
+
+    const msg = reactFiberWalker(getFiber(e), "message", true)?.pendingProps
+        ?.message;
     if (!msg || !msg?.author) return;
+
     const channelStore = await awaitStore("ChannelStore");
-    const { username: authorUsername, id: authorId } = msg.author;
-    const { type, guild_id: guildId } = channelStore.getChannel(
-        msg?.channel_id
-    );
     const guildMemberStore = await awaitStore("GuildMemberStore");
     const relationshipStore = await awaitStore("RelationshipStore");
+
+    const { username: authorUsername, id: authorId } = msg.author;
+    const { type: channelType, guild_id: guildId } = channelStore.getChannel(
+        msg?.channel_id
+    );
+
     // type = 0: Guild, 1: DM
-    const nick = type
+    const nickname = channelType
         ? relationshipStore.getNickname(authorId)
         : guildMemberStore.getNick(guildId, authorId);
 
@@ -38,8 +42,8 @@ async function addUsername(element, overwrite = false) {
         </span>
     );
 
-    element.textContent = nick && !store.usernamesOnly ? ` ${nick}` : "";
-    element.prepend(usernameElement);
+    e.textContent = nickname && !store.usernamesOnly ? ` ${nickname}` : "";
+    e.prepend(usernameElement);
 }
 
 async function onDispatch(payload) {
@@ -52,13 +56,10 @@ async function onDispatch(payload) {
         return;
     }
 
-    const unObserve = observeDom(
-        "[id^=message-username-] > [class^=username-]",
-        (e) => {
-            unObserve();
-            queueMicrotask(() => addUsername(e));
-        }
-    );
+    const unObserve = observeDom(USERNAME_QUERY, (e) => {
+        unObserve();
+        addUsername(e);
+    });
 
     // don't leave this forever, just in case!
     setTimeout(unObserve, 500);
@@ -82,7 +83,7 @@ const TRIGGERS = [
 
 export function onLoad() {
     store.usernamesOnly ??= false;
-    // if names are already rendered
+    // apply on usernames that are already in the DOM
     forceAddUsernames();
     for (const t of TRIGGERS) dispatcher.subscribe(t, onDispatch);
 }
