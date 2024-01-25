@@ -25,7 +25,10 @@ export async function insertTimer() {
             }, 2_000);
         }));
 
-    if (!subtext) return;
+    if (!subtext) {
+        insertLock = false;
+        return;
+    }
 
     const timer = (
         <ReactiveRoot>
