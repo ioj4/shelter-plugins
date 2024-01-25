@@ -1,38 +1,68 @@
 const {
-    flux: { dispatcher },
+    flux: { dispatcher, awaitStore },
     ui: { ReactiveRoot },
+    plugin: { store },
     observeDom
 } = shelter;
 
 import Timer from "./components/timer";
 
-function addTimer() {
-    const unobserve = observeDom(
-        `[class^="rtcConnectionStatus"] + a > div[class*="subtext"]`,
-        (subtext) => {
-            if (subtext.dataset.ioj4_vc_timer) return;
-            unobserve();
-            subtext.prepend(
-                <ReactiveRoot>
-                    <Timer />
-                </ReactiveRoot>
-            );
-            subtext.dataset.ioj4_vc_timer = true;
-        }
+const SUBTEXT_QUERY = `[class^="rtcConnectionStatus"] + a > div[class*="subtext"]:not(:has(.ioj4-vct))`;
+
+let insertLock = false;
+
+export async function insertTimer() {
+    if (insertLock || !store.isInVC) return;
+    insertLock = true;
+
+    const subtext =
+        document.querySelector(SUBTEXT_QUERY) ??
+        (await new Promise((res) => {
+            const unobserve = observeDom(SUBTEXT_QUERY, res);
+            setTimeout(() => {
+                unobserve();
+                res();
+            }, 2_000);
+        }));
+
+    if (!subtext) return;
+
+    const timer = (
+        <ReactiveRoot>
+            <Timer />
+        </ReactiveRoot>
     );
-    setTimeout(unobserve, 2_000);
+    timer.className = "ioj4-vct";
+
+    subtext.prepend(timer);
+    insertLock = false;
+}
+
+function initializeTimer() {
+    if (!store.isInVC) {
+        store.isInVC = true;
+        store.joinTime = Date.now() / 1_000;
+    }
+    insertTimer();
 }
 
 function onDispatch(e) {
     if (e.event === "join_voice_channel") {
-        addTimer();
+        initializeTimer();
+    } else if (e.event === "leave_voice_channel") {
+        store.isInVC = false;
     }
 }
 
-export function onLoad() {
+export async function onLoad() {
+    const vcStore = await awaitStore("VoiceStateStore");
+    if (vcStore.isCurrentClientInVoiceChannel()) initializeTimer();
+
     dispatcher.subscribe("TRACK", onDispatch);
 }
 
 export function onUnload() {
+    store.isInVC = false;
     dispatcher.unsubscribe("TRACK", onDispatch);
+    document.querySelectorAll(`.ioj4-vct`).forEach((e) => e.remove());
 }

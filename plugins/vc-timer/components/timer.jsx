@@ -1,6 +1,9 @@
 const {
-    solid: { createSignal, onCleanup }
+    solid: { createSignal, onCleanup },
+    plugin: { store }
 } = shelter;
+
+import { insertTimer } from "..";
 
 function formatSeconds(secs) {
     const h = Math.floor(secs / 3600);
@@ -15,15 +18,18 @@ function formatSeconds(secs) {
 }
 
 export default () => {
-    const startTime = Date.now();
-    const [time, setTime] = createSignal(formatSeconds(0));
+    const calcTime = () => Date.now() / 1_000 - store.joinTime;
+
+    const [time, setTime] = createSignal(formatSeconds(calcTime()));
 
     const timer = setInterval(() => {
-        const secs = (Date.now() - startTime) / 1_000;
-        setTime(formatSeconds(secs));
+        setTime(formatSeconds(calcTime()));
     }, 1_000);
 
-    onCleanup(() => clearInterval(timer));
+    onCleanup(() => {
+        clearInterval(timer);
+        insertTimer();
+    });
 
     return (
         <p
