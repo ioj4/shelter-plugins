@@ -41,10 +41,16 @@ export async function insertTimer() {
     insertLock = false;
 }
 
+let lastLeave = 0;
+
 function initializeTimer() {
+    // if we're already in a voice channel, don't do anything
     if (!store.isInVC) {
         store.isInVC = true;
-        store.joinTime = Date.now() / 1_000;
+        // no reset if persistTime and user was connected to a voice channel in the last 10 secs
+        if (!store.persistTime || lastLeave < Date.now() - 10_000) {
+            store.joinTime = Date.now();
+        }
     }
     insertTimer();
 }
@@ -54,6 +60,7 @@ function onDispatch(e) {
         initializeTimer();
     } else if (e.event === "leave_voice_channel") {
         store.isInVC = false;
+        lastLeave = Date.now();
     }
 }
 
@@ -69,3 +76,5 @@ export function onUnload() {
     dispatcher.unsubscribe("TRACK", onDispatch);
     document.querySelectorAll(`.ioj4-vct`).forEach((e) => e.remove());
 }
+
+export { settings } from "./settings";

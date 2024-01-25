@@ -5,10 +5,10 @@ const {
 
 import { insertTimer } from "..";
 
-function formatSeconds(secs) {
-    const h = Math.floor(secs / 3600);
+function toTimeString(secs) {
+    const h = Math.floor(secs / 3_600);
     const m = Math.floor(secs / 60) - h * 60;
-    const s = Math.floor(secs - h * 3600 - m * 60);
+    const s = Math.floor(secs - h * 3_600 - m * 60);
     return (
         (h ? h.toString() + ":" : "") +
         m.toString().padStart(2, "0") +
@@ -18,14 +18,16 @@ function formatSeconds(secs) {
 }
 
 export default () => {
-    const calcTime = () => Date.now() / 1_000 - store.joinTime;
+    const getDuration = () => (Date.now() - store.joinTime) / 1_000;
 
-    const [time, setTime] = createSignal(formatSeconds(calcTime()));
+    const [time, setTime] = createSignal(toTimeString(getDuration()));
 
-    const timer = setInterval(() => {
-        setTime(formatSeconds(calcTime()));
-    }, 1_000);
+    const timer = setInterval(
+        () => setTime(toTimeString(getDuration())),
+        1_000
+    );
 
+    // attempt to reinject the timer if it gets removed due to a rerender (channel name change, etc)
     onCleanup(() => {
         clearInterval(timer);
         insertTimer();
