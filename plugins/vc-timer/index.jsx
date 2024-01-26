@@ -55,7 +55,7 @@ function initializeTimer() {
     insertTimer();
 }
 
-function onDispatch(e) {
+function onTrack(e) {
     if (e.event === "join_voice_channel") {
         initializeTimer();
     } else if (e.event === "leave_voice_channel") {
@@ -64,16 +64,21 @@ function onDispatch(e) {
     }
 }
 
+function onLogout() {
+    store.isInVC = false;
+}
+
 export async function onLoad() {
     const vcStore = await awaitStore("VoiceStateStore");
     if (vcStore.isCurrentClientInVoiceChannel()) initializeTimer();
-
-    dispatcher.subscribe("TRACK", onDispatch);
+    dispatcher.subscribe("TRACK", onTrack);
+    dispatcher.subscribe("LOGOUT", onLogout);
 }
 
 export function onUnload() {
     store.isInVC = false;
-    dispatcher.unsubscribe("TRACK", onDispatch);
+    dispatcher.unsubscribe("TRACK", onTrack);
+    dispatcher.unsubscribe("LOGOUT", onLogout);
     document.querySelectorAll(`.ioj4-vct`).forEach((e) => e.remove());
 }
 
