@@ -48,6 +48,11 @@ async function openInApp(url) {
             url = new URL(await unshortenLink(url));
         }
 
+        // remove /intl-xx/ from spotify urls
+        if (url.hostname === "open.spotify.com") {
+            url.pathname = url.pathname.replace(/\/intl-.+?(\/.+)/i, "$1");
+        }
+
         const [appName, app] = getEnabledApp(url);
         const replacedUrl = app.protocol + url;
 
