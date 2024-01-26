@@ -9,7 +9,9 @@
     "type": "module",
     "scripts": {
         "prepare": "husky install",
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "build:dev": "lune ci --dev",
+        "build": "lune ci"
     },
     "lint-staged": {
         "**/*": "prettier --write --ignore-unknown"
