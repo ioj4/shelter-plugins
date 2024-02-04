@@ -1,9 +1,13 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 devDependencies:
   '@uwu/lune':
-    specifier: ^1.3.0
-    version: 1.3.0
+    specifier: ^1.4.0
+    version: 1.4.0
   '@uwu/shelter-defs':
     specifier: ^1.2.1
     version: 1.2.1
@@ -226,13 +230,13 @@ packages:
     dev: true
     optional: true
 
-  /@uwu/lune@1.3.0:
-    resolution: {integrity: sha512-1tbakIQ7yHEn46FI6dgEv62OufMDbUvyL51RlHMNK0KHiiZxzm81Qmdx3pPAqUVC4DKMlv9w1xqW6DRS1aHC5w==}
+  /@uwu/lune@1.4.0:
+    resolution: {integrity: sha512-aVHYh5i+TlT53kqipTDGTAsxQljH+xEGjo/D/pXQnUD8eL+msEVke+4g5jQBiTAWbKsFtlMrYHv6o99AgMwN4A==}
     hasBin: true
     dependencies:
       chokidar: 3.5.3
       esbuild: 0.17.18
-      esbuild-sass-plugin-ysink: 2.3.3
+      esbuild-sass-plugin-ysink: 2.3.4
       postcss: 8.4.23
       postcss-modules: 6.0.0(postcss@8.4.23)
       solid-js: 1.6.16
@@ -329,7 +333,7 @@ packages:
       normalize-path: 3.0.0
       readdirp: 3.6.0
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: true
 
   /clean-stack@2.2.0:
@@ -567,12 +571,12 @@ packages:
     dev: true
     optional: true
 
-  /esbuild-sass-plugin-ysink@2.3.3:
-    resolution: {integrity: sha512-z3H1NoncJJcqoSCfOsqgcCoQCo+hrmbZJ5kl1sUAaFc3i3KxPRw5ntJWvs9HexIBtan4c6gGZyPAKMgtfCoXpw==}
+  /esbuild-sass-plugin-ysink@2.3.4:
+    resolution: {integrity: sha512-tppwB+lzJ0hFocW4GSazcz+cvOTC2X3mU/H+lcVBlUwn+7OpgPkDNSYm3epizeMrfS+uoj8zROxOdQV2IkGjQw==}
     dependencies:
       esbuild: 0.14.54
-      resolve: 1.22.2
-      sass: 1.62.1
+      resolve: 1.22.8
+      sass: 1.70.0
     dev: true
 
   /esbuild-sunos-64@0.14.54:
@@ -692,16 +696,16 @@ packages:
       to-regex-range: 5.0.1
     dev: true
 
-  /fsevents@2.3.2:
-    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
+  /fsevents@2.3.3:
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /function-bind@1.1.1:
-    resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
+  /function-bind@1.1.2:
+    resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
     dev: true
 
   /generic-names@4.0.0:
@@ -722,11 +726,11 @@ packages:
       is-glob: 4.0.3
     dev: true
 
-  /has@1.0.3:
-    resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
-    engines: {node: '>= 0.4.0'}
+  /hasown@2.0.0:
+    resolution: {integrity: sha512-vUptKVTpIJhcczKBbgnS+RtcuYMB8+oNzPK2/Hp3hanz8JmpATdmmgLgSaadVREkDm+e2giHwY3ZRkyjSIDDFA==}
+    engines: {node: '>= 0.4'}
     dependencies:
-      function-bind: 1.1.1
+      function-bind: 1.1.2
     dev: true
 
   /human-signals@4.3.1:
@@ -753,8 +757,8 @@ packages:
     resolution: {integrity: sha512-gchesWBzyvGHRO9W8tzUWFDycow5gwjvFKfyV9FF32Y7F50yZMp7mP+T2mJIWFx49zicqyC4uefHM17o6xKIVQ==}
     dev: true
 
-  /immutable@4.3.0:
-    resolution: {integrity: sha512-0AOCmOip+xgJwEVTQj1EfiDDOkPmuyllDuTuEX+DDXUgapLAsBIfkg3sxCYyCEA8mQqZrrxPUGjcOQ2JS3WLkg==}
+  /immutable@4.3.5:
+    resolution: {integrity: sha512-8eabxkth9gZatlwl5TBuJnCsoTADlL6ftEr7A4qgdaTsPyreilDSnUk57SO+jfKcNtxPa22U5KK6DSeAYhpBJw==}
     dev: true
 
   /indent-string@4.0.0:
@@ -769,10 +773,10 @@ packages:
       binary-extensions: 2.2.0
     dev: true
 
-  /is-core-module@2.12.0:
-    resolution: {integrity: sha512-RECHCBCd/viahWmwj6enj19sKbHfJrddi/6cBDsNTKbNq0f7VeaUkBo60BqzvPqo/W54ChS62Z5qyun7cfOMqQ==}
+  /is-core-module@2.13.1:
+    resolution: {integrity: sha512-hHrIjvZsftOsvKSn2TRYl63zvxsgE0K+0mYMoH6gD4omR5IWB2KynivBQczo3+wF1cCkjzvptnI9Q0sPU66ilw==}
     dependencies:
-      has: 1.0.3
+      hasown: 2.0.0
     dev: true
 
   /is-extglob@2.1.1:
@@ -1066,11 +1070,11 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /resolve@1.22.2:
-    resolution: {integrity: sha512-Sb+mjNHOULsBv818T40qSPeRiuWLyaGMa5ewydRLFimneixmVy2zdivRl+AF6jaYPC8ERxGDmFSiqui6SfPd+g==}
+  /resolve@1.22.8:
+    resolution: {integrity: sha512-oKWePCxqpd6FlLvGV1VU0x7bkPmmCNolxzjMf4NczoDnQcIWrAF+cPtZn5i6n+RfD2d9i0tzpKnG6Yk168yIyw==}
     hasBin: true
     dependencies:
-      is-core-module: 2.12.0
+      is-core-module: 2.13.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
     dev: true
@@ -1093,13 +1097,13 @@ packages:
       tslib: 2.5.0
     dev: true
 
-  /sass@1.62.1:
-    resolution: {integrity: sha512-NHpxIzN29MXvWiuswfc1W3I0N8SXBd8UR26WntmDlRYf0bSADnwnOjsyMZ3lMezSlArD33Vs3YFhp7dWvL770A==}
+  /sass@1.70.0:
+    resolution: {integrity: sha512-uUxNQ3zAHeAx5nRFskBnrWzDUJrrvpCPD5FNAoRvTi0WwremlheES3tg+56PaVtCs5QDRX5CBLxxKMDJMEa1WQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
       chokidar: 3.5.3
-      immutable: 4.3.0
+      immutable: 4.3.5
       source-map-js: 1.0.2
     dev: true
 
