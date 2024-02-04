@@ -3,7 +3,7 @@ const {
 } = shelter;
 import { open, queue, play } from "../spotify";
 
-import { classes } from "../styles.jsx.scss";
+import classes from "../styles.jsx.scss";
 
 const IconOpen = () => (
     <svg

@@ -1,11 +1,10 @@
 const {
     plugin: { store },
     flux: { dispatcher, intercept },
-    ui: { openModal, injectCss },
+    ui: { openModal },
     observeDom
 } = shelter;
 
-import { css } from "./components/image-modal.jsx.scss";
 import ImageModal from "./components/image-modal";
 
 function addClickEvent(userComponent) {
@@ -57,11 +56,9 @@ function onTrack(e) {
     }
 }
 
-let uninject;
 let unintercept;
 
 export function onLoad() {
-    uninject = injectCss(css);
     // prevent discord's context-menu from opening for the image
     // using it is not possible as it's in a layer behind the modal
     unintercept = intercept((dispatch) => {
@@ -81,7 +78,6 @@ export function onLoad() {
 export function onUnload() {
     dispatcher.unsubscribe("TRACK", onTrack);
     dispatcher.unsubscribe("USER_PROFILE_FETCH_FAILURE", observeComponents);
-    uninject();
     unintercept();
 }
 

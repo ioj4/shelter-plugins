@@ -4,12 +4,11 @@ const {
         dispatcher,
         stores: { SelectedChannelStore }
     },
-    ui: { injectCss },
     observeDom
 } = shelter;
 
 import ControlButtons from "./components/control-buttons";
-import { classes, css } from "./styles.jsx.scss";
+import classes from "./styles.jsx.scss";
 
 const LINK_QUERY = `main[class^="chatContent"] a[href^="https://open.spotify.com"], main[class^="chatContent"] a[href^="https://spotify.link/"]`;
 const LINK_REGEX =
@@ -64,20 +63,16 @@ function onMessage(e) {
 const MESSAGE_TRIGGERS = ["MESSAGE_CREATE", "MESSAGE_UPDATE"];
 const TRIGGERS = ["CHANNEL_SELECT", "UPDATE_CHANNEL_DIMENSIONS"];
 
-let uninjectCss;
-
 export function onLoad() {
     store.showOpen ??= true;
     store.showQueue ??= true;
     store.showPlay ??= true;
 
-    uninjectCss = injectCss(css);
     TRIGGERS.forEach((t) => dispatcher.subscribe(t, observeMessages));
     MESSAGE_TRIGGERS.forEach((t) => dispatcher.subscribe(t, onMessage));
 }
 
 export function onUnload() {
-    uninjectCss();
     TRIGGERS.forEach((t) => dispatcher.unsubscribe(t, observeMessages));
     MESSAGE_TRIGGERS.forEach((t) => dispatcher.unsubscribe(t, onMessage));
 }

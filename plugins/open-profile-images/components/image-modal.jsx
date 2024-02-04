@@ -1,7 +1,7 @@
 const {
     plugin: { store }
 } = shelter;
-import { classes } from "./image-modal.jsx.scss";
+import classes from "./image-modal.jsx.scss";
 
 export default (props) => {
     props.url.searchParams.set("size", store.fullResolution ? "4096" : "480");

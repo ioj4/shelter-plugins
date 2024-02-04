@@ -1,4 +1,3 @@
-import { css } from "./styles.jsx.scss";
 import {
     isSomeoneTypingInChannel,
     removeAllIndicators,
@@ -8,7 +7,6 @@ import {
 } from "./utils";
 
 const {
-    ui: { injectCss },
     flux: { dispatcher, awaitStore },
     util: { getFiber, reactFiberWalker },
     patcher,
@@ -80,13 +78,10 @@ function attemptPatch() {
     patchFiber(channel);
 }
 
-let uninject;
-
 // MESSAGE_CREATE: in case the user sends their message (doesn't trigger TYPING_STOP)
 const triggers = ["TYPING_START", "TYPING_STOP", "MESSAGE_CREATE"];
 
 export function onLoad() {
-    uninject = injectCss(css);
     // when loading the plugin there might already be a channel element rendered
     attemptPatch();
     triggers.forEach((t) => dispatcher.subscribe(t, handleTypingDispatch));
@@ -104,7 +99,6 @@ export function onUnload() {
         "UPDATE_CHANNEL_LIST_DIMENSIONS",
         handleChanneListDispatch
     );
-    uninject?.();
     unpatch?.();
     isPatched = false;
     removeAllIndicators();

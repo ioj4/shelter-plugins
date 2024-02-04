@@ -1,5 +1,5 @@
 import TypingIndicator from "./components/typing-indicator";
-import { classes } from "./styles.jsx.scss";
+import classes from "./styles.jsx.scss";
 import { channelElementQuery } from ".";
 
 const {
