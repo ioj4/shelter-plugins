@@ -1,28 +1,11 @@
-const {
-    flux: { dispatcher, awaitStore },
-    patcher
-} = shelter;
+const { awaitStore } = shelter.flux;
+const scoped = shelter.plugin.scoped;
 
-let uninject;
-
-async function injectStore() {
+export async function onLoad() {
     const spotifyStore = await awaitStore("SpotifyStore");
-    if (uninject) return;
-    uninject = patcher.after(
-        "getActiveSocketAndDevice",
-        spotifyStore,
-        (_, response) => {
-            if (response?.socket) response.socket.isPremium = true;
-            return response;
+    scoped.patcher.after("getActiveSocketAndDevice", spotifyStore, (_, res) => {
+        if (res?.socket) {
+            res.socket.isPremium = true;
         }
-    );
-}
-
-export function onLoad() {
-    dispatcher.subscribe("SPOTIFY_PLAYER_STATE", injectStore);
-}
-
-export function onUnload() {
-    dispatcher.unsubscribe("SPOTIFY_PLAYER_STATE", injectStore);
-    uninject?.();
+    });
 }
