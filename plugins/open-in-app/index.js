@@ -56,7 +56,7 @@ async function openInApp(url) {
         const [appName, app] = getEnabledApp(url);
         const replacedUrl = app.protocol + url;
 
-        window.open(replacedUrl, "_blank").close();
+        window.open(replacedUrl, "_blank")?.close();
     } catch (e) {
         console.error("[open-in-app] Error opening in App", e);
     }
