@@ -26,6 +26,7 @@ export const apps = {
 };
 
 function getEnabledApp(url) {
+    if (!/https?:\/\//.test(url.toString())) return;
     const { hostname } = new URL(url);
     return Object.entries(apps).find(
         ([appName, app]) => app.hostnames.includes(hostname) && store[appName]
