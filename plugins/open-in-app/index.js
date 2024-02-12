@@ -86,21 +86,15 @@ async function patchVirtualClick() {
     );
 }
 
-async function patchOnClick(e) {
-    let anchorEl = e.target;
-    try {
-        // most click targets are nested span elements so find the closest non-span element and check if it's an anchor
-        if (anchorEl.tagName !== "A") {
-            anchorEl = anchorEl?.closest(`:not(${anchorEl.tagName})`);
-            if (anchorEl.tagName !== "A") return;
-        }
-        const { href } = anchorEl;
-        if (!getEnabledApp(href)) return;
+async function onClick(e) {
+    // most times the click target is a child of the actual anchor
+    // so find the closest anchor element
+    const anchor = e?.target?.closest("a");
+    if (!anchor?.href || !getEnabledApp(anchor.href)) return;
 
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        openInApp(href);
-    } catch (e) {}
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    openInApp(anchor.href);
 }
 
 const appMount = document.querySelector("#app-mount");
@@ -112,13 +106,13 @@ export function onLoad() {
 
     patchWindowOpen();
     patchVirtualClick();
-    appMount.addEventListener("click", patchOnClick);
+    appMount.addEventListener("click", onClick);
 }
 
 export function onUnload() {
     unpatchWindow?.();
     unpatchVirtualClick?.();
-    appMount.removeEventListener("click", patchOnClick);
+    appMount.removeEventListener("click", onClick);
 }
 
 export { settings } from "./settings";
