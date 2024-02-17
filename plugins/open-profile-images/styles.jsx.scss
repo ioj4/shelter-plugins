@@ -1,0 +1,32 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.image {
+    user-select: none;
+    object-fit: contain;
+    width: 480px;
+}
+
+.link {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 30px;
+    color: var(--white-500);
+    text-decoration: none;
+    transition: opacity 0.15s ease;
+    opacity: 0.5;
+
+    &:hover {
+        opacity: 1;
+        text-decoration: underline;
+    }
+}
+
+.ioj4Opi {
+    cursor: pointer;
+}
