@@ -30,6 +30,16 @@ https://ioj4.github.io/shelter-plugins/open-profile-images/
 https://ioj4.github.io/shelter-plugins/channel-typing-indicators/
 ```
 
+### [Developer Options](https://github.com/ioj4/shelter-plugins/tree/master/plugins/developer-options/) (credits to link for the initial snippet)
+
+##### Enables Discord's developer options, experiments and more - use at your own risk
+
+<img src="static/developer-options.jpg" width="220">
+
+```
+https://ioj4.github.io/shelter-plugins/developer-options/
+```
+
 ### [Revert Font](https://github.com/ioj4/shelter-plugins/tree/master/plugins/revert-font/)
 
 ##### Reverts the font back to the old one
