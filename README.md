@@ -70,14 +70,8 @@ https://ioj4.github.io/shelter-plugins/prevent-spotify-pause/
 https://ioj4.github.io/shelter-plugins/no-call-idle/
 ```
 
-### [Higher Volume Range](https://github.com/ioj4/shelter-plugins/tree/master/plugins/higher-volume-range) (currently broken)
-
-##### Increases the range of all volume-sliders to 400%
-
-<img src="static/higher-volume-range.jpg" width="210">
-
 ```
-https://ioj4.github.io/shelter-plugins/higher-volume-range/
+
 ```
 
 ### [Timestamp File Names](https://github.com/ioj4/shelter-plugins/tree/master/plugins/timestamp-file-names/)
