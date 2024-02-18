@@ -1,67 +1,62 @@
 const {
     plugin: { store },
-    flux: {
-        dispatcher,
-        stores: { SelectedChannelStore }
-    },
+    flux: { dispatcher, awaitStore },
     observeDom
 } = shelter;
 
 import ControlButtons from "./components/control-buttons";
 import classes from "./styles.jsx.scss";
 
-const LINK_QUERY = `main[class^="chatContent"] a[href^="https://open.spotify.com"], main[class^="chatContent"] a[href^="https://spotify.link/"]`;
-const LINK_REGEX =
-    /(?:https?:\/\/open.spotify.com\/)(track|album|playlist)(?:\/)([a-z0-9]*)/i;
+const ANCHOR_QUERY = `a:is([href^="https://open.spotify.com/"], [href^="https://spotify.link/"]):not([data-ioj4_pos])`;
 
-function addButtons() {
-    const links = document.querySelectorAll(LINK_QUERY);
-    links.forEach((link) => {
-        if (link?.dataset?.ioj4_pos) return;
-        const matches = link.href.match(LINK_REGEX) ?? [];
-        if (matches.length < 3) return;
-        const [, type, id] = matches;
+function patchAnchor(anchor) {
+    if (anchor.dataset.ioj4_pos) return;
+    const parent = anchor.parentElement;
+    const wrapper = document.createElement("div");
+    wrapper.classList.add(classes.wrapper);
 
-        const parent = link.parentNode;
-        const wrapper = document.createElement("div");
-        wrapper.classList.add(classes.wrapper);
+    parent.replaceChild(wrapper, anchor);
+    wrapper.appendChild(anchor);
 
-        parent.replaceChild(wrapper, link);
-        wrapper.appendChild(link);
+    anchor.dataset.ioj4_pos = true;
 
-        link.dataset.ioj4_pos = true;
-
-        shelter.solidWeb.render(
-            () => <ControlButtons type={type} id={id} />,
-            wrapper
-        );
-    });
+    shelter.solidWeb.render(
+        () => <ControlButtons url={anchor.href} />,
+        wrapper
+    );
 }
 
 function observeMessages() {
-    const unObserve = observeDom(LINK_QUERY, () => {
+    const unObserve = observeDom(ANCHOR_QUERY, (anchor) => {
+        queueMicrotask(() => patchAnchor(anchor));
         unObserve();
-        queueMicrotask(addButtons);
     });
 
     setTimeout(unObserve, 500);
 }
 
-function onMessage(e) {
-    if (
-        e.message.channel_id !==
-        SelectedChannelStore.getCurrentlySelectedChannelId()
-    )
-        return;
-    observeMessages();
+async function onMessage({ channel_id }) {
+    const selectedChannelStore = await awaitStore("SelectedChannelStore");
+    if (channel_id === selectedChannelStore.getCurrentlySelectedChannelId()) {
+        observeMessages();
+    }
 }
 
-// MESSAGE_CREATE: a new message is sent (any channel)
-// MESSAGE_CREATE: a message was updated (any channel)
-// CHANNEL_SELECT: the user switches servers or channels
+function unpatchAll() {
+    document.querySelectorAll(`div.${classes.wrapper}`).forEach((el) => {
+        const anchor = el.querySelector("a");
+        el.replaceChildren();
+        el.replaceWith(anchor);
+    });
+}
+
 // UPDATE_CHANNEL_DIMENSIONS: new message or scrolling up/down
 const MESSAGE_TRIGGERS = ["MESSAGE_CREATE", "MESSAGE_UPDATE"];
-const TRIGGERS = ["CHANNEL_SELECT", "UPDATE_CHANNEL_DIMENSIONS"];
+const TRIGGERS = [
+    "CHANNEL_SELECT",
+    "UPDATE_CHANNEL_DIMENSIONS",
+    "SEARCH_FINISH"
+];
 
 export function onLoad() {
     store.showOpen ??= true;
