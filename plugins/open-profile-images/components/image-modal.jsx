@@ -1,6 +1,8 @@
 import classes from "../styles.jsx.scss";
 
 export default ({ url }) => {
+    const isBanner = url.pathname.startsWith("/banners/");
+
     url.searchParams.set("size", "4096");
     const viewUrl = url.toString();
 
@@ -10,7 +12,10 @@ export default ({ url }) => {
     return (
         <>
             <div class={classes.wrapper}>
-                <img class={classes.image} src={viewUrl} />
+                <img
+                    class={`${classes.image} ${isBanner ? classes.banner : ""}`}
+                    src={viewUrl}
+                />
                 <a
                     href={browserURL}
                     class={classes.link}

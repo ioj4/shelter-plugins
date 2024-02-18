@@ -9,7 +9,11 @@
 .image {
     user-select: none;
     object-fit: contain;
-    width: 480px;
+    max-width: 90vw;
+    width: 420px;
+    &.banner {
+        width: 900px;
+    }
 }
 
 .link {
