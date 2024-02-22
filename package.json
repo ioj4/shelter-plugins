@@ -1,9 +1,9 @@
 {
     "devDependencies": {
         "@uwu/lune": "^1.4.0",
-        "@uwu/shelter-defs": "^1.2.1",
+        "@uwu/shelter-defs": "^1.4.0",
         "husky": "^8.0.3",
-        "lint-staged": "^13.2.2",
+        "lint-staged": "^13.3.0",
         "prettier": "^2.8.8"
     },
     "type": "module",
