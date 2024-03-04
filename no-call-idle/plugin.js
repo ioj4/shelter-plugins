@@ -1,1 +1,46 @@
-(()=>{var c=Object.defineProperty;var r=Object.getOwnPropertyDescriptor;var d=Object.getOwnPropertyNames;var a=Object.prototype.hasOwnProperty;var l=(n,t)=>{for(var s in t)c(n,s,{get:t[s],enumerable:!0})},u=(n,t,s,o)=>{if(t&&typeof t=="object"||typeof t=="function")for(let e of d(t))!a.call(n,e)&&e!==s&&c(n,e,{get:()=>t[e],enumerable:!(o=r(t,e))||o.enumerable});return n};var E=n=>u(c({},"__esModule",{value:!0}),n);var _={};l(_,{onUnload:()=>D});var{flux:{intercept:T,dispatcher:f}}=shelter,p=["EMBEDDED_ACTIVITY_DISCONNECT","VOICE_STATE_UPDATES"],i=[],h=T(({type:n})=>{if(p.includes(n)){let t=f._subscriptions[n]??[];for(let s of t)s.toString().includes("idleTimeout.start")&&(t.delete(s),i.push(()=>t.add(s)))}});function D(){h(),i.forEach(n=>n())}return E(_);})();
+(() => {
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+  // plugins/no-call-idle/index.js
+  var no_call_idle_exports = {};
+  __export(no_call_idle_exports, {
+    onUnload: () => onUnload
+  });
+  var {
+    flux: { intercept, dispatcher }
+  } = shelter;
+  var dispatchTypes = ["EMBEDDED_ACTIVITY_DISCONNECT", "VOICE_STATE_UPDATES"];
+  var resubscribe = [];
+  var unintercept = intercept(({ type }) => {
+    if (dispatchTypes.includes(type)) {
+      const actionHandlers = dispatcher._subscriptions[type] ?? [];
+      for (const handler of actionHandlers) {
+        if (handler.toString().includes("idleTimeout.start")) {
+          actionHandlers.delete(handler);
+          resubscribe.push(() => actionHandlers.add(handler));
+        }
+      }
+    }
+  });
+  function onUnload() {
+    unintercept();
+    resubscribe.forEach((resub) => resub());
+  }
+  return __toCommonJS(no_call_idle_exports);
+})();

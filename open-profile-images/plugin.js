@@ -1,1 +1,133 @@
-(()=>{var j=Object.create;var l=Object.defineProperty;var O=Object.getOwnPropertyDescriptor;var y=Object.getOwnPropertyNames;var L=Object.getPrototypeOf,C=Object.prototype.hasOwnProperty;var S=(e,r)=>()=>(r||e((r={exports:{}}).exports,r),r.exports),U=(e,r)=>{for(var t in r)l(e,t,{get:r[t],enumerable:!0})},g=(e,r,t,c)=>{if(r&&typeof r=="object"||typeof r=="function")for(let a of y(r))!C.call(e,a)&&a!==t&&l(e,a,{get:()=>r[a],enumerable:!(c=O(r,a))||c.enumerable});return e};var s=(e,r,t)=>(t=e!=null?j(L(e)):{},g(r||!e||!e.__esModule?l(t,"default",{value:e,enumerable:!0}):t,e)),B=e=>g(l({},"__esModule",{value:!0}),e);var i=S((M,k)=>{k.exports=shelter.solidWeb});var q={};U(q,{onLoad:()=>E,onUnload:()=>P});var w=s(i(),1);var $=s(i(),1),p=s(i(),1),b=s(i(),1),m=s(i(),1);shelter.plugin.scoped.ui.injectCss("._wrapper_kr65f_1{display:flex;flex-direction:column;align-items:flex-start;margin:0 auto;width:fit-content}._image_kr65f_1{user-select:none;object-fit:contain;max-width:90vw;width:420px}._image_kr65f_1._banner_kr65f_1{width:900px}._link_kr65f_1{font-size:14px;font-weight:500;line-height:30px;color:var(--white-500);text-decoration:none;transition:opacity .15s ease;opacity:.5}._link_kr65f_1:hover{opacity:1;text-decoration:underline}._ioj4Opi_kr65f_1{cursor:pointer}");var n={wrapper:"_wrapper_kr65f_1",image:"_image_kr65f_1",banner:"_banner_kr65f_1",link:"_link_kr65f_1",ioj4Opi:"_ioj4Opi_kr65f_1"};var I=(0,$.template)('<div><img><a rel="noreferrer noopener" target="_blank">Open in Browser</a></div>',5),h=({url:e})=>{let r=e.pathname.startsWith("/banners/");e.searchParams.set("size","4096");let t=e.toString(),c=t.replace(/\.(webp)($|\?)/,".png$2");return(()=>{let a=I.cloneNode(!0),_=a.firstChild,f=_.nextSibling;return(0,m.setAttribute)(_,"src",t),(0,m.setAttribute)(f,"href",c),(0,b.effect)(o=>{let d=n.wrapper,u=`${n.image} ${r?n.banner:""}`,v=n.link;return d!==o._v$&&(0,p.className)(a,o._v$=d),u!==o._v$2&&(0,p.className)(_,o._v$2=u),v!==o._v$3&&(0,p.className)(f,o._v$3=v),o},{_v$:void 0,_v$2:void 0,_v$3:void 0}),a})()};var{ui:{openModal:N}}=shelter,W=shelter.plugin.scoped;function x(e){let r=e.target?.querySelector('img[class*="avatar"]')?.src??e.target?.style?.backgroundImage?.slice(5,-2);r&&(N(()=>(0,w.createComponent)(h,{url:new URL(r)})),e.stopImmediatePropagation())}var A=['[class*="avatarWrapper"]:not([class*="clickable"])','[class*="memberInner"] [class*="avatar"] [class*="wrapper"]','[class*="avatarWrapperNonUserBot"]','[class*="wrapper"][class*="avatar"]','[class*="bannerPremium"]:not([class*="settingsBanner"])'];function E(){W.observeDom(`:is(${A.join(",")}):not(.${n.ioj4Opi})`,e=>{e.classList.add(n.ioj4Opi),e.addEventListener("click",x)})}function P(){document.querySelectorAll(`.${n.ioj4Opi}`).forEach(e=>{e.removeEventListener("click",x),e.classList.remove(n.ioj4Opi)})}return B(q);})();
+(() => {
+  var __create = Object.create;
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getProtoOf = Object.getPrototypeOf;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+  // shltr-res-ns:solid-js/web
+  var require_web = __commonJS({
+    "shltr-res-ns:solid-js/web"(exports, module) {
+      module.exports = shelter.solidWeb;
+    }
+  });
+
+  // plugins/open-profile-images/index.jsx
+  var open_profile_images_exports = {};
+  __export(open_profile_images_exports, {
+    onLoad: () => onLoad,
+    onUnload: () => onUnload
+  });
+  var import_web5 = __toESM(require_web(), 1);
+
+  // plugins/open-profile-images/components/image-modal.jsx
+  var import_web = __toESM(require_web(), 1);
+  var import_web2 = __toESM(require_web(), 1);
+  var import_web3 = __toESM(require_web(), 1);
+  var import_web4 = __toESM(require_web(), 1);
+
+  // plugins/open-profile-images/styles.jsx.scss
+  shelter.plugin.scoped.ui.injectCss(`._wrapper_kr65f_1{display:flex;flex-direction:column;align-items:flex-start;margin:0 auto;width:fit-content}._image_kr65f_1{user-select:none;object-fit:contain;max-width:90vw;width:420px}._image_kr65f_1._banner_kr65f_1{width:900px}._link_kr65f_1{font-size:14px;font-weight:500;line-height:30px;color:var(--white-500);text-decoration:none;transition:opacity .15s ease;opacity:.5}._link_kr65f_1:hover{opacity:1;text-decoration:underline}._ioj4Opi_kr65f_1{cursor:pointer}`);
+  var styles_jsx_default = {
+    "wrapper": "_wrapper_kr65f_1",
+    "image": "_image_kr65f_1",
+    "banner": "_banner_kr65f_1",
+    "link": "_link_kr65f_1",
+    "ioj4Opi": "_ioj4Opi_kr65f_1"
+  };
+
+  // plugins/open-profile-images/components/image-modal.jsx
+  var _tmpl$ = /* @__PURE__ */ (0, import_web.template)(`<div><img><a rel="noreferrer noopener" target="_blank">Open in Browser</a></div>`, 5);
+  var image_modal_default = ({
+    url
+  }) => {
+    const isBanner = url.pathname.startsWith("/banners/");
+    url.searchParams.set("size", "4096");
+    const viewUrl = url.toString();
+    const browserURL = viewUrl.replace(/\.(webp)($|\?)/, ".png$2");
+    return (() => {
+      const _el$ = _tmpl$.cloneNode(true), _el$2 = _el$.firstChild, _el$3 = _el$2.nextSibling;
+      (0, import_web4.setAttribute)(_el$2, "src", viewUrl);
+      (0, import_web4.setAttribute)(_el$3, "href", browserURL);
+      (0, import_web3.effect)((_p$) => {
+        const _v$ = styles_jsx_default.wrapper, _v$2 = `${styles_jsx_default.image} ${isBanner ? styles_jsx_default.banner : ""}`, _v$3 = styles_jsx_default.link;
+        _v$ !== _p$._v$ && (0, import_web2.className)(_el$, _p$._v$ = _v$);
+        _v$2 !== _p$._v$2 && (0, import_web2.className)(_el$2, _p$._v$2 = _v$2);
+        _v$3 !== _p$._v$3 && (0, import_web2.className)(_el$3, _p$._v$3 = _v$3);
+        return _p$;
+      }, {
+        _v$: void 0,
+        _v$2: void 0,
+        _v$3: void 0
+      });
+      return _el$;
+    })();
+  };
+
+  // plugins/open-profile-images/index.jsx
+  var {
+    ui: {
+      openModal
+    }
+  } = shelter;
+  var scoped = shelter.plugin.scoped;
+  function onClick(e) {
+    const src = e.target?.querySelector(`img[class*="avatar"]`)?.src ?? e.target?.style?.backgroundImage?.slice(5, -2);
+    if (!src)
+      return;
+    openModal(() => (0, import_web5.createComponent)(image_modal_default, {
+      url: new URL(src)
+    }));
+    e.stopImmediatePropagation();
+  }
+  var subSelectors = [
+    // own pfp in bottom left
+    `[class*="avatarWrapper"]:not([class*="clickable"])`,
+    // pfp in member list
+    `[class*="memberInner"] [class*="avatar"] [class*="wrapper"]`,
+    // pfp in popout of webhooks
+    `[class*="avatarWrapperNonUserBot"]`,
+    // pfp in profile modal and other places
+    `[class*="wrapper"][class*="avatar"]`,
+    // banner in profile modal
+    `[class*="bannerPremium"]:not([class*="settingsBanner"])`
+  ];
+  function onLoad() {
+    scoped.observeDom(`:is(${subSelectors.join(",")}):not(.${styles_jsx_default.ioj4Opi})`, (el) => {
+      el.classList.add(styles_jsx_default.ioj4Opi);
+      el.addEventListener("click", onClick);
+    });
+  }
+  function onUnload() {
+    document.querySelectorAll(`.${styles_jsx_default.ioj4Opi}`).forEach((el) => {
+      el.removeEventListener("click", onClick);
+      el.classList.remove(styles_jsx_default.ioj4Opi);
+    });
+  }
+  return __toCommonJS(open_profile_images_exports);
+})();

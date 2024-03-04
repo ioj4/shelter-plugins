@@ -1,1 +1,51 @@
-(()=>{var n=Object.defineProperty;var u=Object.getOwnPropertyDescriptor;var c=Object.getOwnPropertyNames;var f=Object.prototype.hasOwnProperty;var l=(e,t)=>{for(var o in t)n(e,o,{get:t[o],enumerable:!0})},h=(e,t,o,a)=>{if(t&&typeof t=="object"||typeof t=="function")for(let s of c(t))!f.call(e,s)&&s!==o&&n(e,s,{get:()=>t[s],enumerable:!(a=u(t,s))||a.enumerable});return e};var y=e=>h(n({},"__esModule",{value:!0}),e);var w={};l(w,{onLoad:()=>S,onUnload:()=>x});var{flux:{awaitStore:d},patcher:p}=shelter,_=/https?:\/\/api.spotify.com.+\/me\/player\/pause/,r,i;async function S(){let e=await d("SpotifyStore");r=p.instead("wasAutoPaused",e,()=>!1),i=p.instead("send",XMLHttpRequest.prototype,function(t,o){if(!_.test(this.__sentry_xhr_v2__?.url))return o.apply(this,t)})}function x(){r?.(),i?.()}return y(w);})();
+(() => {
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+  // plugins/prevent-spotify-pause/index.js
+  var prevent_spotify_pause_exports = {};
+  __export(prevent_spotify_pause_exports, {
+    onLoad: () => onLoad,
+    onUnload: () => onUnload
+  });
+  var {
+    flux: { awaitStore },
+    patcher
+  } = shelter;
+  var testUrl = /https?:\/\/api.spotify.com.+\/me\/player\/pause/;
+  var unpatchStore;
+  var unpatchXHR;
+  async function onLoad() {
+    const spotifyStore = await awaitStore("SpotifyStore");
+    unpatchStore = patcher.instead("wasAutoPaused", spotifyStore, () => false);
+    unpatchXHR = patcher.instead(
+      "send",
+      XMLHttpRequest.prototype,
+      function(args, orig) {
+        if (!testUrl.test(this.__sentry_xhr_v2__?.url)) {
+          return orig.apply(this, args);
+        }
+      }
+    );
+  }
+  function onUnload() {
+    unpatchStore?.();
+    unpatchXHR?.();
+  }
+  return __toCommonJS(prevent_spotify_pause_exports);
+})();

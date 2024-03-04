@@ -1,1 +1,178 @@
-(()=>{var L=Object.create;var s=Object.defineProperty;var b=Object.getOwnPropertyDescriptor;var C=Object.getOwnPropertyNames;var E=Object.getPrototypeOf,S=Object.prototype.hasOwnProperty;var v=(t,o)=>()=>(o||t((o={exports:{}}).exports,o),o.exports),U=(t,o)=>{for(var e in o)s(t,e,{get:o[e],enumerable:!0})},i=(t,o,e,n)=>{if(o&&typeof o=="object"||typeof o=="function")for(let c of C(o))!S.call(t,c)&&c!==e&&s(t,c,{get:()=>o[c],enumerable:!(n=b(o,c))||n.enumerable});return t};var A=(t,o,e)=>(e=t!=null?L(E(t)):{},i(o||!t||!t.__esModule?s(e,"default",{value:t,enumerable:!0}):e,t)),O=t=>i(s({},"__esModule",{value:!0}),t);var l=v((_,u)=>{u.exports=shelter.solidWeb});var N={};U(N,{apps:()=>r,onLoad:()=>$,onUnload:()=>M,settings:()=>h});var f=A(l(),1);var{plugin:{store:m},ui:{SwitchItem:j}}=shelter,h=()=>{let t=[];for(let[o,e]of Object.entries(r))t.push((0,f.createComponent)(j,{get value(){return m[o]},onChange:n=>{m[o]=n},get note(){return e.protocol},children:o}));return t};var{plugin:{store:d},patcher:{instead:w}}=shelter,r={Spotify:{hostnames:["open.spotify.com","spotify.link"],protocol:"spotify://",default:!0},Steam:{hostnames:["store.steampowered.com","steamcommunity.com","help.steampowered.com"],protocol:"steam://openurl/",default:!0},SoundCloud:{hostnames:["soundcloud.com","on.soundcloud.com"],protocol:"soundpout://",default:!1}};function p(t){if(!/https?:\/\//.test(t.toString()))return;let{hostname:o}=new URL(t);return Object.entries(r).find(([e,n])=>n.hostnames.includes(o)&&d[e])}async function I(t){let o=/<meta property="og:url" content="(.+?)"/,e=await(await fetch(`https://shcors.uwu.network/${t}`)).text();return o.exec(e)?.[1]}async function a(t){try{t=new URL(t),["spotify.link","on.soundcloud.com"].includes(t.hostname)&&(t=new URL(await I(t))),t.hostname==="open.spotify.com"&&(t.pathname=t.pathname.replace(/\/intl-.+?(\/.+)/i,"$1"));let[o,e]=p(t),n=e.protocol+t;window.open(n,"_blank")?.close()}catch(o){console.error("[open-in-app] Error opening in App",o)}}var y;function R(){y=w("open",window,(t,o)=>{let[e]=t;if(!p(e))return o(...t);a(e)})}var g;async function W(){g=w("click",HTMLAnchorElement.prototype,function(t,o){let{href:e}=this;if(!p(e))return o(...t);a(url)})}async function k(t){let o=t?.target?.closest("a");!o?.href||!p(o.href)||(t.preventDefault(),t.stopImmediatePropagation(),a(o.href))}var x=document.querySelector("#app-mount");function $(){Object.entries(r).forEach(([t,o])=>{d[t]??=o.default}),R(),W(),x.addEventListener("click",k)}function M(){y?.(),g?.(),x.removeEventListener("click",k)}return O(N);})();
+(() => {
+  var __create = Object.create;
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getProtoOf = Object.getPrototypeOf;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+  // shltr-res-ns:solid-js/web
+  var require_web = __commonJS({
+    "shltr-res-ns:solid-js/web"(exports, module) {
+      module.exports = shelter.solidWeb;
+    }
+  });
+
+  // plugins/open-in-app/index.js
+  var open_in_app_exports = {};
+  __export(open_in_app_exports, {
+    apps: () => apps,
+    onLoad: () => onLoad,
+    onUnload: () => onUnload,
+    settings: () => settings
+  });
+
+  // plugins/open-in-app/settings.jsx
+  var import_web = __toESM(require_web(), 1);
+  var {
+    plugin: {
+      store
+    },
+    ui: {
+      SwitchItem
+    }
+  } = shelter;
+  var settings = () => {
+    const rows = [];
+    for (const [appName, app] of Object.entries(apps)) {
+      rows.push((0, import_web.createComponent)(SwitchItem, {
+        get value() {
+          return store[appName];
+        },
+        onChange: (value) => {
+          store[appName] = value;
+        },
+        get note() {
+          return app.protocol;
+        },
+        children: appName
+      }));
+    }
+    return rows;
+  };
+
+  // plugins/open-in-app/index.js
+  var {
+    plugin: { store: store2 },
+    patcher: { instead }
+  } = shelter;
+  var apps = {
+    Spotify: {
+      hostnames: ["open.spotify.com", "spotify.link"],
+      protocol: "spotify://",
+      default: true
+    },
+    Steam: {
+      hostnames: [
+        "store.steampowered.com",
+        "steamcommunity.com",
+        "help.steampowered.com"
+      ],
+      protocol: "steam://openurl/",
+      default: true
+    },
+    SoundCloud: {
+      hostnames: ["soundcloud.com", "on.soundcloud.com"],
+      protocol: "soundpout://",
+      default: false
+    }
+  };
+  function getEnabledApp(url2) {
+    if (!/https?:\/\//.test(url2.toString()))
+      return;
+    const { hostname } = new URL(url2);
+    return Object.entries(apps).find(
+      ([appName, app]) => app.hostnames.includes(hostname) && store2[appName]
+    );
+  }
+  async function unshortenLink(url2) {
+    const re = /<meta property="og:url" content="(.+?)"/;
+    const body = await (await fetch(`https://shcors.uwu.network/${url2}`)).text();
+    return re.exec(body)?.[1];
+  }
+  async function openInApp(url2) {
+    try {
+      url2 = new URL(url2);
+      if (["spotify.link", "on.soundcloud.com"].includes(url2.hostname)) {
+        url2 = new URL(await unshortenLink(url2));
+      }
+      if (url2.hostname === "open.spotify.com") {
+        url2.pathname = url2.pathname.replace(/\/intl-.+?(\/.+)/i, "$1");
+      }
+      const [appName, app] = getEnabledApp(url2);
+      const replacedUrl = app.protocol + url2;
+      window.open(replacedUrl, "_blank")?.close();
+    } catch (e) {
+      console.error("[open-in-app] Error opening in App", e);
+    }
+  }
+  var unpatchWindow;
+  function patchWindowOpen() {
+    unpatchWindow = instead("open", window, (args, orig) => {
+      const [url2] = args;
+      if (!getEnabledApp(url2))
+        return orig(...args);
+      openInApp(url2);
+    });
+  }
+  var unpatchVirtualClick;
+  async function patchVirtualClick() {
+    unpatchVirtualClick = instead(
+      "click",
+      HTMLAnchorElement.prototype,
+      function(args, orig) {
+        const { href } = this;
+        if (!getEnabledApp(href))
+          return orig(...args);
+        openInApp(url);
+      }
+    );
+  }
+  async function onClick(e) {
+    const anchor = e?.target?.closest("a");
+    if (!anchor?.href || !getEnabledApp(anchor.href))
+      return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    openInApp(anchor.href);
+  }
+  var appMount = document.querySelector("#app-mount");
+  function onLoad() {
+    Object.entries(apps).forEach(([appName, app]) => {
+      store2[appName] ??= app.default;
+    });
+    patchWindowOpen();
+    patchVirtualClick();
+    appMount.addEventListener("click", onClick);
+  }
+  function onUnload() {
+    unpatchWindow?.();
+    unpatchVirtualClick?.();
+    appMount.removeEventListener("click", onClick);
+  }
+  return __toCommonJS(open_in_app_exports);
+})();

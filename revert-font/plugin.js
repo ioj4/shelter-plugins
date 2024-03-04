@@ -1,1 +1,29 @@
-(()=>{var t=Object.defineProperty;var r=Object.getOwnPropertyDescriptor;var c=Object.getOwnPropertyNames;var d=Object.prototype.hasOwnProperty;var l=(e,s)=>{for(var o in s)t(e,o,{get:s[o],enumerable:!0})},h=(e,s,o,i)=>{if(s&&typeof s=="object"||typeof s=="function")for(let n of c(s))!d.call(e,n)&&n!==o&&t(e,n,{get:()=>s[n],enumerable:!(i=r(s,n))||i.enumerable});return e};var m=e=>h(t({},"__esModule",{value:!0}),e);var u={};l(u,{onUnload:()=>p});var p=shelter.ui.injectCss("@import url(https://cdn.jsdelivr.net/gh/Overimagine1/old-discord-font/source.min.css);");return m(u);})();
+(() => {
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+  // plugins/revert-font/index.js
+  var revert_font_exports = {};
+  __export(revert_font_exports, {
+    onUnload: () => onUnload
+  });
+  var onUnload = shelter.ui.injectCss(
+    "@import url(https://cdn.jsdelivr.net/gh/Overimagine1/old-discord-font/source.min.css);"
+  );
+  return __toCommonJS(revert_font_exports);
+})();

@@ -1,1 +1,62 @@
-(()=>{var o=Object.defineProperty;var l=Object.getOwnPropertyDescriptor;var c=Object.getOwnPropertyNames;var p=Object.prototype.hasOwnProperty;var f=(t,e)=>{for(var n in e)o(t,n,{get:e[n],enumerable:!0})},N=(t,e,n,r)=>{if(e&&typeof e=="object"||typeof e=="function")for(let a of c(e))!p.call(t,a)&&a!==n&&o(t,a,{get:()=>e[a],enumerable:!(r=l(e,a))||r.enumerable});return t};var d=t=>N(o({},"__esModule",{value:!0}),t);var x={};f(x,{onLoad:()=>m,onUnload:()=>C});var{util:{getFiberOwner:O,awaitDispatch:u},flux:{awaitStore:i,dispatcher:E}}=shelter;function g(){let t=document.querySelector("nav > [role=tablist]")?.parentElement;O(t)?.forceUpdate?.()}async function s(t){let{getCurrentUser:e}=await i("UserStore"),n=e();n||(await u("CONNECTION_OPEN"),n=e()),n.flags=t?n.flags|1:n.flags&-2,await i("ExperimentStore"),await i("DeveloperExperimentStore");let r=Object.values(E._actionHandlers._dependencyGraph.nodes);r.find(a=>a.name==="ExperimentStore").actionHandler.CONNECTION_OPEN({type:"CONNECTION_OPEN",user:{flags:n.flags},experiments:[]}),r.find(a=>a.name==="DeveloperExperimentStore").actionHandler.CONNECTION_OPEN(),g()}function m(){s(!0)}function C(){s(!1)}return d(x);})();
+(() => {
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+  // plugins/developer-options/index.js
+  var developer_options_exports = {};
+  __export(developer_options_exports, {
+    onLoad: () => onLoad,
+    onUnload: () => onUnload
+  });
+  var {
+    util: { getFiberOwner, awaitDispatch },
+    flux: { awaitStore, dispatcher }
+  } = shelter;
+  function forceUpdateSettings() {
+    const sidebar = document.querySelector(`nav > [role=tablist]`)?.parentElement;
+    getFiberOwner(sidebar)?.forceUpdate?.();
+  }
+  async function toggleDevOptions(enable) {
+    const { getCurrentUser } = await awaitStore("UserStore");
+    let user = getCurrentUser();
+    if (!user) {
+      await awaitDispatch("CONNECTION_OPEN");
+      user = getCurrentUser();
+    }
+    user.flags = enable ? user.flags | 1 : user.flags & ~1;
+    await awaitStore("ExperimentStore");
+    await awaitStore("DeveloperExperimentStore");
+    const actions = Object.values(
+      dispatcher._actionHandlers._dependencyGraph.nodes
+    );
+    actions.find((n) => n.name === "ExperimentStore").actionHandler.CONNECTION_OPEN({
+      type: "CONNECTION_OPEN",
+      user: { flags: user.flags },
+      experiments: []
+    });
+    actions.find((n) => n.name === "DeveloperExperimentStore").actionHandler.CONNECTION_OPEN();
+    forceUpdateSettings();
+  }
+  function onLoad() {
+    toggleDevOptions(true);
+  }
+  function onUnload() {
+    toggleDevOptions(false);
+  }
+  return __toCommonJS(developer_options_exports);
+})();

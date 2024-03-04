@@ -1,1 +1,180 @@
-(()=>{var V=Object.create;var a=Object.defineProperty;var j=Object.getOwnPropertyDescriptor;var D=Object.getOwnPropertyNames;var L=Object.getPrototypeOf,$=Object.prototype.hasOwnProperty;var R=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports),U=(e,t)=>{for(var n in t)a(e,n,{get:t[n],enumerable:!0})},f=(e,t,n,r)=>{if(t&&typeof t=="object"||typeof t=="function")for(let o of D(t))!$.call(e,o)&&o!==n&&a(e,o,{get:()=>t[o],enumerable:!(r=j(t,o))||r.enumerable});return e};var c=(e,t,n)=>(n=e!=null?V(L(e)):{},f(t||!e||!e.__esModule?a(n,"default",{value:e,enumerable:!0}):n,e)),O=e=>f(a({},"__esModule",{value:!0}),e);var s=R((W,v)=>{v.exports=shelter.solidWeb});var B={};U(B,{insertTimer:()=>l,onLoad:()=>N,onUnload:()=>z,settings:()=>g});var p=c(s(),1);var T=c(s(),1),C=c(s(),1);var P=(0,T.template)("<p></p>",2),{solid:{createSignal:A,onCleanup:E},plugin:{store:M}}=shelter;function h(e){let t=Math.floor(e/3600),n=Math.floor(e/60)-t*60,r=Math.floor(e-t*3600-n*60);return(t?t.toString()+":":"")+n.toString().padStart(2,"0")+":"+r.toString().padStart(2,"0")}var d=()=>{let e=()=>(Date.now()-M.joinTime)/1e3,[t,n]=A(h(e())),r=setInterval(()=>n(h(e())),1e3);return E(()=>{clearInterval(r),l()}),(()=>{let o=P.cloneNode(!0);return o.style.setProperty("display","inline"),o.style.setProperty("font-family","monospace"),(0,C.insert)(o,()=>t()+" \u2022 "),o})()};var _=c(s(),1),{plugin:{store:S},ui:{SwitchItem:k}}=shelter,g=()=>(0,_.createComponent)(k,{get value(){return S.persistTime},onChange:e=>S.persistTime=e,note:"Time resets after 10 seconds of not being in a voice channel",children:"Persist time across channel moves"});var{flux:{dispatcher:u,awaitStore:q},ui:{ReactiveRoot:G},plugin:{store:i},observeDom:K}=shelter,b='[class^="rtcConnectionStatus"] + a > div[class*="subtext"]:not(:has(.ioj4-vct))',m=!1;async function l(){if(m||!i.isInVC)return;m=!0;let e=document.querySelector(b)??await new Promise(n=>{let r=K(b,n);setTimeout(()=>{r(),n()},2e3)});if(!e){m=!1;return}let t=(0,p.createComponent)(G,{get children(){return(0,p.createComponent)(d,{})}});t.className="ioj4-vct",e.prepend(t),m=!1}var x=0;function y(){i.isInVC||(i.isInVC=!0,(!i.persistTime||x<Date.now()-1e4)&&(i.joinTime=Date.now())),l()}function I(e){e.event==="join_voice_channel"?y():e.event==="leave_voice_channel"&&(i.isInVC=!1,x=Date.now())}function w(){i.isInVC=!1}async function N(){(await q("VoiceStateStore")).isCurrentClientInVoiceChannel()&&y(),u.subscribe("TRACK",I),u.subscribe("LOGOUT",w)}function z(){i.isInVC=!1,u.unsubscribe("TRACK",I),u.unsubscribe("LOGOUT",w),document.querySelectorAll(".ioj4-vct").forEach(e=>e.remove())}return O(B);})();
+(() => {
+  var __create = Object.create;
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getProtoOf = Object.getPrototypeOf;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+  // shltr-res-ns:solid-js/web
+  var require_web = __commonJS({
+    "shltr-res-ns:solid-js/web"(exports, module) {
+      module.exports = shelter.solidWeb;
+    }
+  });
+
+  // plugins/vc-timer/index.jsx
+  var vc_timer_exports = {};
+  __export(vc_timer_exports, {
+    insertTimer: () => insertTimer,
+    onLoad: () => onLoad,
+    onUnload: () => onUnload,
+    settings: () => settings
+  });
+  var import_web4 = __toESM(require_web(), 1);
+
+  // plugins/vc-timer/components/timer.jsx
+  var import_web = __toESM(require_web(), 1);
+  var import_web2 = __toESM(require_web(), 1);
+  var _tmpl$ = /* @__PURE__ */ (0, import_web.template)(`<p></p>`, 2);
+  var {
+    solid: {
+      createSignal,
+      onCleanup
+    },
+    plugin: {
+      store
+    }
+  } = shelter;
+  function toTimeString(secs) {
+    const h = Math.floor(secs / 3600);
+    const m = Math.floor(secs / 60) - h * 60;
+    const s = Math.floor(secs - h * 3600 - m * 60);
+    return (h ? h.toString() + ":" : "") + m.toString().padStart(2, "0") + ":" + s.toString().padStart(2, "0");
+  }
+  var timer_default = () => {
+    const getDuration = () => (Date.now() - store.joinTime) / 1e3;
+    const [time, setTime] = createSignal(toTimeString(getDuration()));
+    const timer = setInterval(() => setTime(toTimeString(getDuration())), 1e3);
+    onCleanup(() => {
+      clearInterval(timer);
+      insertTimer();
+    });
+    return (() => {
+      const _el$ = _tmpl$.cloneNode(true);
+      _el$.style.setProperty("display", "inline");
+      _el$.style.setProperty("font-family", "monospace");
+      (0, import_web2.insert)(_el$, () => time() + " \u2022 ");
+      return _el$;
+    })();
+  };
+
+  // plugins/vc-timer/settings.jsx
+  var import_web3 = __toESM(require_web(), 1);
+  var {
+    plugin: {
+      store: store2
+    },
+    ui: {
+      SwitchItem
+    }
+  } = shelter;
+  var settings = () => (0, import_web3.createComponent)(SwitchItem, {
+    get value() {
+      return store2.persistTime;
+    },
+    onChange: (v) => store2.persistTime = v,
+    note: "Time resets after 10 seconds of not being in a voice channel",
+    children: "Persist time across channel moves"
+  });
+
+  // plugins/vc-timer/index.jsx
+  var {
+    flux: {
+      dispatcher,
+      awaitStore
+    },
+    ui: {
+      ReactiveRoot
+    },
+    plugin: {
+      store: store3
+    },
+    observeDom
+  } = shelter;
+  var SUBTEXT_QUERY = `[class^="rtcConnectionStatus"] + a > div[class*="subtext"]:not(:has(.ioj4-vct))`;
+  var insertLock = false;
+  async function insertTimer() {
+    if (insertLock || !store3.isInVC)
+      return;
+    insertLock = true;
+    const subtext = document.querySelector(SUBTEXT_QUERY) ?? await new Promise((res) => {
+      const unobserve = observeDom(SUBTEXT_QUERY, res);
+      setTimeout(() => {
+        unobserve();
+        res();
+      }, 2e3);
+    });
+    if (!subtext) {
+      insertLock = false;
+      return;
+    }
+    const timer = (0, import_web4.createComponent)(ReactiveRoot, {
+      get children() {
+        return (0, import_web4.createComponent)(timer_default, {});
+      }
+    });
+    timer.className = "ioj4-vct";
+    subtext.prepend(timer);
+    insertLock = false;
+  }
+  var lastLeave = 0;
+  function initializeTimer() {
+    if (!store3.isInVC) {
+      store3.isInVC = true;
+      if (!store3.persistTime || lastLeave < Date.now() - 1e4) {
+        store3.joinTime = Date.now();
+      }
+    }
+    insertTimer();
+  }
+  function onTrack(e) {
+    if (e.event === "join_voice_channel") {
+      initializeTimer();
+    } else if (e.event === "leave_voice_channel") {
+      store3.isInVC = false;
+      lastLeave = Date.now();
+    }
+  }
+  function onLogout() {
+    store3.isInVC = false;
+  }
+  async function onLoad() {
+    const vcStore = await awaitStore("VoiceStateStore");
+    if (vcStore.isCurrentClientInVoiceChannel())
+      initializeTimer();
+    dispatcher.subscribe("TRACK", onTrack);
+    dispatcher.subscribe("LOGOUT", onLogout);
+  }
+  function onUnload() {
+    store3.isInVC = false;
+    dispatcher.unsubscribe("TRACK", onTrack);
+    dispatcher.unsubscribe("LOGOUT", onLogout);
+    document.querySelectorAll(`.ioj4-vct`).forEach((e) => e.remove());
+  }
+  return __toCommonJS(vc_timer_exports);
+})();
