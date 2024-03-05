@@ -116,19 +116,18 @@
   // plugins/channel-typing-indicators/index.jsx
   var {
     flux: {
-      dispatcher,
       awaitStore: awaitStore2
     },
     util: {
       getFiber: getFiber2,
       reactFiberWalker: reactFiberWalker2
     },
-    patcher,
-    observeDom
+    plugin: {
+      scoped
+    }
   } = shelter;
   var channelElementQuery = `a[data-list-item-id^="channels___"]:not([class^="mainContent"])`;
   var isPatched = false;
-  var unpatch;
   async function handleTypingDispatch({
     type,
     userId,
@@ -147,12 +146,12 @@
         }
     }
   }
-  function patchFiber(channelElement) {
-    const fiber = getFiber2(channelElement);
+  function patchRender(channelEl) {
+    const fiber = getFiber2(channelEl);
     const component = reactFiberWalker2(fiber, (f) => !!f?.type?.render, true);
     if (!component)
       return;
-    unpatch = patcher.after("render", component.type, (args) => {
+    scoped.patcher.after("render", component.type, (args) => {
       const itemId = args[0]["data-list-item-id"];
       if (!itemId)
         return;
@@ -168,32 +167,28 @@
     isPatched = true;
     forceUpdateChannels();
   }
-  async function handleChanneListDispatch() {
-    const unObserve = observeDom(channelElementQuery, (channel) => {
-      if (!isPatched) {
-        patchFiber(channel);
-        unObserve();
-        dispatcher.unsubscribe("UPDATE_CHANNEL_LIST_DIMENSIONS", handleChanneListDispatch);
-      }
-    });
-    setTimeout(unObserve, 1e3);
-  }
-  function attemptPatch() {
+  async function waitForChannelElementAndPatch() {
     const channel = document.querySelector(channelElementQuery);
-    if (!channel)
-      return;
-    patchFiber(channel);
+    if (channel) {
+      patchRender(channel);
+      if (isPatched)
+        return;
+    }
+    const unobserve = scoped.observeDom(channelElementQuery, (el) => {
+      if (isPatched)
+        return;
+      patchRender(el);
+      if (!isPatched)
+        return;
+      unobserve();
+    });
   }
   var triggers = ["TYPING_START", "TYPING_STOP", "MESSAGE_CREATE"];
   function onLoad() {
-    attemptPatch();
-    triggers.forEach((t) => dispatcher.subscribe(t, handleTypingDispatch));
-    !isPatched && dispatcher.subscribe("UPDATE_CHANNEL_LIST_DIMENSIONS", handleChanneListDispatch);
+    waitForChannelElementAndPatch();
+    triggers.forEach((t) => scoped.flux.subscribe(t, handleTypingDispatch));
   }
   function onUnload() {
-    triggers.forEach((t) => dispatcher.unsubscribe(t, handleTypingDispatch));
-    dispatcher.unsubscribe("UPDATE_CHANNEL_LIST_DIMENSIONS", handleChanneListDispatch);
-    unpatch?.();
     isPatched = false;
     removeAllIndicators();
   }
