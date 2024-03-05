@@ -105,16 +105,15 @@
   // plugins/vc-timer/index.jsx
   var {
     flux: {
-      dispatcher,
       awaitStore
     },
     ui: {
       ReactiveRoot
     },
     plugin: {
+      scoped,
       store: store3
-    },
-    observeDom
+    }
   } = shelter;
   var SUBTEXT_QUERY = `[class^="rtcConnectionStatus"] + a > div[class*="subtext"]:not(:has(.ioj4-vct))`;
   var insertLock = false;
@@ -123,7 +122,7 @@
       return;
     insertLock = true;
     const subtext = document.querySelector(SUBTEXT_QUERY) ?? await new Promise((res) => {
-      const unobserve = observeDom(SUBTEXT_QUERY, res);
+      const unobserve = scoped.observeDom(SUBTEXT_QUERY, res);
       setTimeout(() => {
         unobserve();
         res();
@@ -167,13 +166,11 @@
     const vcStore = await awaitStore("VoiceStateStore");
     if (vcStore.isCurrentClientInVoiceChannel())
       initializeTimer();
-    dispatcher.subscribe("TRACK", onTrack);
-    dispatcher.subscribe("LOGOUT", onLogout);
+    scoped.flux.subscribe("TRACK", onTrack);
+    scoped.flux.subscribe("LOGOUT", onLogout);
   }
   function onUnload() {
     store3.isInVC = false;
-    dispatcher.unsubscribe("TRACK", onTrack);
-    dispatcher.unsubscribe("LOGOUT", onLogout);
     document.querySelectorAll(`.ioj4-vct`).forEach((e) => e.remove());
   }
   return __toCommonJS(vc_timer_exports);

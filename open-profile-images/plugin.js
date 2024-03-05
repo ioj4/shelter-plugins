@@ -93,9 +93,11 @@
   var {
     ui: {
       openModal
+    },
+    plugin: {
+      scoped
     }
   } = shelter;
-  var scoped = shelter.plugin.scoped;
   function onClick(e) {
     const src = e.target?.querySelector(`img[class*="avatar"]`)?.src ?? e.target?.style?.backgroundImage?.slice(5, -2);
     if (!src)

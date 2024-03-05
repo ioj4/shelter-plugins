@@ -22,8 +22,10 @@
   __export(spotify_listen_along_exports, {
     onLoad: () => onLoad
   });
-  var { awaitStore } = shelter.flux;
-  var scoped = shelter.plugin.scoped;
+  var {
+    flux: awaitStore,
+    plugin: { scoped }
+  } = shelter;
   async function onLoad() {
     const spotifyStore = await awaitStore("SpotifyStore");
     scoped.patcher.after("getActiveSocketAndDevice", spotifyStore, (_, res) => {

@@ -77,8 +77,7 @@
 
   // plugins/open-in-app/index.js
   var {
-    plugin: { store: store2 },
-    patcher: { instead }
+    plugin: { store: store2, scoped }
   } = shelter;
   var apps = {
     Spotify: {
@@ -130,18 +129,16 @@
       console.error("[open-in-app] Error opening in App", e);
     }
   }
-  var unpatchWindow;
   function patchWindowOpen() {
-    unpatchWindow = instead("open", window, (args, orig) => {
+    scoped.patcher.instead("open", window, (args, orig) => {
       const [url2] = args;
       if (!getEnabledApp(url2))
         return orig(...args);
       openInApp(url2);
     });
   }
-  var unpatchVirtualClick;
   async function patchVirtualClick() {
-    unpatchVirtualClick = instead(
+    scoped.patcher.instead(
       "click",
       HTMLAnchorElement.prototype,
       function(args, orig) {
@@ -170,8 +167,6 @@
     appMount.addEventListener("click", onClick);
   }
   function onUnload() {
-    unpatchWindow?.();
-    unpatchVirtualClick?.();
     appMount.removeEventListener("click", onClick);
   }
   return __toCommonJS(open_in_app_exports);

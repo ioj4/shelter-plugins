@@ -42,7 +42,6 @@
   __export(show_username_exports, {
     forceAddUsernames: () => forceAddUsernames,
     onLoad: () => onLoad,
-    onUnload: () => onUnload,
     settings: () => settings_default
   });
   var import_web2 = __toESM(require_web(), 1);
@@ -73,17 +72,16 @@
   var _tmpl$ = /* @__PURE__ */ (0, import_web2.template)(`<span style="font-weight: 600;border-radius: 5px;padding: 0 3px;background: var(--background-secondary);" class="ioj4-su"></span>`, 2);
   var {
     plugin: {
+      scoped,
       store: store2
     },
     flux: {
-      dispatcher,
       awaitStore
     },
     util: {
       getFiber,
       reactFiberWalker
-    },
-    observeDom
+    }
   } = shelter;
   var USERNAME_QUERY = '[id^="message-username-"] > [class^="username"]';
   function forceAddUsernames() {
@@ -123,22 +121,18 @@
     if (payload.type === "MESSAGE_CREATE" && payload.channelId !== selectedChannelStore.getChannelId()) {
       return;
     }
-    const unObserve = observeDom(USERNAME_QUERY, (e) => {
-      unObserve();
+    const unobserve = scoped.observeDom(USERNAME_QUERY, (e) => {
+      unobserve();
       addUsername(e);
     });
-    setTimeout(unObserve, 500);
+    setTimeout(unobserve, 500);
   }
   var TRIGGERS = ["MESSAGE_CREATE", "CHANNEL_SELECT", "LOAD_MESSAGES_SUCCESS", "UPDATE_CHANNEL_DIMENSIONS", "GUILD_MEMBER_UPDATE", "USER_NOTE_LOADED", "GUILD_MEMBER_PROFILE_UPDATE", "USER_UPDATE"];
   function onLoad() {
     store2.usernamesOnly ??= false;
     forceAddUsernames();
     for (const t of TRIGGERS)
-      dispatcher.subscribe(t, onDispatch);
-  }
-  function onUnload() {
-    for (const t of TRIGGERS)
-      dispatcher.unsubscribe(t, onDispatch);
+      scoped.flux.subscribe(t, onDispatch);
   }
   return __toCommonJS(show_username_exports);
 })();

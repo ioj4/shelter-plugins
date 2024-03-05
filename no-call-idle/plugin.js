@@ -20,26 +20,29 @@
   // plugins/no-call-idle/index.js
   var no_call_idle_exports = {};
   __export(no_call_idle_exports, {
+    onLoad: () => onLoad,
     onUnload: () => onUnload
   });
   var {
-    flux: { intercept, dispatcher }
+    plugin: { scoped },
+    flux: { dispatcher }
   } = shelter;
   var dispatchTypes = ["EMBEDDED_ACTIVITY_DISCONNECT", "VOICE_STATE_UPDATES"];
   var resubscribe = [];
-  var unintercept = intercept(({ type }) => {
-    if (dispatchTypes.includes(type)) {
-      const actionHandlers = dispatcher._subscriptions[type] ?? [];
-      for (const handler of actionHandlers) {
-        if (handler.toString().includes("idleTimeout.start")) {
-          actionHandlers.delete(handler);
-          resubscribe.push(() => actionHandlers.add(handler));
+  function onLoad() {
+    scoped.flux.intercept(({ type }) => {
+      if (dispatchTypes.includes(type)) {
+        const actionHandlers = dispatcher._subscriptions[type] ?? [];
+        for (const handler of actionHandlers) {
+          if (handler.toString().includes("idleTimeout.start")) {
+            actionHandlers.delete(handler);
+            resubscribe.push(() => actionHandlers.add(handler));
+          }
         }
       }
-    }
-  });
+    });
+  }
   function onUnload() {
-    unintercept();
     resubscribe.forEach((resub) => resub());
   }
   return __toCommonJS(no_call_idle_exports);

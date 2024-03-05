@@ -20,20 +20,17 @@
   // plugins/prevent-spotify-pause/index.js
   var prevent_spotify_pause_exports = {};
   __export(prevent_spotify_pause_exports, {
-    onLoad: () => onLoad,
-    onUnload: () => onUnload
+    onLoad: () => onLoad
   });
   var {
     flux: { awaitStore },
-    patcher
+    plugin: { scoped }
   } = shelter;
-  var testUrl = /https?:\/\/api.spotify.com.+\/me\/player\/pause/;
-  var unpatchStore;
-  var unpatchXHR;
+  var testUrl = /https?:\/\/api.spotify.com\/v\d+\/me\/player\/pause/;
   async function onLoad() {
     const spotifyStore = await awaitStore("SpotifyStore");
-    unpatchStore = patcher.instead("wasAutoPaused", spotifyStore, () => false);
-    unpatchXHR = patcher.instead(
+    scoped.patcher.instead("wasAutoPaused", spotifyStore, () => false);
+    scoped.patcher.instead(
       "send",
       XMLHttpRequest.prototype,
       function(args, orig) {
@@ -42,10 +39,6 @@
         }
       }
     );
-  }
-  function onUnload() {
-    unpatchStore?.();
-    unpatchXHR?.();
   }
   return __toCommonJS(prevent_spotify_pause_exports);
 })();
