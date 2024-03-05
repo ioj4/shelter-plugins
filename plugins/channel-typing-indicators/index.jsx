@@ -7,15 +7,13 @@ import {
 } from "./utils";
 
 const {
-    flux: { dispatcher, awaitStore },
+    flux: { awaitStore },
     util: { getFiber, reactFiberWalker },
-    patcher,
-    observeDom
+    plugin: { scoped }
 } = shelter;
 
 export const channelElementQuery = `a[data-list-item-id^="channels___"]:not([class^="mainContent"])`;
 let isPatched = false;
-let unpatch;
 
 async function handleTypingDispatch({ type, userId, channelId }) {
     const userStore = await awaitStore("UserStore");
@@ -32,12 +30,12 @@ async function handleTypingDispatch({ type, userId, channelId }) {
     }
 }
 
-function patchFiber(channelElement) {
-    const fiber = getFiber(channelElement);
+function patchRender(channelEl) {
+    const fiber = getFiber(channelEl);
     const component = reactFiberWalker(fiber, (f) => !!f?.type?.render, true);
     if (!component) return;
 
-    unpatch = patcher.after("render", component.type, (args) => {
+    scoped.patcher.after("render", component.type, (args) => {
         const itemId = args[0]["data-list-item-id"];
         if (!itemId) return;
 
@@ -56,50 +54,35 @@ function patchFiber(channelElement) {
     forceUpdateChannels();
 }
 
-async function handleChanneListDispatch() {
-    const unObserve = observeDom(channelElementQuery, (channel) => {
-        // prevent patching multiple times
-        if (!isPatched) {
-            patchFiber(channel);
-            unObserve();
-            dispatcher.unsubscribe(
-                "UPDATE_CHANNEL_LIST_DIMENSIONS",
-                handleChanneListDispatch
-            );
-        }
-    });
-
-    setTimeout(unObserve, 1_000);
-}
-
-function attemptPatch() {
+async function waitForChannelElementAndPatch() {
+    // when loading the plugin there might already be a channel element rendered
+    // that we can use to patch it's render method
     const channel = document.querySelector(channelElementQuery);
-    if (!channel) return;
-    patchFiber(channel);
+    if (channel) {
+        patchRender(channel);
+        if (isPatched) return;
+    }
+
+    // otherwise wait until one gets added to dom
+    const unobserve = scoped.observeDom(channelElementQuery, (el) => {
+        // unobserve takes effect only after this batch of dom changes
+        // so we still need to make sure we don't patch it multiple times
+        if (isPatched) return;
+        patchRender(el);
+        if (!isPatched) return;
+        unobserve();
+    });
 }
 
 // MESSAGE_CREATE: in case the user sends their message (doesn't trigger TYPING_STOP)
 const triggers = ["TYPING_START", "TYPING_STOP", "MESSAGE_CREATE"];
 
 export function onLoad() {
-    // when loading the plugin there might already be a channel element rendered
-    attemptPatch();
-    triggers.forEach((t) => dispatcher.subscribe(t, handleTypingDispatch));
-    // if attemptPatch didn't succeed
-    !isPatched &&
-        dispatcher.subscribe(
-            "UPDATE_CHANNEL_LIST_DIMENSIONS",
-            handleChanneListDispatch
-        );
+    waitForChannelElementAndPatch();
+    triggers.forEach((t) => scoped.flux.subscribe(t, handleTypingDispatch));
 }
 
 export function onUnload() {
-    triggers.forEach((t) => dispatcher.unsubscribe(t, handleTypingDispatch));
-    dispatcher.unsubscribe(
-        "UPDATE_CHANNEL_LIST_DIMENSIONS",
-        handleChanneListDispatch
-    );
-    unpatch?.();
     isPatched = false;
     removeAllIndicators();
 }
