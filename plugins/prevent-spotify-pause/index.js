@@ -1,18 +1,17 @@
 const {
     flux: { awaitStore },
-    patcher
+    plugin: { scoped }
 } = shelter;
 
-const testUrl = /https?:\/\/api.spotify.com.+\/me\/player\/pause/;
-let unpatchStore, unpatchXHR;
+const testUrl = /https?:\/\/api.spotify.com\/v\d+\/me\/player\/pause/;
 
 export async function onLoad() {
     const spotifyStore = await awaitStore("SpotifyStore");
     // prevent notice from showing
-    unpatchStore = patcher.instead("wasAutoPaused", spotifyStore, () => false);
+    scoped.patcher.instead("wasAutoPaused", spotifyStore, () => false);
 
     // prevent access to the pause endpoint
-    unpatchXHR = patcher.instead(
+    scoped.patcher.instead(
         "send",
         XMLHttpRequest.prototype,
         function (args, orig) {
@@ -21,9 +20,4 @@ export async function onLoad() {
             }
         }
     );
-}
-
-export function onUnload() {
-    unpatchStore?.();
-    unpatchXHR?.();
 }

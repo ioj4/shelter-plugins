@@ -1,5 +1,7 @@
-const { awaitStore } = shelter.flux;
-const scoped = shelter.plugin.scoped;
+const {
+    flux: awaitStore,
+    plugin: { scoped }
+} = shelter;
 
 export async function onLoad() {
     const spotifyStore = await awaitStore("SpotifyStore");

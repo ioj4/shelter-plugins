@@ -1,8 +1,7 @@
 const {
-    flux: { dispatcher, awaitStore },
+    flux: { awaitStore },
     ui: { ReactiveRoot },
-    plugin: { store },
-    observeDom
+    plugin: { scoped, store }
 } = shelter;
 
 import Timer from "./components/timer";
@@ -18,7 +17,7 @@ export async function insertTimer() {
     const subtext =
         document.querySelector(SUBTEXT_QUERY) ??
         (await new Promise((res) => {
-            const unobserve = observeDom(SUBTEXT_QUERY, res);
+            const unobserve = scoped.observeDom(SUBTEXT_QUERY, res);
             setTimeout(() => {
                 unobserve();
                 res();
@@ -71,14 +70,12 @@ function onLogout() {
 export async function onLoad() {
     const vcStore = await awaitStore("VoiceStateStore");
     if (vcStore.isCurrentClientInVoiceChannel()) initializeTimer();
-    dispatcher.subscribe("TRACK", onTrack);
-    dispatcher.subscribe("LOGOUT", onLogout);
+    scoped.flux.subscribe("TRACK", onTrack);
+    scoped.flux.subscribe("LOGOUT", onLogout);
 }
 
 export function onUnload() {
     store.isInVC = false;
-    dispatcher.unsubscribe("TRACK", onTrack);
-    dispatcher.unsubscribe("LOGOUT", onLogout);
     document.querySelectorAll(`.ioj4-vct`).forEach((e) => e.remove());
 }
 

@@ -2,10 +2,9 @@ import ImageModal from "./components/image-modal";
 import classes from "./styles.jsx.scss";
 
 const {
-    ui: { openModal }
+    ui: { openModal },
+    plugin: { scoped }
 } = shelter;
-
-const scoped = shelter.plugin.scoped;
 
 function onClick(e) {
     const src =

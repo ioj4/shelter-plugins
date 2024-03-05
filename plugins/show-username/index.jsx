@@ -1,8 +1,7 @@
 const {
-    plugin: { store },
-    flux: { dispatcher, awaitStore },
-    util: { getFiber, reactFiberWalker },
-    observeDom
+    plugin: { scoped, store },
+    flux: { awaitStore },
+    util: { getFiber, reactFiberWalker }
 } = shelter;
 
 const USERNAME_QUERY = '[id^="message-username-"] > [class^="username"]';
@@ -56,13 +55,13 @@ async function onDispatch(payload) {
         return;
     }
 
-    const unObserve = observeDom(USERNAME_QUERY, (e) => {
-        unObserve();
+    const unobserve = scoped.observeDom(USERNAME_QUERY, (e) => {
+        unobserve();
         addUsername(e);
     });
 
     // don't leave this forever, just in case!
-    setTimeout(unObserve, 500);
+    setTimeout(unobserve, 500);
 }
 
 // MESSAGE_CREATE: new message somewhere
@@ -85,11 +84,7 @@ export function onLoad() {
     store.usernamesOnly ??= false;
     // apply on usernames that are already in the DOM
     forceAddUsernames();
-    for (const t of TRIGGERS) dispatcher.subscribe(t, onDispatch);
-}
-
-export function onUnload() {
-    for (const t of TRIGGERS) dispatcher.unsubscribe(t, onDispatch);
+    for (const t of TRIGGERS) scoped.flux.subscribe(t, onDispatch);
 }
 
 export { default as settings } from "./settings";

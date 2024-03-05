@@ -1,6 +1,5 @@
 const {
-    plugin: { store },
-    patcher: { instead }
+    plugin: { store, scoped }
 } = shelter;
 
 export const apps = {
@@ -64,18 +63,16 @@ async function openInApp(url) {
 }
 
 // for non direct links like modal buttons
-let unpatchWindow;
 function patchWindowOpen() {
-    unpatchWindow = instead("open", window, (args, orig) => {
+    scoped.patcher.instead("open", window, (args, orig) => {
         const [url] = args;
         if (!getEnabledApp(url)) return orig(...args);
         openInApp(url);
     });
 }
 
-let unpatchVirtualClick;
 async function patchVirtualClick() {
-    unpatchVirtualClick = instead(
+    scoped.patcher.instead(
         "click",
         HTMLAnchorElement.prototype,
         function (args, orig) {
@@ -111,8 +108,6 @@ export function onLoad() {
 }
 
 export function onUnload() {
-    unpatchWindow?.();
-    unpatchVirtualClick?.();
     appMount.removeEventListener("click", onClick);
 }
 
