@@ -74,7 +74,7 @@ https://ioj4.github.io/shelter-plugins/spotify-listen-along/
 
 ##### Prevents Discord from pausing your Spotify playback when you're in a call or voicechat
 
-<img src="static/prevent-spotify-pause.jpg" height="72">
+<img src="static/prevent-spotify-pause.jpg" width="500">
 
 ```
 https://ioj4.github.io/shelter-plugins/prevent-spotify-pause/
@@ -84,7 +84,7 @@ https://ioj4.github.io/shelter-plugins/prevent-spotify-pause/
 
 ##### Prevents getting kicked from empty calls after 3 minutes
 
-<img src="static/no-call-idle.jpg" height="72">
+<img src="static/no-call-idle.jpg" width="500">
 
 ```
 https://ioj4.github.io/shelter-plugins/no-call-idle/
