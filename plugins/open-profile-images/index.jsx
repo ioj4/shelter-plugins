@@ -18,8 +18,6 @@ function onClick(e) {
 // this is fine 🔥
 // it really is, i tested perf 🪄
 const subSelectors = [
-    // own pfp in bottom left
-    `[class*="avatarWrapper"]:not([class*="clickable"])`,
     // pfp in member list
     `[class*="memberInner"] [class*="avatar"] [class*="wrapper"]`,
     // pfp in popout of webhooks
