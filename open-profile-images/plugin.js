@@ -108,8 +108,6 @@
     e.stopImmediatePropagation();
   }
   var subSelectors = [
-    // own pfp in bottom left
-    `[class*="avatarWrapper"]:not([class*="clickable"])`,
     // pfp in member list
     `[class*="memberInner"] [class*="avatar"] [class*="wrapper"]`,
     // pfp in popout of webhooks
