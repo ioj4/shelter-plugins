@@ -1,5 +1,5 @@
 const {
-    flux: awaitStore,
+    flux: { awaitStore },
     plugin: { scoped }
 } = shelter;
 
