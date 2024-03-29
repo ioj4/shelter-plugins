@@ -23,7 +23,7 @@
     onLoad: () => onLoad
   });
   var {
-    flux: awaitStore,
+    flux: { awaitStore },
     plugin: { scoped }
   } = shelter;
   async function onLoad() {
