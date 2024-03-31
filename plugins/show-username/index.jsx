@@ -12,37 +12,25 @@ export function forceAddUsernames() {
     }
 }
 
-async function addUsername(e, overwrite = false) {
+function addUsername(e, overwrite = false) {
     if (e.querySelector(".ioj4-su") && !overwrite) return;
 
-    const msg = reactFiberWalker(getFiber(e), "message", true)?.pendingProps
-        ?.message;
-    if (!msg || !msg?.author) return;
+    const props = reactFiberWalker(getFiber(e), "message", true)?.pendingProps;
+    if (!props?.author || !props?.message) return;
 
-    const channelStore = await awaitStore("ChannelStore");
-    const guildMemberStore = await awaitStore("GuildMemberStore");
-    const relationshipStore = await awaitStore("RelationshipStore");
-    const userStore = await awaitStore("UserStore")
-
-    const { username: authorUsername, id: authorId } = msg.author;
-    const { type: channelType, guild_id: guildId } = channelStore.getChannel(
-        msg?.channel_id
-    );
-
-    // type = 0: Guild, 1: DM
-    const nickname = (channelType
-        ? relationshipStore.getNickname(authorId)
-        : guildMemberStore.getNick(guildId, authorId)) ?? userStore.getUser(authorId).globalName;
+    const { nick } = props.author;
+    const { username } = props.message.author;
 
     const style =
-        "font-weight: 600;border-radius: 5px;padding: 0 3px;background: var(--background-secondary);";
+        "font-weight: 600;border-radius: 4px;padding: 0 4px;background: var(--background-secondary);";
     const usernameElement = (
         <span style={style} className={"ioj4-su"}>
-            {authorUsername}
+            {username}
         </span>
     );
 
-    e.textContent = nickname && !store.usernamesOnly ? ` ${nickname}` : "";
+    const appendNick = nick && !store.usernamesOnly && username !== nick;
+    e.textContent = appendNick ? ` ${nick}` : ``;
     e.prepend(usernameElement);
 }
 
