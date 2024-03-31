@@ -75,9 +75,6 @@
       scoped,
       store: store2
     },
-    flux: {
-      awaitStore
-    },
     util: {
       getFiber,
       reactFiberWalker
@@ -111,23 +108,14 @@
     e.textContent = appendNick ? ` ${nick}` : ``;
     e.prepend(usernameElement);
   }
-  async function onDispatch(payload) {
-    const selectedChannelStore = await awaitStore("SelectedChannelStore");
-    if (payload.type === "MESSAGE_CREATE" && payload.channelId !== selectedChannelStore.getChannelId()) {
-      return;
-    }
-    const unobserve = scoped.observeDom(USERNAME_QUERY, (e) => {
-      unobserve();
-      addUsername(e);
-    });
-    setTimeout(unobserve, 500);
-  }
-  var TRIGGERS = ["MESSAGE_CREATE", "CHANNEL_SELECT", "LOAD_MESSAGES_SUCCESS", "UPDATE_CHANNEL_DIMENSIONS", "GUILD_MEMBER_UPDATE", "USER_NOTE_LOADED", "GUILD_MEMBER_PROFILE_UPDATE", "USER_UPDATE"];
   function onLoad() {
     store2.usernamesOnly ??= false;
     forceAddUsernames();
-    for (const t of TRIGGERS)
-      scoped.flux.subscribe(t, onDispatch);
+    scoped.observeDom(USERNAME_QUERY, (e) => {
+      queueMicrotask(() => {
+        addUsername(e);
+      });
+    });
   }
   return __toCommonJS(show_username_exports);
 })();
