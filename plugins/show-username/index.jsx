@@ -1,6 +1,5 @@
 const {
     plugin: { scoped, store },
-    flux: { awaitStore },
     util: { getFiber, reactFiberWalker }
 } = shelter;
 
@@ -45,46 +44,18 @@ async function addUsername(e, overwrite = false) {
     e.prepend(usernameElement);
 }
 
-async function onDispatch(payload) {
-    // ignore MESSAGE_CREATEs from other channels
-    const selectedChannelStore = await awaitStore("SelectedChannelStore");
-    if (
-        payload.type === "MESSAGE_CREATE" &&
-        payload.channelId !== selectedChannelStore.getChannelId()
-    ) {
-        return;
-    }
-
-    const unobserve = scoped.observeDom(USERNAME_QUERY, (e) => {
-        unobserve();
-        addUsername(e);
-    });
-
-    // don't leave this forever, just in case!
-    setTimeout(unobserve, 500);
-}
-
-// MESSAGE_CREATE: new message somewhere
-// CHANNEL_SELECT: the user switches servers
-// LOAD_MESSAGES_SUCCESS: new messages in viewport
-// UPDATE_CHANNEL_DIMENSIONS: the user scrolls back down perhaps
-// GUILD_MEMBER_UPDATE: nickname change
-const TRIGGERS = [
-    "MESSAGE_CREATE",
-    "CHANNEL_SELECT",
-    "LOAD_MESSAGES_SUCCESS",
-    "UPDATE_CHANNEL_DIMENSIONS",
-    "GUILD_MEMBER_UPDATE",
-    "USER_NOTE_LOADED",
-    "GUILD_MEMBER_PROFILE_UPDATE",
-    "USER_UPDATE"
-];
-
 export function onLoad() {
     store.usernamesOnly ??= false;
     // apply on usernames that are already in the DOM
     forceAddUsernames();
-    for (const t of TRIGGERS) scoped.flux.subscribe(t, onDispatch);
+
+    // using a long living observeDom here because awaiting dispatches is a bit slower and
+    // adds excessive complexity for what it's worth
+    scoped.observeDom(USERNAME_QUERY, (e) => {
+        queueMicrotask(() => {
+            addUsername(e);
+        });
+    });
 }
 
 export { default as settings } from "./settings";
