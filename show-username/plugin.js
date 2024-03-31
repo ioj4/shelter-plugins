@@ -69,7 +69,7 @@
   });
 
   // plugins/show-username/index.jsx
-  var _tmpl$ = /* @__PURE__ */ (0, import_web2.template)(`<span style="font-weight: 600;border-radius: 5px;padding: 0 3px;background: var(--background-secondary);" class="ioj4-su"></span>`, 2);
+  var _tmpl$ = /* @__PURE__ */ (0, import_web2.template)(`<span style="font-weight: 600;border-radius: 4px;padding: 0 4px;background: var(--background-secondary);" class="ioj4-su"></span>`, 2);
   var {
     plugin: {
       scoped,
@@ -89,31 +89,26 @@
       addUsername(e, true);
     }
   }
-  async function addUsername(e, overwrite = false) {
+  function addUsername(e, overwrite = false) {
     if (e.querySelector(".ioj4-su") && !overwrite)
       return;
-    const msg = reactFiberWalker(getFiber(e), "message", true)?.pendingProps?.message;
-    if (!msg || !msg?.author)
+    const props = reactFiberWalker(getFiber(e), "message", true)?.pendingProps;
+    if (!props?.author || !props?.message)
       return;
-    const channelStore = await awaitStore("ChannelStore");
-    const guildMemberStore = await awaitStore("GuildMemberStore");
-    const relationshipStore = await awaitStore("RelationshipStore");
     const {
-      username: authorUsername,
-      id: authorId
-    } = msg.author;
+      nick
+    } = props.author;
     const {
-      type: channelType,
-      guild_id: guildId
-    } = channelStore.getChannel(msg?.channel_id);
-    const nickname = channelType ? relationshipStore.getNickname(authorId) : guildMemberStore.getNick(guildId, authorId);
-    const style = "font-weight: 600;border-radius: 5px;padding: 0 3px;background: var(--background-secondary);";
+      username
+    } = props.message.author;
+    const style = "font-weight: 600;border-radius: 4px;padding: 0 4px;background: var(--background-secondary);";
     const usernameElement = (() => {
       const _el$ = _tmpl$.cloneNode(true);
-      (0, import_web3.insert)(_el$, authorUsername);
+      (0, import_web3.insert)(_el$, username);
       return _el$;
     })();
-    e.textContent = nickname && !store2.usernamesOnly ? ` ${nickname}` : "";
+    const appendNick = nick && !store2.usernamesOnly && username !== nick;
+    e.textContent = appendNick ? ` ${nick}` : ``;
     e.prepend(usernameElement);
   }
   async function onDispatch(payload) {
