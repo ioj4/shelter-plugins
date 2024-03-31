@@ -22,6 +22,7 @@ async function addUsername(e, overwrite = false) {
     const channelStore = await awaitStore("ChannelStore");
     const guildMemberStore = await awaitStore("GuildMemberStore");
     const relationshipStore = await awaitStore("RelationshipStore");
+    const userStore = await awaitStore("UserStore")
 
     const { username: authorUsername, id: authorId } = msg.author;
     const { type: channelType, guild_id: guildId } = channelStore.getChannel(
@@ -29,9 +30,9 @@ async function addUsername(e, overwrite = false) {
     );
 
     // type = 0: Guild, 1: DM
-    const nickname = channelType
+    const nickname = (channelType
         ? relationshipStore.getNickname(authorId)
-        : guildMemberStore.getNick(guildId, authorId);
+        : guildMemberStore.getNick(guildId, authorId)) ?? userStore.getUser(authorId).globalName;
 
     const style =
         "font-weight: 600;border-radius: 5px;padding: 0 3px;background: var(--background-secondary);";
