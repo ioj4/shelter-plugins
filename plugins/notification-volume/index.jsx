@@ -6,6 +6,8 @@ const {
 
 import classes from "./styles.jsx.scss";
 
+let audio;
+
 export function onLoad() {
     store.volume ??= 100;
 
@@ -14,6 +16,15 @@ export function onLoad() {
             this.volume = store.volume / 100;
         });
     });
+
+    audio = new Audio();
+    // Message notification sound
+    audio.src = "/assets/9422aef94aa931248105.mp3";
+}
+
+function playPreview() {
+    audio.currentTime = 0;
+    audio.play();
 }
 
 export const settings = () => (
@@ -27,7 +38,10 @@ export const settings = () => (
             value={store.volume}
             step={5}
             tick
-            onInput={(v) => (store.volume = v)}
+            onInput={(v) => {
+                store.volume = v;
+                playPreview();
+            }}
         />
     </div>
 );
