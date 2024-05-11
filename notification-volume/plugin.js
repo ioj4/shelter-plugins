@@ -69,6 +69,7 @@
     },
     patcher
   } = shelter;
+  var audio;
   function onLoad() {
     store.volume ??= 100;
     scoped.patcher.after("Audio", window, (args, res) => {
@@ -76,6 +77,12 @@
         this.volume = store.volume / 100;
       });
     });
+    audio = new Audio();
+    audio.src = "/assets/9422aef94aa931248105.mp3";
+  }
+  function playPreview() {
+    audio.currentTime = 0;
+    audio.play();
   }
   var settings = () => (() => {
     const _el$ = _tmpl$.cloneNode(true);
@@ -93,7 +100,10 @@
       },
       step: 5,
       tick: true,
-      onInput: (v) => store.volume = v
+      onInput: (v) => {
+        store.volume = v;
+        playPreview();
+      }
     }), null);
     (0, import_web3.effect)(() => (0, import_web2.className)(_el$, styles_jsx_default.container));
     return _el$;
