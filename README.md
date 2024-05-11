@@ -100,6 +100,16 @@ https://ioj4.github.io/shelter-plugins/no-call-idle/
 https://ioj4.github.io/shelter-plugins/revert-font/
 ```
 
+### [Notification Volume](https://github.com/ioj4/shelter-plugins/tree/master/plugins/notification-volume/)
+
+##### Allows you to set a volume for all notifications and sounds
+
+<img src="static/notification-volume.png" width="320">
+
+```
+https://ioj4.github.io/shelter-plugins/notification-volume/
+```
+
 ### [Timestamp File Names](https://github.com/ioj4/shelter-plugins/tree/master/plugins/timestamp-file-names/)
 
 ##### Replaces the name of files you upload to the current Unix timestamp

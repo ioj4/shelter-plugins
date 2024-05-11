@@ -1,0 +1,15 @@
+.header {
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+    line-height: 1.33333;
+}
+
+.container {
+    position: absolute;
+    margin: 0;
+    width: 80%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
