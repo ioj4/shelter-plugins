@@ -112,7 +112,9 @@
     `[class*="memberInner"] [class*="avatar"] [class*="wrapper"]`,
     // pfp in popout of webhooks
     `[class*="avatarWrapperNonUserBot"]`,
-    // pfp in profile modal and other places
+    // pfp in profile modal
+    `[class*="headerInner"] [class*="avatar"]:not([class*="clickable"]) [class*="wrapper"]`,
+    // pfp in topbar in DMs, friends list, add to DM popover and own pfp in bottom left
     `[class*="wrapper"][class*="avatar"]`,
     // banner in profile modal
     `[class*="bannerPremium"]:not([class*="settingsBanner"])`
