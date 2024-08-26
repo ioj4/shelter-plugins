@@ -15,6 +15,8 @@ function onClick(e) {
     e.stopImmediatePropagation();
 }
 
+const bannerSelector = `[class*="userProfileInner"] [class*="banner"]`;
+
 // this is fine 🔥
 // it really is, i tested perf 🪄
 const subSelectors = [
@@ -27,13 +29,15 @@ const subSelectors = [
     // pfp in topbar in DMs, friends list, add to DM popover and own pfp in bottom left
     `[class*="wrapper"][class*="avatar"]`,
     // banner in profile modal
-    `[class*="bannerPremium"]:not([class*="settingsBanner"])`
+    bannerSelector
 ];
 
 export function onLoad() {
     scoped.observeDom(
         `:is(${subSelectors.join(",")}):not(.${classes.ioj4Opi})`,
         (el) => {
+            if (el.matches(bannerSelector) && !el.style.backgroundImage) return;
+
             el.classList.add(classes.ioj4Opi);
             el.addEventListener("click", onClick);
         }
