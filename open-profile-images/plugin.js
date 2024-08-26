@@ -107,6 +107,7 @@
     }));
     e.stopImmediatePropagation();
   }
+  var bannerSelector = `[class*="userProfileInner"] [class*="banner"]`;
   var subSelectors = [
     // pfp in member list
     `[class*="memberInner"] [class*="avatar"] [class*="wrapper"]`,
@@ -117,10 +118,12 @@
     // pfp in topbar in DMs, friends list, add to DM popover and own pfp in bottom left
     `[class*="wrapper"][class*="avatar"]`,
     // banner in profile modal
-    `[class*="bannerPremium"]:not([class*="settingsBanner"])`
+    bannerSelector
   ];
   function onLoad() {
     scoped.observeDom(`:is(${subSelectors.join(",")}):not(.${styles_jsx_default.ioj4Opi})`, (el) => {
+      if (el.matches(bannerSelector) && !el.style.backgroundImage)
+        return;
       el.classList.add(styles_jsx_default.ioj4Opi);
       el.addEventListener("click", onClick);
     });
