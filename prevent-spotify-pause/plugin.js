@@ -26,7 +26,8 @@
     flux: { awaitStore },
     plugin: { scoped }
   } = shelter;
-  var testUrl = /https?:\/\/api.spotify.com\/v\d+\/me\/player\/pause/;
+  var spotifyRe = /https?:\/\/api.spotify.com\/v\d+\/me\/player\/pause/;
+  var getSentryProperty = (obj) => obj[Object.keys(obj).find((k) => k.startsWith("__sentry_xhr"))];
   async function onLoad() {
     const spotifyStore = await awaitStore("SpotifyStore");
     scoped.patcher.instead("wasAutoPaused", spotifyStore, () => false);
@@ -34,7 +35,7 @@
       "send",
       XMLHttpRequest.prototype,
       function(args, orig) {
-        if (!testUrl.test(this.__sentry_xhr_v2__?.url)) {
+        if (!spotifyRe.test(getSentryProperty(this)?.url)) {
           return orig.apply(this, args);
         }
       }
