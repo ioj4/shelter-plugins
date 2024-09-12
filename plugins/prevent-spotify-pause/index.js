@@ -3,7 +3,10 @@ const {
     plugin: { scoped }
 } = shelter;
 
-const testUrl = /https?:\/\/api.spotify.com\/v\d+\/me\/player\/pause/;
+const spotifyRe = /https?:\/\/api.spotify.com\/v\d+\/me\/player\/pause/;
+
+const getSentryProperty = (obj) =>
+    obj[Object.keys(obj).find((k) => k.startsWith("__sentry_xhr"))];
 
 export async function onLoad() {
     const spotifyStore = await awaitStore("SpotifyStore");
@@ -15,7 +18,7 @@ export async function onLoad() {
         "send",
         XMLHttpRequest.prototype,
         function (args, orig) {
-            if (!testUrl.test(this.__sentry_xhr_v2__?.url)) {
+            if (!spotifyRe.test(getSentryProperty(this)?.url)) {
                 return orig.apply(this, args);
             }
         }
