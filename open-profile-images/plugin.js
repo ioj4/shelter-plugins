@@ -107,7 +107,7 @@
     }));
     e.stopImmediatePropagation();
   }
-  var bannerSelector = `[class*="userProfileInner"] [class*="banner"]`;
+  var bannerSelector = `[class*="inner"] header [class*="banner"]`;
   var subSelectors = [
     // pfp in member list
     `[class*="memberInner"] [class*="avatar"] [class*="wrapper"]`,
