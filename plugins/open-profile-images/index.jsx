@@ -15,7 +15,7 @@ function onClick(e) {
     e.stopImmediatePropagation();
 }
 
-const bannerSelector = `[class*="userProfileInner"] [class*="banner"]`;
+const bannerSelector = `[class*="inner"] header [class*="banner"]`;
 
 // this is fine 🔥
 // it really is, i tested perf 🪄
