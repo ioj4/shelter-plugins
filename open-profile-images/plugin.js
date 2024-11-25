@@ -63,27 +63,38 @@
 
   // plugins/open-profile-images/components/image-modal.jsx
   var _tmpl$ = /* @__PURE__ */ (0, import_web.template)(`<div><img><a rel="noreferrer noopener" target="_blank">Open in Browser</a></div>`, 5);
+  var {
+    solid: {
+      createSignal
+    }
+  } = shelter;
   var image_modal_default = ({
     url
   }) => {
+    const [isLoaded, setIsLoaded] = createSignal(false);
+    const lowResUrl = url.toString();
     const isBanner = url.pathname.startsWith("/banners/");
     url.searchParams.set("size", "4096");
-    const viewUrl = url.toString();
-    const browserURL = viewUrl.replace(/\.(webp)($|\?)/, ".png$2");
+    const fullResUrl = url.toString();
+    const preloadImage = new Image();
+    preloadImage.onload = () => setIsLoaded(true);
+    preloadImage.src = fullResUrl;
+    const browserURL = fullResUrl.replace(/\.(webp)($|\?)/, ".png$2");
     return (() => {
       const _el$ = _tmpl$.cloneNode(true), _el$2 = _el$.firstChild, _el$3 = _el$2.nextSibling;
-      (0, import_web4.setAttribute)(_el$2, "src", viewUrl);
       (0, import_web4.setAttribute)(_el$3, "href", browserURL);
       (0, import_web3.effect)((_p$) => {
-        const _v$ = styles_jsx_default.wrapper, _v$2 = `${styles_jsx_default.image} ${isBanner ? styles_jsx_default.banner : ""}`, _v$3 = styles_jsx_default.link;
+        const _v$ = styles_jsx_default.wrapper, _v$2 = `${styles_jsx_default.image} ${isBanner ? styles_jsx_default.banner : ""}`, _v$3 = isLoaded() ? fullResUrl : lowResUrl, _v$4 = styles_jsx_default.link;
         _v$ !== _p$._v$ && (0, import_web2.className)(_el$, _p$._v$ = _v$);
         _v$2 !== _p$._v$2 && (0, import_web2.className)(_el$2, _p$._v$2 = _v$2);
-        _v$3 !== _p$._v$3 && (0, import_web2.className)(_el$3, _p$._v$3 = _v$3);
+        _v$3 !== _p$._v$3 && (0, import_web4.setAttribute)(_el$2, "src", _p$._v$3 = _v$3);
+        _v$4 !== _p$._v$4 && (0, import_web2.className)(_el$3, _p$._v$4 = _v$4);
         return _p$;
       }, {
         _v$: void 0,
         _v$2: void 0,
-        _v$3: void 0
+        _v$3: void 0,
+        _v$4: void 0
       });
       return _el$;
     })();
