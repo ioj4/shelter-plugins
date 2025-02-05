@@ -16,18 +16,12 @@ function modifyFlags(flags, isStaff) {
 
 function interceptHandler(dispatch) {
     if (
-        dispatch?.type !== "CONNECTION_OPEN" &&
-        dispatch?.type !== "USER_UPDATE"
+        dispatch?.type !== "CONNECTION_OPEN" ||
+        dispatch?.user?.flags === undefined
     )
         return;
 
-    if (dispatch?.user?.flags !== undefined) {
-        // CONNECTION_OPEN
-        dispatch.user.flags = modifyFlags(dispatch.user.flags, true);
-    } else if (dispatch?.flags !== undefined) {
-        // USER_UPDATE
-        dispatch.flags = modifyFlags(dispatch.flags, true);
-    }
+    dispatch.user.flags = modifyFlags(dispatch.user.flags, true);
 
     return dispatch;
 }
