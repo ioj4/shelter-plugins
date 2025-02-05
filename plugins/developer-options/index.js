@@ -1,6 +1,6 @@
 const {
     util: { getFiberOwner, awaitDispatch },
-    flux: { awaitStore, dispatcher }
+    flux: { awaitStore, dispatcher, intercept }
 } = shelter;
 
 function forceUpdateSettings() {
@@ -8,6 +8,28 @@ function forceUpdateSettings() {
     const sidebar =
         document.querySelector(`nav > [role=tablist]`)?.parentElement;
     getFiberOwner(sidebar)?.forceUpdate?.();
+}
+
+function modifyFlags(flags, isStaff) {
+    return isStaff ? flags | 1 : flags & ~1;
+}
+
+function interceptHandler(dispatch) {
+    if (
+        dispatch?.type !== "CONNECTION_OPEN" &&
+        dispatch?.type !== "USER_UPDATE"
+    )
+        return;
+
+    if (dispatch?.user?.flags !== undefined) {
+        // CONNECTION_OPEN
+        dispatch.user.flags = modifyFlags(dispatch.user.flags, true);
+    } else if (dispatch?.flags !== undefined) {
+        // USER_UPDATE
+        dispatch.flags = modifyFlags(dispatch.flags, true);
+    }
+
+    return dispatch;
 }
 
 async function toggleDevOptions(enable) {
@@ -21,7 +43,7 @@ async function toggleDevOptions(enable) {
     }
 
     // last bit is whether the user is staff
-    user.flags = enable ? user.flags | 1 : user.flags & ~1;
+    user.flags = modifyFlags(user.flags, enable);
 
     // just to make sure they're initialized
     await awaitStore("ExperimentStore");
@@ -46,10 +68,14 @@ async function toggleDevOptions(enable) {
     forceUpdateSettings();
 }
 
+let unintercept;
+
 export function onLoad() {
+    unintercept = intercept(interceptHandler);
     toggleDevOptions(true);
 }
 
 export function onUnload() {
+    unintercept?.();
     toggleDevOptions(false);
 }
