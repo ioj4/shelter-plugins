@@ -76,8 +76,8 @@ shelter.plugin.scoped.ui.injectCss(`.Q3HVta_indicator {
 }
 `);
 var styles_jsx_default = {
-	"typingAnimation": "Q3HVta_typingAnimation",
-	"indicator": "Q3HVta_indicator"
+	"indicator": "Q3HVta_indicator",
+	"typingAnimation": "Q3HVta_typingAnimation"
 };
 
 //#endregion

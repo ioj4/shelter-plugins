@@ -12,9 +12,8 @@ function modifyFlags(flags, isStaff) {
 	return isStaff ? flags | 1 : flags & -2;
 }
 function interceptHandler(dispatch) {
-	if (dispatch?.type !== "CONNECTION_OPEN" && dispatch?.type !== "USER_UPDATE") return;
-	if (dispatch?.user?.flags !== undefined) dispatch.user.flags = modifyFlags(dispatch.user.flags, true);
-else if (dispatch?.flags !== undefined) dispatch.flags = modifyFlags(dispatch.flags, true);
+	if (dispatch?.type !== "CONNECTION_OPEN" || dispatch?.user?.flags === undefined) return;
+	dispatch.user.flags = modifyFlags(dispatch.user.flags, true);
 	return dispatch;
 }
 async function toggleDevOptions(enable) {
