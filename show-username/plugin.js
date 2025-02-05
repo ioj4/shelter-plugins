@@ -1,121 +1,92 @@
-(() => {
-  var __create = Object.create;
-  var __defProp = Object.defineProperty;
-  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getProtoOf = Object.getPrototypeOf;
-  var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __commonJS = (cb, mod) => function __require() {
-    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-  };
-  var __export = (target, all) => {
-    for (var name in all)
-      __defProp(target, name, { get: all[name], enumerable: true });
-  };
-  var __copyProps = (to, from, except, desc) => {
-    if (from && typeof from === "object" || typeof from === "function") {
-      for (let key of __getOwnPropNames(from))
-        if (!__hasOwnProp.call(to, key) && key !== except)
-          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-    }
-    return to;
-  };
-  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-    // If the importer is in node compatibility mode or this is not an ESM
-    // file that has been converted to a CommonJS file using a Babel-
-    // compatible transform (i.e. "__esModule" has not been set), then set
-    // "default" to the CommonJS "module.exports" for node compatibility.
-    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-    mod
-  ));
-  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+(function(exports) {
 
-  // shltr-res-ns:solid-js/web
-  var require_web = __commonJS({
-    "shltr-res-ns:solid-js/web"(exports, module) {
-      module.exports = shelter.solidWeb;
-    }
-  });
+//#region rolldown:runtime
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __commonJS = (cb, mod) => function() {
+	return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __copyProps = (to, from, except, desc) => {
+	if (from && typeof from === "object" || typeof from === "function") for (var keys = __getOwnPropNames(from), i = 0, n = keys.length, key; i < n; i++) {
+		key = keys[i];
+		if (!__hasOwnProp.call(to, key) && key !== except) __defProp(to, key, {
+			get: ((k) => from[k]).bind(null, key),
+			enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
+		});
+	}
+	return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", {
+	value: mod,
+	enumerable: true
+}) : target, mod));
 
-  // plugins/show-username/index.jsx
-  var show_username_exports = {};
-  __export(show_username_exports, {
-    forceAddUsernames: () => forceAddUsernames,
-    onLoad: () => onLoad,
-    settings: () => settings_default
-  });
-  var import_web2 = __toESM(require_web(), 1);
-  var import_web3 = __toESM(require_web(), 1);
+//#endregion
 
-  // plugins/show-username/settings.jsx
-  var import_web = __toESM(require_web(), 1);
-  var {
-    plugin: {
-      store
-    },
-    ui: {
-      SwitchItem
-    }
-  } = shelter;
-  var settings_default = () => (0, import_web.createComponent)(SwitchItem, {
-    get value() {
-      return store.usernamesOnly;
-    },
-    onChange: (v) => {
-      store.usernamesOnly = v;
-      forceAddUsernames();
-    },
-    children: "Only display usernames"
-  });
+//#region solid-js/web
+var require_web = __commonJS({ "solid-js/web"(exports, module) {
+	module.exports = shelter.solidWeb;
+} });
 
-  // plugins/show-username/index.jsx
-  var _tmpl$ = /* @__PURE__ */ (0, import_web2.template)(`<span style="font-weight: 600;border-radius: 4px;padding: 0 4px;background: var(--background-secondary);" class="ioj4-su"></span>`, 2);
-  var {
-    plugin: {
-      scoped,
-      store: store2
-    },
-    util: {
-      getFiber,
-      reactFiberWalker
-    }
-  } = shelter;
-  var USERNAME_QUERY = '[id^="message-username-"] > [class^="username"]';
-  function forceAddUsernames() {
-    for (const e of document.querySelectorAll(USERNAME_QUERY)) {
-      addUsername(e, true);
-    }
-  }
-  function addUsername(e, overwrite = false) {
-    if (e.querySelector(".ioj4-su") && !overwrite)
-      return;
-    const props = reactFiberWalker(getFiber(e), "message", true)?.pendingProps;
-    if (!props?.author || !props?.message)
-      return;
-    const {
-      nick
-    } = props.author;
-    const {
-      username
-    } = props.message.author;
-    const style = "font-weight: 600;border-radius: 4px;padding: 0 4px;background: var(--background-secondary);";
-    const usernameElement = (() => {
-      const _el$ = _tmpl$.cloneNode(true);
-      (0, import_web3.insert)(_el$, username);
-      return _el$;
-    })();
-    const appendNick = nick && !store2.usernamesOnly && username !== nick;
-    e.textContent = appendNick ? ` ${nick}` : ``;
-    e.prepend(usernameElement);
-  }
-  function onLoad() {
-    store2.usernamesOnly ??= false;
-    forceAddUsernames();
-    scoped.observeDom(USERNAME_QUERY, (e) => {
-      queueMicrotask(() => {
-        addUsername(e);
-      });
-    });
-  }
-  return __toCommonJS(show_username_exports);
-})();
+//#endregion
+//#region plugins/show-username/settings.jsx
+var import_web$3 = __toESM(require_web(), 1);
+const { plugin: { store: store$1 }, ui: { SwitchItem } } = shelter;
+var settings_default = () => (0, import_web$3.createComponent)(SwitchItem, {
+	get value() {
+		return store$1.usernamesOnly;
+	},
+	onChange: (v) => {
+		store$1.usernamesOnly = v;
+		forceAddUsernames();
+	},
+	children: "Only display usernames"
+});
+
+//#endregion
+//#region plugins/show-username/index.jsx
+var import_web = __toESM(require_web(), 1);
+var import_web$1 = __toESM(require_web(), 1);
+var import_web$2 = __toESM(require_web(), 1);
+const _tmpl$ = /*#__PURE__*/ (0, import_web.template)(`<span style="font-weight: 600;border-radius: 4px;padding: 0 4px;background: var(--background-secondary);" class="ioj4-su"></span>`, 2);
+const { plugin: { scoped, store }, util: { getFiber, reactFiberWalker } } = shelter;
+const USERNAME_QUERY = "[id^=\"message-username-\"] > [class^=\"username\"]";
+function forceAddUsernames() {
+	for (const e of document.querySelectorAll(USERNAME_QUERY)) addUsername(e, true);
+}
+function addUsername(e, overwrite = false) {
+	if (e.querySelector(".ioj4-su") && !overwrite) return;
+	const props = reactFiberWalker(getFiber(e), "message", true)?.pendingProps;
+	if (!props?.author || !props?.message) return;
+	const { nick } = props.author;
+	const { username } = props.message.author;
+	const style = "font-weight: 600;border-radius: 4px;padding: 0 4px;background: var(--background-secondary);";
+	const usernameElement = (() => {
+		const _el$ = (0, import_web$1.getNextElement)(_tmpl$);
+		(0, import_web$2.insert)(_el$, username);
+		return _el$;
+	})();
+	const appendNick = nick && !store.usernamesOnly && username !== nick;
+	e.textContent = appendNick ? ` ${nick}` : ``;
+	e.prepend(usernameElement);
+}
+function onLoad() {
+	store.usernamesOnly ??= false;
+	forceAddUsernames();
+	scoped.observeDom(USERNAME_QUERY, (e) => {
+		queueMicrotask(() => {
+			addUsername(e);
+		});
+	});
+}
+
+//#endregion
+exports.forceAddUsernames = forceAddUsernames
+exports.onLoad = onLoad
+exports.settings = settings_default
+return exports;
+})({});

@@ -1,38 +1,17 @@
-(() => {
-  var __defProp = Object.defineProperty;
-  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __export = (target, all) => {
-    for (var name in all)
-      __defProp(target, name, { get: all[name], enumerable: true });
-  };
-  var __copyProps = (to, from, except, desc) => {
-    if (from && typeof from === "object" || typeof from === "function") {
-      for (let key of __getOwnPropNames(from))
-        if (!__hasOwnProp.call(to, key) && key !== except)
-          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-    }
-    return to;
-  };
-  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+(function(exports) {
 
-  // plugins/spotify-listen-along/index.js
-  var spotify_listen_along_exports = {};
-  __export(spotify_listen_along_exports, {
-    onLoad: () => onLoad
-  });
-  var {
-    flux: { awaitStore },
-    plugin: { scoped }
-  } = shelter;
-  async function onLoad() {
-    const spotifyStore = await awaitStore("SpotifyStore");
-    scoped.patcher.after("getActiveSocketAndDevice", spotifyStore, (_, res) => {
-      if (res?.socket) {
-        res.socket.isPremium = true;
-      }
-    });
-  }
-  return __toCommonJS(spotify_listen_along_exports);
-})();
+"use strict";
+
+//#region plugins/spotify-listen-along/index.js
+const { flux: { awaitStore }, plugin: { scoped } } = shelter;
+async function onLoad() {
+	const spotifyStore = await awaitStore("SpotifyStore");
+	scoped.patcher.after("getActiveSocketAndDevice", spotifyStore, (_, res) => {
+		if (res?.socket) res.socket.isPremium = true;
+	});
+}
+
+//#endregion
+exports.onLoad = onLoad
+return exports;
+})({});

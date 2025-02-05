@@ -1,112 +1,113 @@
-(() => {
-  var __create = Object.create;
-  var __defProp = Object.defineProperty;
-  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-  var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getProtoOf = Object.getPrototypeOf;
-  var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __commonJS = (cb, mod) => function __require() {
-    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-  };
-  var __export = (target, all) => {
-    for (var name in all)
-      __defProp(target, name, { get: all[name], enumerable: true });
-  };
-  var __copyProps = (to, from, except, desc) => {
-    if (from && typeof from === "object" || typeof from === "function") {
-      for (let key of __getOwnPropNames(from))
-        if (!__hasOwnProp.call(to, key) && key !== except)
-          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-    }
-    return to;
-  };
-  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-    // If the importer is in node compatibility mode or this is not an ESM
-    // file that has been converted to a CommonJS file using a Babel-
-    // compatible transform (i.e. "__esModule" has not been set), then set
-    // "default" to the CommonJS "module.exports" for node compatibility.
-    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-    mod
-  ));
-  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+(function(exports) {
 
-  // shltr-res-ns:solid-js/web
-  var require_web = __commonJS({
-    "shltr-res-ns:solid-js/web"(exports, module) {
-      module.exports = shelter.solidWeb;
-    }
-  });
+//#region rolldown:runtime
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __commonJS = (cb, mod) => function() {
+	return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+var __copyProps = (to, from, except, desc) => {
+	if (from && typeof from === "object" || typeof from === "function") for (var keys = __getOwnPropNames(from), i = 0, n = keys.length, key; i < n; i++) {
+		key = keys[i];
+		if (!__hasOwnProp.call(to, key) && key !== except) __defProp(to, key, {
+			get: ((k) => from[k]).bind(null, key),
+			enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
+		});
+	}
+	return to;
+};
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", {
+	value: mod,
+	enumerable: true
+}) : target, mod));
 
-  // plugins/notification-volume/index.jsx
-  var notification_volume_exports = {};
-  __export(notification_volume_exports, {
-    onLoad: () => onLoad,
-    settings: () => settings
-  });
-  var import_web = __toESM(require_web(), 1);
-  var import_web2 = __toESM(require_web(), 1);
-  var import_web3 = __toESM(require_web(), 1);
-  var import_web4 = __toESM(require_web(), 1);
-  var import_web5 = __toESM(require_web(), 1);
+//#endregion
 
-  // plugins/notification-volume/styles.jsx.scss
-  shelter.plugin.scoped.ui.injectCss(`._header_ifxfs_1{font-weight:700;margin-bottom:8px;letter-spacing:.02em;line-height:1.33333}._container_ifxfs_1{position:absolute;margin:0;width:80%;top:50%;left:50%;transform:translate(-50%, -50%)}`);
-  var styles_jsx_default = {
-    "header": "_header_ifxfs_1",
-    "container": "_container_ifxfs_1"
-  };
+//#region solid-js/web
+var require_web = __commonJS({ "solid-js/web"(exports, module) {
+	module.exports = shelter.solidWeb;
+} });
 
-  // plugins/notification-volume/index.jsx
-  var _tmpl$ = /* @__PURE__ */ (0, import_web.template)(`<div></div>`, 2);
-  var {
-    ui: {
-      Slider,
-      Header
-    },
-    plugin: {
-      store,
-      scoped
-    },
-    patcher
-  } = shelter;
-  var audio;
-  function onLoad() {
-    store.volume ??= 100;
-    scoped.patcher.after("Audio", window, (args, res) => {
-      patcher.before("play", res, function() {
-        this.volume = store.volume / 100;
-      });
-    });
-    audio = new Audio();
-    audio.src = "/assets/9422aef94aa931248105.mp3";
-  }
-  function playPreview() {
-    audio.currentTime = 0;
-    audio.play();
-  }
-  var settings = () => (() => {
-    const _el$ = _tmpl$.cloneNode(true);
-    (0, import_web4.insert)(_el$, (0, import_web5.createComponent)(Header, {
-      get ["class"]() {
-        return styles_jsx_default.header;
-      },
-      children: "Volume of notifications and sounds"
-    }), null);
-    (0, import_web4.insert)(_el$, (0, import_web5.createComponent)(Slider, {
-      min: 0,
-      max: 100,
-      get value() {
-        return store.volume;
-      },
-      step: 5,
-      tick: true,
-      onInput: (v) => {
-        store.volume = v;
-        playPreview();
-      }
-    }), null);
-    (0, import_web3.effect)(() => (0, import_web2.className)(_el$, styles_jsx_default.container));
-    return _el$;
-  })();
-  return __toCommonJS(notification_volume_exports);
+//#endregion
+//#region plugins/notification-volume/styles.jsx.scss
+shelter.plugin.scoped.ui.injectCss(`.LlDkza_header {
+  letter-spacing: .02em;
+  margin-bottom: 8px;
+  font-weight: 700;
+  line-height: 1.33333;
+}
+
+.LlDkza_container {
+  width: 80%;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+`);
+var styles_jsx_default = {
+	"container": "LlDkza_container",
+	"header": "LlDkza_header"
+};
+
+//#endregion
+//#region plugins/notification-volume/index.jsx
+var import_web = __toESM(require_web(), 1);
+var import_web$1 = __toESM(require_web(), 1);
+var import_web$2 = __toESM(require_web(), 1);
+var import_web$3 = __toESM(require_web(), 1);
+var import_web$4 = __toESM(require_web(), 1);
+var import_web$5 = __toESM(require_web(), 1);
+var import_web$6 = __toESM(require_web(), 1);
+const _tmpl$ = /*#__PURE__*/ (0, import_web.template)(`<div><!#><!/><!#><!/></div>`, 6);
+const { ui: { Slider, Header }, plugin: { store, scoped }, patcher } = shelter;
+let audio;
+function onLoad() {
+	store.volume ??= 100;
+	scoped.patcher.after("Audio", window, (args, res) => {
+		patcher.before("play", res, function() {
+			this.volume = store.volume / 100;
+		});
+	});
+	audio = new Audio();
+	audio.src = "/assets/9422aef94aa931248105.mp3";
+}
+function playPreview() {
+	audio.currentTime = 0;
+	audio.play();
+}
+const settings = () => (() => {
+	const _el$ = (0, import_web$3.getNextElement)(_tmpl$), _el$2 = _el$.firstChild, [_el$3, _co$] = (0, import_web$4.getNextMarker)(_el$2.nextSibling), _el$4 = _el$3.nextSibling, [_el$5, _co$2] = (0, import_web$4.getNextMarker)(_el$4.nextSibling);
+	(0, import_web$5.insert)(_el$, (0, import_web$6.createComponent)(Header, {
+		get ["class"]() {
+			return styles_jsx_default.header;
+		},
+		children: "Volume of notifications and sounds"
+	}), _el$3, _co$);
+	(0, import_web$5.insert)(_el$, (0, import_web$6.createComponent)(Slider, {
+		min: 0,
+		max: 100,
+		get value() {
+			return store.volume;
+		},
+		step: 5,
+		tick: true,
+		onInput: (v) => {
+			store.volume = v;
+			playPreview();
+		}
+	}), _el$5, _co$2);
+	(0, import_web$2.effect)(() => (0, import_web$1.className)(_el$, styles_jsx_default.container));
+	return _el$;
 })();
+
+//#endregion
+exports.onLoad = onLoad
+exports.settings = settings
+return exports;
+})({});
