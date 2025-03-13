@@ -14,7 +14,7 @@ export const settings = () => {
                 onChange={(value) => {
                     store[appName] = value;
                 }}
-                note={app.protocol}
+                note={"Opens with this protocol: " + app.protocolName + "://"}
             >
                 {appName}
             </SwitchItem>

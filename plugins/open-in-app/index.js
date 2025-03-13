@@ -5,7 +5,8 @@ const {
 export const apps = {
     Spotify: {
         hostnames: ["open.spotify.com", "spotify.link"],
-        protocol: "spotify://",
+        protocolName: "spotify",
+        applyProtocol: (url) => `spotify:/${url.pathname}`,
         default: true
     },
     Steam: {
@@ -14,12 +15,14 @@ export const apps = {
             "steamcommunity.com",
             "help.steampowered.com"
         ],
-        protocol: "steam://openurl/",
+        protocolName: "steam",
+        applyProtocol: (url) => `steam://openurl/${url}`,
         default: true
     },
     SoundCloud: {
         hostnames: ["soundcloud.com", "on.soundcloud.com"],
-        protocol: "soundpout://",
+        protocolName: "soundpout",
+        applyProtocol: (url) => `soundpout:/${url.pathname}`,
         default: false
     }
 };
@@ -54,7 +57,7 @@ async function openInApp(url) {
         }
 
         const [appName, app] = getEnabledApp(url);
-        const replacedUrl = app.protocol + url;
+        const replacedUrl = app.applyProtocol(url);
 
         window.open(replacedUrl, "_blank")?.close();
     } catch (e) {
