@@ -46,7 +46,7 @@ const settings = () => {
 			store$1[appName] = value;
 		},
 		get note() {
-			return app.protocol;
+			return "Opens with this protocol: " + app.protocolName + "://";
 		},
 		children: appName
 	}));
@@ -59,7 +59,8 @@ const { plugin: { store, scoped } } = shelter;
 const apps = {
 	Spotify: {
 		hostnames: ["open.spotify.com", "spotify.link"],
-		protocol: "spotify://",
+		protocolName: "spotify",
+		applyProtocol: (url$1) => `spotify:/${url$1.pathname}`,
 		default: true
 	},
 	Steam: {
@@ -68,12 +69,14 @@ const apps = {
 			"steamcommunity.com",
 			"help.steampowered.com"
 		],
-		protocol: "steam://openurl/",
+		protocolName: "steam",
+		applyProtocol: (url$1) => `steam://openurl/${url$1}`,
 		default: true
 	},
 	SoundCloud: {
 		hostnames: ["soundcloud.com", "on.soundcloud.com"],
-		protocol: "soundpout://",
+		protocolName: "soundpout",
+		applyProtocol: (url$1) => `soundpout:/${url$1.pathname}`,
 		default: false
 	}
 };
@@ -93,7 +96,7 @@ async function openInApp(url$1) {
 		if (["spotify.link", "on.soundcloud.com"].includes(url$1.hostname)) url$1 = new URL(await unshortenLink(url$1));
 		if (url$1.hostname === "open.spotify.com") url$1.pathname = url$1.pathname.replace(/\/intl-.+?(\/.+)/i, "$1");
 		const [appName, app] = getEnabledApp(url$1);
-		const replacedUrl = app.protocol + url$1;
+		const replacedUrl = app.applyProtocol(url$1);
 		window.open(replacedUrl, "_blank")?.close();
 	} catch (e) {
 		console.error("[open-in-app] Error opening in App", e);
