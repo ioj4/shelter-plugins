@@ -51,8 +51,8 @@ shelter.plugin.scoped.ui.injectCss(`.LlDkza_header {
 }
 `);
 var styles_jsx_default = {
-	"header": "LlDkza_header",
-	"container": "LlDkza_container"
+	"container": "LlDkza_container",
+	"header": "LlDkza_header"
 };
 
 //#endregion

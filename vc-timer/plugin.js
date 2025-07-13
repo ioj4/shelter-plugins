@@ -57,7 +57,7 @@ var timer_default = () => {
 		const _el$ = (0, import_web$3.getNextElement)(_tmpl$);
 		_el$.style.setProperty("display", "inline");
 		_el$.style.setProperty("font-family", "monospace");
-		(0, import_web$4.insert)(_el$, () => time() + " • ");
+		(0, import_web$4.insert)(_el$, time);
 		return _el$;
 	})();
 };
