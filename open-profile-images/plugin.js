@@ -73,11 +73,11 @@ shelter.plugin.scoped.ui.injectCss(`.RweeCW_wrapper {
 }
 `);
 var styles_jsx_default = {
-	"link": "RweeCW_link",
-	"ioj4Opi": "RweeCW_ioj4Opi",
-	"image": "RweeCW_image",
+	"banner": "RweeCW_banner",
 	"wrapper": "RweeCW_wrapper",
-	"banner": "RweeCW_banner"
+	"link": "RweeCW_link",
+	"image": "RweeCW_image",
+	"ioj4Opi": "RweeCW_ioj4Opi"
 };
 
 //#endregion
@@ -129,11 +129,11 @@ function onClick(e) {
 	openModal(() => (0, import_web.createComponent)(image_modal_default, { url: new URL(src) }));
 	e.stopImmediatePropagation();
 }
-const bannerSelector = `div[class*="profileHeader"] div[class*="banner"]`;
+const bannerSelector = `div[class*="inner"] div[class*="banner"]`;
 const subSelectors = [
 	`div[class*="memberInner"] > div[class*="avatar"] > div[class*="wrapper"]`,
-	`div[class*="avatarWrapperNonUserBot"]`,
 	`div[class*="profileHeader"] > div[class*="avatar"] div[class*="wrapper"]`,
+	`div[class*="nner"] div[class*="avatar"]:not([class*="clickable"]) > div[class*="wrapper"]`,
 	`div[class*="wrapper"][class*="avatar"]`,
 	bannerSelector
 ];
