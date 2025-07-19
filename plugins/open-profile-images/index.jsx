@@ -15,19 +15,19 @@ function onClick(e) {
     e.stopImmediatePropagation();
 }
 
-const bannerSelector = `[class*="inner"] header [class*="banner"]`;
+const bannerSelector = `div[class*="profileHeader"] div[class*="banner"]`;
 
 // this is fine 🔥
 // it really is, i tested perf 🪄
 const subSelectors = [
     // pfp in member list
-    `[class*="memberInner"] [class*="avatar"] [class*="wrapper"]`,
+    `div[class*="memberInner"] > div[class*="avatar"] > div[class*="wrapper"]`,
     // pfp in popout of webhooks
-    `[class*="avatarWrapperNonUserBot"]`,
+    `div[class*="avatarWrapperNonUserBot"]`,
     // pfp in profile modal
-    `[class*="headerInner"] [class*="avatar"]:not([class*="clickable"]) [class*="wrapper"]`,
+    `div[class*="profileHeader"] > div[class*="avatar"] div[class*="wrapper"]`,
     // pfp in topbar in DMs, friends list, add to DM popover and own pfp in bottom left
-    `[class*="wrapper"][class*="avatar"]`,
+    `div[class*="wrapper"][class*="avatar"]`,
     // banner in profile modal
     bannerSelector
 ];
