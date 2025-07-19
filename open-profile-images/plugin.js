@@ -73,11 +73,11 @@ shelter.plugin.scoped.ui.injectCss(`.RweeCW_wrapper {
 }
 `);
 var styles_jsx_default = {
-	"ioj4Opi": "RweeCW_ioj4Opi",
 	"link": "RweeCW_link",
-	"banner": "RweeCW_banner",
+	"ioj4Opi": "RweeCW_ioj4Opi",
+	"image": "RweeCW_image",
 	"wrapper": "RweeCW_wrapper",
-	"image": "RweeCW_image"
+	"banner": "RweeCW_banner"
 };
 
 //#endregion
@@ -129,12 +129,12 @@ function onClick(e) {
 	openModal(() => (0, import_web.createComponent)(image_modal_default, { url: new URL(src) }));
 	e.stopImmediatePropagation();
 }
-const bannerSelector = `[class*="inner"] header [class*="banner"]`;
+const bannerSelector = `div[class*="profileHeader"] div[class*="banner"]`;
 const subSelectors = [
-	`[class*="memberInner"] [class*="avatar"] [class*="wrapper"]`,
-	`[class*="avatarWrapperNonUserBot"]`,
-	`[class*="headerInner"] [class*="avatar"]:not([class*="clickable"]) [class*="wrapper"]`,
-	`[class*="wrapper"][class*="avatar"]`,
+	`div[class*="memberInner"] > div[class*="avatar"] > div[class*="wrapper"]`,
+	`div[class*="avatarWrapperNonUserBot"]`,
+	`div[class*="profileHeader"] > div[class*="avatar"] div[class*="wrapper"]`,
+	`div[class*="wrapper"][class*="avatar"]`,
 	bannerSelector
 ];
 function onLoad() {
