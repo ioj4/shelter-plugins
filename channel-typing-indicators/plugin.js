@@ -47,7 +47,7 @@ shelter.plugin.scoped.ui.injectCss(`.Q3HVta_indicator {
 
 .Q3HVta_indicator span {
   float: left;
-  background-color: var(--text-normal);
+  background-color: var(--text-default);
   opacity: .3;
   border-radius: 50%;
   width: 6px;
@@ -76,8 +76,8 @@ shelter.plugin.scoped.ui.injectCss(`.Q3HVta_indicator {
 }
 `);
 var styles_jsx_default = {
-	"indicator": "Q3HVta_indicator",
-	"typingAnimation": "Q3HVta_typingAnimation"
+	"typingAnimation": "Q3HVta_typingAnimation",
+	"indicator": "Q3HVta_indicator"
 };
 
 //#endregion
