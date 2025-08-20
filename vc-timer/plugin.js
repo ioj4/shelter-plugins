@@ -57,7 +57,7 @@ var timer_default = () => {
 		const _el$ = (0, import_web$3.getNextElement)(_tmpl$);
 		_el$.style.setProperty("display", "inline");
 		_el$.style.setProperty("font-family", "monospace");
-		(0, import_web$4.insert)(_el$, time);
+		(0, import_web$4.insert)(_el$, () => time() + " • ");
 		return _el$;
 	})();
 };
@@ -79,7 +79,7 @@ const settings = () => (0, import_web$1.createComponent)(SwitchItem, {
 //#region plugins/vc-timer/index.jsx
 var import_web = __toESM(require_web(), 1);
 const { flux: { awaitStore }, ui: { ReactiveRoot }, plugin: { scoped, store } } = shelter;
-const SUBTEXT_QUERY = `[class^="rtcConnectionStatus"] + a > div[class*="subtext"]:not(:has(.ioj4-vct))`;
+const SUBTEXT_QUERY = `div[class^="rtcConnectionStatus"] a div[class^="lineClamp"]:not(:has(.ioj4-vct))`;
 let insertLock = false;
 async function insertTimer() {
 	if (insertLock || !store.isInVC) return;
