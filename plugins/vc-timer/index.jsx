@@ -6,7 +6,7 @@ const {
 
 import Timer from "./components/timer";
 
-const SUBTEXT_QUERY = `[class^="rtcConnectionStatus"] + a > div[class*="subtext"]:not(:has(.ioj4-vct))`;
+const SUBTEXT_QUERY = `div[class^="rtcConnectionStatus"] a div[class^="lineClamp"]:not(:has(.ioj4-vct))`;
 
 let insertLock = false;
 

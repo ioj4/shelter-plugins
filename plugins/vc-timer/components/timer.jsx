@@ -40,7 +40,7 @@ export default () => {
                 "font-family": "monospace"
             }}
         >
-            {time()}
+            {time() + " • "}
         </p>
     );
 };
