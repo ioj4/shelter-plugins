@@ -1,0 +1,24 @@
+.container {
+    margin: 0 0.5rem 0rem 0.25rem;
+    display: inline-flex;
+    gap: 4px;
+    vertical-align: bottom;
+    background-color: var(--background-surface-higher, #28282d);
+    border-radius: var(--radius-sm, 8px);
+    padding: 4px;
+
+    > button {
+        padding: 0;
+        height: 16px;
+        background-color: transparent;
+        color: var(--interactive-normal, #aaaab1);
+        transition: color ease 0.2s;
+        &:hover {
+            color: var(--interactive-hover, #fbfbfb);
+        }
+    }
+
+    &:empty {
+        display: none;
+    }
+}

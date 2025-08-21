@@ -30,6 +30,16 @@ https://ioj4.github.io/shelter-plugins/open-profile-images/
 https://ioj4.github.io/shelter-plugins/channel-typing-indicators/
 ```
 
+### [Play On Spotify](https://github.com/ioj4/shelter-plugins/tree/master/plugins/play-on-spotify/)
+
+##### Play, queue or open songs (and other links) directly in the Spotify app
+
+<img src="static/play-on-spotify.jpg" width="480">
+
+```
+https://ioj4.github.io/shelter-plugins/play-on-spotify/
+```
+
 ### [Developer Options](https://github.com/ioj4/shelter-plugins/tree/master/plugins/developer-options/) (credits to link for the initial snippet)
 
 ##### Enables Discord's developer options, experiments and more - use at your own risk
