@@ -128,7 +128,7 @@ const Play = () => (0, import_web$3.getNextElement)(_tmpl$3);
 //#endregion
 //#region plugins/play-on-spotify/spotify.js
 const { flux: { stores: { SpotifyStore } }, util: { awaitDispatch } } = shelter;
-const URL_REGEX = /^https:\/\/open\.spotify\.com\/(track|album|playlist|episode|show|artist|user)(?:\/)([a-z0-9]+).*$/i;
+const URL_REGEX = /^https:\/\/open\.spotify\.com\/(?:[a-z\-]+\/)?(track|album|playlist|episode|show|artist|user)(?:\/)([a-z0-9]+).*$/i;
 function getDeviceAndSocket() {
 	if (!SpotifyStore.hasConnectedAccount()) throw new Error("No account found. Have you connected your Spotify account yet?");
 	const deviceAndSocket = SpotifyStore.getActiveSocketAndDevice();
