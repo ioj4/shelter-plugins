@@ -6,7 +6,7 @@ const {
 } = shelter;
 
 export const URL_REGEX =
-    /^https:\/\/open\.spotify\.com\/(track|album|playlist|episode|show|artist|user)(?:\/)([a-z0-9]+).*$/i;
+    /^https:\/\/open\.spotify\.com\/(?:[a-z\-]+\/)?(track|album|playlist|episode|show|artist|user)(?:\/)([a-z0-9]+).*$/i;
 
 function getDeviceAndSocket() {
     if (!SpotifyStore.hasConnectedAccount()) {
