@@ -92,6 +92,8 @@ async function onClick(e) {
     // so find the closest anchor element
     const anchor = e?.target?.closest("a");
     if (!anchor?.href || !getEnabledApp(anchor.href)) return;
+    const playOnSpotifyButton = e?.target?.closest(".ioj4-pos-buttons");
+    if (playOnSpotifyButton) return;
 
     e.preventDefault();
     e.stopImmediatePropagation();
