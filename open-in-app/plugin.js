@@ -119,6 +119,8 @@ async function patchVirtualClick() {
 async function onClick(e) {
 	const anchor = e?.target?.closest("a");
 	if (!anchor?.href || !getEnabledApp(anchor.href)) return;
+	const playOnSpotifyButton = e?.target?.closest(".ioj4-pos-buttons");
+	if (playOnSpotifyButton) return;
 	e.preventDefault();
 	e.stopImmediatePropagation();
 	openInApp(anchor.href);

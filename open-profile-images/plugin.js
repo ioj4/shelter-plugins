@@ -73,11 +73,11 @@ shelter.plugin.scoped.ui.injectCss(`.RweeCW_wrapper {
 }
 `);
 var styles_jsx_default = {
-	"wrapper": "RweeCW_wrapper",
 	"link": "RweeCW_link",
+	"wrapper": "RweeCW_wrapper",
+	"ioj4Opi": "RweeCW_ioj4Opi",
 	"image": "RweeCW_image",
-	"banner": "RweeCW_banner",
-	"ioj4Opi": "RweeCW_ioj4Opi"
+	"banner": "RweeCW_banner"
 };
 
 //#endregion
