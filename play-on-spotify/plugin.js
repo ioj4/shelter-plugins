@@ -39,6 +39,7 @@ shelter.plugin.scoped.ui.injectCss(`.AWnvzW_container {
   background-color: var(--background-surface-higher, #28282d);
   border-radius: var(--radius-sm, 8px);
   gap: 4px;
+  height: 16px;
   margin: 0 .5rem 0 .25rem;
   padding: 4px;
   display: inline-flex;
@@ -249,6 +250,8 @@ function patchAnchor(anchor) {
 	anchor.dataset.ioj4_pos = true;
 	const parsedURL = extractTypeAndId(anchor.href);
 	anchor.addEventListener("click", blockAnchorClick);
+	anchor.style.display = "inline-flex";
+	anchor.style.flexDirection = "row";
 	const item = {
 		url: anchor.href,
 		type: parsedURL?.[0]?.toLowerCase(),
