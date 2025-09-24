@@ -52,6 +52,10 @@ function patchAnchor(anchor) {
 
     anchor.addEventListener("click", blockAnchorClick);
 
+    // Fix styling for Spotify Connection in User Profile
+    anchor.style.display = "inline-flex";
+    anchor.style.flexDirection = "row";
+
     const item = {
         url: anchor.href,
         type: parsedURL?.[0]?.toLowerCase(),
