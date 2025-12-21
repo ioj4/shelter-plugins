@@ -95,7 +95,7 @@ function forceUpdateChannels() {
 }
 function getChannelIconContainer(channelId) {
 	const channelElement = document.querySelector(`[data-list-item-id="channels___${channelId}"]`)?.parentElement;
-	return channelElement?.querySelector(`div[class^="children_"]`);
+	return channelElement?.querySelector(`div[class*="children"]`);
 }
 async function removeTypingIndicator(channelId) {
 	const iconContainer = getChannelIconContainer(channelId);

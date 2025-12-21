@@ -79,7 +79,7 @@ const settings = () => (0, import_web$1.createComponent)(SwitchItem, {
 //#region plugins/vc-timer/index.jsx
 var import_web = __toESM(require_web(), 1);
 const { flux: { awaitStore }, ui: { ReactiveRoot }, plugin: { scoped, store } } = shelter;
-const SUBTEXT_QUERY = `div[class^="rtcConnectionStatus"] a div[class^="lineClamp"]:not(:has(.ioj4-vct))`;
+const SUBTEXT_QUERY = `div[class*="rtcConnectionStatus"] a div[class*="lineClamp"]:not(:has(.ioj4-vct))`;
 let insertLock = false;
 async function insertTimer() {
 	if (insertLock || !store.isInVC) return;

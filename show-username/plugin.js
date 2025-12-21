@@ -52,9 +52,9 @@ var settings_default = () => (0, import_web$3.createComponent)(SwitchItem, {
 var import_web = __toESM(require_web(), 1);
 var import_web$1 = __toESM(require_web(), 1);
 var import_web$2 = __toESM(require_web(), 1);
-const _tmpl$ = /*#__PURE__*/ (0, import_web.template)(`<span style="font-weight: 600;border-radius: 4px;padding: 0 4px;background: var(--background-secondary);" class="ioj4-su"></span>`, 2);
+const _tmpl$ = /*#__PURE__*/ (0, import_web.template)(`<span style="font-weight: 600;border-radius: 4px;padding: 0 4px 0 0;background: var(--background-secondary);" class="ioj4-su"></span>`, 2);
 const { plugin: { scoped, store }, util: { getFiber, reactFiberWalker } } = shelter;
-const USERNAME_QUERY = "[id^=\"message-username-\"] > [class^=\"username\"]";
+const USERNAME_QUERY = "[id^=\"message-username-\"] > [class*=\"username\"]";
 function forceAddUsernames() {
 	for (const e of document.querySelectorAll(USERNAME_QUERY)) addUsername(e, true);
 }
@@ -64,7 +64,7 @@ function addUsername(e, overwrite = false) {
 	if (!props?.author || !props?.message) return;
 	const { nick } = props.author;
 	const { username } = props.message.author;
-	const style = "font-weight: 600;border-radius: 4px;padding: 0 4px;background: var(--background-secondary);";
+	const style = "font-weight: 600;border-radius: 4px;padding: 0 4px 0 0;background: var(--background-secondary);";
 	const usernameElement = (() => {
 		const _el$ = (0, import_web$1.getNextElement)(_tmpl$);
 		(0, import_web$2.insert)(_el$, username);
