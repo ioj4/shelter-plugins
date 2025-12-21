@@ -3,7 +3,7 @@ const {
     util: { getFiber, reactFiberWalker }
 } = shelter;
 
-const USERNAME_QUERY = '[id^="message-username-"] > [class^="username"]';
+const USERNAME_QUERY = '[id^="message-username-"] > [class*="username"]';
 
 export function forceAddUsernames() {
     for (const e of document.querySelectorAll(USERNAME_QUERY)) {
