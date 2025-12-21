@@ -21,7 +21,7 @@ function addUsername(e, overwrite = false) {
     const { username } = props.message.author;
 
     const style =
-        "font-weight: 600;border-radius: 4px;padding: 0 4px;background: var(--background-secondary);";
+        "font-weight: 600;border-radius: 4px;padding: 0 4px 0 0;background: var(--background-secondary);";
     const usernameElement = (
         <span style={style} className={"ioj4-su"}>
             {username}
